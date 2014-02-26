@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Packet {
 
-	protected byte[] encodedPacket = null;
+	public byte[] encodedPacket = null;
 	protected int dataSize, idSource, opcode;
 	protected byte[] data;
 

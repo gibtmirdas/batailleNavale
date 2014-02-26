@@ -34,7 +34,8 @@ public class Connection implements Runnable {
 		Packet p = null;
 		try {
 			p = new Packet(br.readLine().getBytes());
-			mapping.put(p.mac, this);
+			// TODO get mac
+			// mapping.put(p.mac, this);
 			while (true) {
 				p = new Packet(br.readLine().getBytes());
 				if (g != null) {
