@@ -16,7 +16,7 @@ import packet.PacketNewCard;
 import packet.PacketNewGame;
 import packet.PacketUpdate;
 
-public class TestJUnit {
+public class TestPacketEncoding {
 
 	@Test
 	public void testHello() {
