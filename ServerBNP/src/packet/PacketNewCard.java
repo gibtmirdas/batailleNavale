@@ -9,12 +9,13 @@ public class PacketNewCard extends Packet {
 	public PacketNewCard(int idSource, int idCard) {
 		super(1, idSource, null, PacketNewCard.class);
 		this.setDatas(idCard);
+		this.encode();
 	}
 
 	public void setDatas(int idCard) {
 		byte[] t = new byte[1];
 		t[0] = (byte) (idCard & 0xFF);
-		this.data = t;
+		data = t;
 	}
 
 	public int getCardId() {
