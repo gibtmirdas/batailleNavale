@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
 
-import db.TCartes;
 import packet.Packet;
 
 public class Connection implements Runnable {
