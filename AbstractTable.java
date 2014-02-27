@@ -41,17 +41,16 @@ public abstract  class AbstractTable {
     }  
 
     public int getIdByCriteria(String criteria, Object value) {
-        /*BasicDBObject searchQuery = new BasicDBObject(criteria,value);
-        DBCursor cursor = linkToTable.find(searchQuery);
         try{
-            int id = (int) cursor.next().get("id");
-            return id;
-        }catch(RuntimeException re){
-            System.out.println(re.getMessage());
-            return -1;
-        }*/
-        try{
-            return ((Double)linkToTable.find(new BasicDBObject("nom", "torpille")).next().get("id")).intValue();
+            try{
+                return ((Double)linkToTable.find(new BasicDBObject(criteria, value)).next().get("id")).intValue();
+            }catch(RuntimeException re1){
+                try{
+                    return ((int)linkToTable.find(new BasicDBObject(criteria, value)).next().get("id"));
+                }catch(RuntimeException re2){
+                    throw new RuntimeException("err");
+                }
+            }
         }catch(RuntimeException re){
             return -1;
         }

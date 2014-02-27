@@ -29,4 +29,8 @@ public class Packet {
 		this.encodedPacket[1] = (byte) (dataSize & 0xFF);
 		System.arraycopy(this.encodedPacket, 2, data, 0, dataSize);
 	}
+        
+        public int getIdSource(){
+            return this.idSource;
+        }
 }
