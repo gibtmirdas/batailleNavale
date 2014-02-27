@@ -23,6 +23,8 @@ public class Game {
         public Game(Connection player1, Connection player2) {
 		this.player1 = player1;
 		this.player2 = player2;
+		this.player1.setG(this);
+		this.player2.setG(this);
 		init();
 	}
         
