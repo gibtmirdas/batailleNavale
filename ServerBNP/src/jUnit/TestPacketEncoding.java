@@ -29,9 +29,6 @@ public class TestPacketEncoding {
 			// Test Hello
 			PacketHello hello = new PacketHello(10, mac);
 			PacketHello helloDecoded = new PacketHello(hello.encodedPacket);
-			// System.out.println("AvMac : " + Arrays.toString(mac));
-			// System.out.println("ApMac : "
-			// + Arrays.toString(helloDecoded.getMacAddress()));
 			assertArrayEquals(mac, helloDecoded.getMacAddress());
 
 			//
@@ -51,7 +48,6 @@ public class TestPacketEncoding {
 	@Test
 	public void testNewCard() {
 		PacketNewCard nc = new PacketNewCard(1, 10);
-		System.out.println(Arrays.toString(nc.encodedPacket));
 		PacketNewCard ncD = new PacketNewCard(nc.encodedPacket);
 		assertEquals(nc.getCardId(), ncD.getCardId());
 	}

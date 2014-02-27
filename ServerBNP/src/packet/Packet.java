@@ -28,6 +28,5 @@ public class Packet {
 		this.encodedPacket[0] += (byte) ((idSource & 0xF) << 4);
 		this.encodedPacket[1] = (byte) (dataSize & 0xFF);
 		System.arraycopy(data, 0, encodedPacket, 2, dataSize);
-		System.out.println("ENCODE : " + Arrays.toString(encodedPacket));
 	}
 }
