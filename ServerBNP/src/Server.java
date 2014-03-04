@@ -23,7 +23,7 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket s = ss.accept();
-				Connection connect = new Connection(s, mapping);
+				Connection connect = new Connection(s, this);
 				new Thread(connect).start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
