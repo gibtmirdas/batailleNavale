@@ -1,4 +1,3 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,17 +42,19 @@ public class Connection implements Runnable {
 			PacketHello ph = (PacketHello) (p);
 			mapping.put(Arrays.toString(ph.getMacAddress()), this);
 			serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
-			// TODO get mac
 			// mapping.put(p.mac, this);
-
+			// mapping.put(p.mac, this);
 			while (true) {
-				p = PacketBuilder.build(br.readLine().getBytes());
+				p = new Packet(br.readLine().getBytes());
 				if (g != null) {
 					g.traiterPacket(p);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+			Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
+					null, ex);
 		}
 	}
 
