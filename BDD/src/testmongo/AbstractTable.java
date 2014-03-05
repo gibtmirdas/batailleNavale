@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package testmongo.Storage.tables;
+package testmongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -48,7 +48,7 @@ public abstract  class AbstractTable {
                 try{
                     return ((int)linkToTable.find(new BasicDBObject(criteria, value)).next().get("id"));
                 }catch(RuntimeException re2){
-                
+                    throw new RuntimeException("err");
                 }
             }
         }catch(RuntimeException re){

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package testmongo.Storage;
+package testmongo;
 import com.mongodb.*;
 /**
  *

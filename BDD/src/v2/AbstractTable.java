@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package testmongo.Storage.tables;
+package v2;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
