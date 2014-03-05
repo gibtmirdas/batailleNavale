@@ -45,7 +45,7 @@ public class Connection implements Runnable {
 			// mapping.put(p.mac, this);
 			// mapping.put(p.mac, this);
 			while (true) {
-				p = new Packet(br.readLine().getBytes());
+				p = PacketBuilder.build(br.readLine().getBytes());
 				if (g != null) {
 					g.traiterPacket(p);
 				}
