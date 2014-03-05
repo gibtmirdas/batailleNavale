@@ -2,12 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/thomas/Downloads/mongoBN.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/C:/Users/thomas/Downloads/mongoBN.jar!/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/home/aldazj/Bureau/mongoBN.jar"/>
+	<classpathentry kind="lib" path="/home/aldazj/Téléchargements/mongo-2.10.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/thomas/Downloads/mongo-2.10.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

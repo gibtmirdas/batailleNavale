@@ -91,7 +91,20 @@ public class Game {
 	public void packetReceivedInfoBoat(PacketInfoBoat p) {
             //nothing to do
         }
-
+	/*public void packetReceivedLogin(PacketLogin p){
+	    //login
+	}
+	public void packetReceivedSubscribe(PacketSubscribe p){
+	    //subscribe user
+	}
+	public void packetReceivedBuyCard(PacketBuyCard p){
+	    //user buy card return transaction update
+	}
+	public void packetReceivedConsultShop(PacketConsultShop p){
+	   //Shop consulting .. send list of PacketNewCard
+	}
+        
+        */
 	public void packetReceivedCardAction(PacketCardAction p) {
             int x = p.getX();
             int y = p.getY();

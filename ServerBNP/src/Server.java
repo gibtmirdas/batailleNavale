@@ -12,6 +12,7 @@ public class Server implements Runnable {
 		queue = new QueueManager(mapping);
 		try {
 			ss = new ServerSocket(port);
+			System.out.println("The client is connected!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
