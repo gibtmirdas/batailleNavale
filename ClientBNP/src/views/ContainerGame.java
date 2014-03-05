@@ -1,4 +1,4 @@
-package Views;
+package views;
 
 
 import java.awt.Color;
@@ -18,8 +18,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import Elements.ElementContainer;
-import Lib.Paquets;
+import elements.ElementContainer;
+import lib.Paquets;
 
 
 public class ContainerGame extends JPanel{
@@ -33,15 +33,10 @@ public class ContainerGame extends JPanel{
 		pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		listboat = new ArrayList<String>();
 		listcards = new ArrayList<String>();
-
 		c.fill = GridBagConstraints.BOTH;
-
-		pane.setLayout(new GridBagLayout());
 		
-
+		pane.setLayout(new GridBagLayout());
 	    can = new Canvas(40);
-	    //c.ipady = 500;      //make this component tall
-	    //can.paintComponent();
 
 	    c.weightx = 0.65;
 	    c.weighty = 3.2;
@@ -50,13 +45,8 @@ public class ContainerGame extends JPanel{
 	    c.gridy = 0;
 
 	    pane.add(can, c);
-	    
-	    //JTextField field = new JTextField("Type something........", 0);
 	    JTextArea field = new JTextArea(5, 20);
 	    field.setEditable(false);
-	    //field.setPreferredSize( new Dimension( 200, 24 ) );
-		//JButton button = new JButton("Button 1");
-		//c.fill = GridBagConstraints.HORIZONTAL;
 	    c.weightx = 0.2;
 	    c.weighty = 0.7;
 
@@ -64,11 +54,6 @@ public class ContainerGame extends JPanel{
 	    c.gridy = 0;
 	    pane.add(field, c);
 	    
-	    
-	    
-	    //JButton button = new JButton("Button 2");
-	    //c.fill = GridBagConstraints.HORIZONTAL;
-	    //c.fill = GridBagConstraints.RELATIVE;
 	    c.gridx = 0;
 	    c.gridy = 2;
 	    c.gridwidth=3;
@@ -76,7 +61,6 @@ public class ContainerGame extends JPanel{
 	    //addShips();
 	    
 	}
-	
 	
 	private void doAction(String paquet){
 		Paquets p = Paquets.valueOf(paquet);
@@ -163,7 +147,6 @@ public class ContainerGame extends JPanel{
 	}
 	private void hello() {
 		// TODO Auto-generated method stub
-		
 		String mac = getMacAddress();
 		//connexion au serveur
 		

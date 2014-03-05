@@ -1,4 +1,4 @@
-package Lib;
+package lib;
 
 import java.awt.Image;
 import javax.imageio.ImageIO;

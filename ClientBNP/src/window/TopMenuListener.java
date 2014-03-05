@@ -1,9 +1,8 @@
-import java.util.regex.Pattern;
-
+package window;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-class SampleMenuListener implements MenuListener {
+class TopMenuListener implements MenuListener {
 
 	@Override
 	public void menuCanceled(MenuEvent e) {
@@ -15,9 +14,8 @@ class SampleMenuListener implements MenuListener {
 		//TODO!!!!!!!!	
 		// regex: [\n\r].*text=\s*([^\n\r]*) \]]
 		//Pattern pattern = Pattern.compile(arg0);
-		
-		
 	}
+	
 	@Override
 	public void menuSelected(MenuEvent e) {
 		

@@ -1,8 +1,9 @@
-package Views;
+package views;
 
 import javax.swing.JPanel;
 
 public class ContainerCartes extends JPanel {
+	
 	ContainerCartes() {
 		
 		this.add(new Carte(1,"missile"));

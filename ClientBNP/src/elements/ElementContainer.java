@@ -1,13 +1,15 @@
-package Elements;
+package elements;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import Lib.Tuple;
-import Views.Canvas;
+import lib.Tuple;
+import views.Canvas;
 
 
 public class ElementContainer extends JPanel  implements MouseListener {
@@ -27,11 +29,9 @@ public class ElementContainer extends JPanel  implements MouseListener {
 		color = col;
 		side = b;
 		posReal = Canvas.matchRectangle(posX, posY);
-        this.setOpaque(false);
-
+        this.setOpaque(true);
 		//this.setVisible(false);
-		//this.setBackground(Color.BLUE);
-		System.out.println("Debut");
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
 		addMouseListener(this);
 	}
 	
@@ -45,7 +45,7 @@ public class ElementContainer extends JPanel  implements MouseListener {
 	
 	@Override
 	public Dimension getPreferredSize(){
-		return new Dimension(20,20);
+		return new Dimension(19,19);
 	}
 
 	@Override
@@ -84,6 +84,4 @@ public class ElementContainer extends JPanel  implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 		
 	}
-	
-	
 }

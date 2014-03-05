@@ -1,4 +1,4 @@
-package Lib;
+package lib;
 
 public enum Paquets {
 	HELLO,

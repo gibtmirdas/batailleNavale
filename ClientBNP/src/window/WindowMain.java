@@ -1,6 +1,4 @@
-import java.awt.Container;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+package window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -11,17 +9,16 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
-import Views.*;
+import views.ContainerGame;
 
 
-public class Window extends JFrame implements ActionListener,ItemListener{
+public class WindowMain extends JFrame implements ActionListener,ItemListener{
 
-	Window(){
+	public WindowMain(){
 		runGUI();
 	}
+	
 	public void runGUI(){
 		this.setDefaultCloseOperation(3);
 		//frame.pack();    
@@ -64,7 +61,7 @@ public class Window extends JFrame implements ActionListener,ItemListener{
 		menu.setName("ddd");
 		//VK_A => key released
         menu.setMnemonic(KeyEvent.VK_M);
-        menu.addMenuListener(new SampleMenuListener());
+        menu.addMenuListener(new TopMenuListener());
 		menuBar.add(menu);
 		
 
@@ -73,7 +70,7 @@ public class Window extends JFrame implements ActionListener,ItemListener{
 		menu.setName("asdasd");
 		//VK_A => key released
         menu.setMnemonic(KeyEvent.VK_M);
-        menu.addMenuListener(new SampleMenuListener());
+        menu.addMenuListener(new TopMenuListener());
 		menuBar.add(menu);
 		
 		/*
