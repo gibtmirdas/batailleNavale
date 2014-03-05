@@ -91,7 +91,7 @@ public class Game {
 	public void packetReceivedInfoBoat(PacketInfoBoat p) {
             //nothing to do
         }
-	public void packetReceivedLogin(PacketLogin p){
+	/*public void packetReceivedLogin(PacketLogin p){
 	    //login
 	}
 	public void packetReceivedSubscribe(PacketSubscribe p){
@@ -100,6 +100,11 @@ public class Game {
 	public void packetReceivedBuyCard(PacketBuyCard p){
 	    //user buy card return transaction update
 	}
+	public void packetReceivedConsultShop(PacketConsultShop p){
+	   //Shop consulting .. send list of PacketNewCard
+	}
+        
+        */
 	public void packetReceivedCardAction(PacketCardAction p) {
             int x = p.getX();
             int y = p.getY();
@@ -121,9 +126,6 @@ public class Game {
             timer.cancel();
             timer.scheduleAtFixedRate(task, 0, Game.ROUND_TIME_MILLISEC);
             callUpdate();
-	}
-	public void packetReceivedConsultShop(PacketConsultShop p){
-	   //Shop consulting .. send list of PacketNewCard
 	}
 
 	public void packetReceivedBye(PacketBye p) {
