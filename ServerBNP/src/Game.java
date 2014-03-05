@@ -122,6 +122,9 @@ public class Game {
             timer.scheduleAtFixedRate(task, 0, Game.ROUND_TIME_MILLISEC);
             callUpdate();
 	}
+	public void packetReceivedConsultShop(PacketConsultShop p){
+	   //Shop consulting .. send list of PacketNewCard
+	}
 
 	public void packetReceivedBye(PacketBye p) {
 	}
@@ -159,6 +162,6 @@ public class Game {
             public void run() {
                 this.obj.callUpdate();
             }
-            
+            			 
         }
 }
