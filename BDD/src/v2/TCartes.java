@@ -19,7 +19,7 @@ import java.util.Map;
  * @author antho
  */
 public class TCartes extends AbstractTable {
-	private static final String ID_FIELD = "id", NAME_FIELD = "name",
+	public static final String ID_FIELD = "id", NAME_FIELD = "name",
 			COST_FIELD = "cost", TYPE_FIELD = "type", AREA_FIELD = "area",
 			DAMAGES_FIELD = "damages";
 	private final String tableName = "cartes";

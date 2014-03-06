@@ -92,6 +92,17 @@ public class TJoueurs extends AbstractTable {
 
 	}
 
+	public List<Carte> getCardsListById(int id) {
+		List<Integer> cardsId = getCardsById(id);
+		Carte cTmp;
+		List<Carte> cartes = new ArrayList<Carte>();
+		for (Integer i : cardsId) {
+			cTmp = new Carte(getById(i));
+			cartes.add(cTmp);
+		}
+		return cartes;
+	}
+
 	public void addCardToPlayer(String cardName, int playerID) {
 		TCartes cartes = new TCartes();
 		int cardID = cartes.getIdByCriteria("nom", cardName);

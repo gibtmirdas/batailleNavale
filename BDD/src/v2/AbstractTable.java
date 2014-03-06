@@ -29,6 +29,8 @@ public abstract class AbstractTable {
 		BasicDBObject searchQuery = new BasicDBObject();
 		searchQuery.put("id", ID);
 		DBCursor cursor = linkToTable.find(searchQuery);
+		if (cursor.count() == 0)
+			return null;
 		return cursor.next();
 	}
 
@@ -89,5 +91,14 @@ public abstract class AbstractTable {
 		for (DBObject o : c) {
 			System.err.println(o);
 		}
+	}
+
+	public boolean canLogin(String username, String password) {
+		Joueur jDB = new Joueur(getById(getIdByCriteria("username", username)));
+		return jDB.getPassword().equals(password);
+	}
+
+	public boolean canBuyCard(Joueur j, Carte c) {
+		return j.getCredit() >= c.getCost();
 	}
 }
