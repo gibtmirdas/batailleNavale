@@ -13,6 +13,7 @@ import com.mongodb.DBObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -32,22 +33,46 @@ public class TJoueurs extends AbstractTable {
 	 *            args[0]:Pseudo ...
 	 * @return
 	 */
+	// @Override
+	// public void insertDefault(List<Object> args) {
+	// TCartes tcartes = new TCartes();
+	// Integer cardID = 1, defaultScore = 0, defaultCredit = 0;
+	// String defaultPassword = "";
+	// BasicDBObject insertQuery = new BasicDBObject();
+	// List<Integer> cardList = new ArrayList<>();
+	// cardList.add(cardID);
+	// cardList.add(cardID);
+	//
+	// insertQuery.put("id", this.getLastID() + 1);
+	// insertQuery.put("pseudo", args.get(0));
+	// insertQuery.put("cardID", cardList);
+	// insertQuery.put("score", defaultScore);
+	// insertQuery.put("password", defaultPassword);
+	// insertQuery.put("credit", defaultCredit);
+	// linkToTable.insert(insertQuery);
+	// }
+
+	/**
+	 * 
+	 * @param args
+	 *            args[0]:Pseudo ...
+	 * @return
+	 */
 	@Override
-	public void insert(List<Object> args) {
+	public void insert(Map<String, Object> args) {
 		TCartes tcartes = new TCartes();
-		Integer cardID = 1, defaultScore = 0, defaultCredit = 0;
-		String defaultPassword = "";
+		Integer cardID = 1;
 		BasicDBObject insertQuery = new BasicDBObject();
 		List<Integer> cardList = new ArrayList<>();
 		cardList.add(cardID);
 		cardList.add(cardID);
 
 		insertQuery.put("id", this.getLastID() + 1);
-		insertQuery.put("pseudo", args.get(0));
-		insertQuery.put("cardID", cardList);
-		insertQuery.put("score", defaultScore);
-		insertQuery.put("password", defaultPassword);
-		insertQuery.put("credit", defaultCredit);
+		insertQuery.put("pseudo", args.get("pseudo"));
+		insertQuery.put("cardID", args.get("cardID"));
+		insertQuery.put("score", args.get("score"));
+		insertQuery.put("password", args.get("password"));
+		insertQuery.put("credit", args.get("credit"));
 		linkToTable.insert(insertQuery);
 	}
 

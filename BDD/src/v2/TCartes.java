@@ -9,8 +9,10 @@ package v2;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -32,15 +34,15 @@ public class TCartes extends AbstractTable {
 	 *            args[0]: Nom args[2]: coûts args[3]: type
 	 */
 	@Override
-	public void insert(List<Object> args) {
+	public void insert(Map<String, Object> args) {
 		BasicDBObject insertQuery = new BasicDBObject();
 
 		insertQuery.put(TCartes.ID_FIELD, this.getLastID() + 1);
-		insertQuery.put(TCartes.NAME_FIELD, args.get(0));
-		insertQuery.put(TCartes.COST_FIELD, args.get(1));
-		insertQuery.put(TCartes.TYPE_FIELD, args.get(2));
-		insertQuery.put(TCartes.AREA_FIELD, args.get(3));
-		insertQuery.put(TCartes.DAMAGES_FIELD, args.get(4));
+		insertQuery.put(TCartes.NAME_FIELD, args.get(NAME_FIELD));
+		insertQuery.put(TCartes.COST_FIELD, args.get(COST_FIELD));
+		insertQuery.put(TCartes.TYPE_FIELD, args.get(TYPE_FIELD));
+		insertQuery.put(TCartes.AREA_FIELD, args.get(AREA_FIELD));
+		insertQuery.put(TCartes.DAMAGES_FIELD, args.get(DAMAGES_FIELD));
 
 		linkToTable.insert(insertQuery);
 	}
