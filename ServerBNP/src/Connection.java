@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -15,7 +16,7 @@ import packet.PacketHello;
 public class Connection implements Runnable {
 	Socket s;
 	OutputStream os;
-	BufferedReader br;
+	InputStream is;
 	Game g;
 	Server serv;
 	Map<String, Connection> mapping;
@@ -27,7 +28,7 @@ public class Connection implements Runnable {
 		this.mapping = serv.mapping;
 		try {
 			os = s.getOutputStream();
-			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			is =s.getInputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,14 +39,15 @@ public class Connection implements Runnable {
 	public void run() {
 		Packet p = null;
 		try {
-			p = PacketBuilder.build(br.readLine().getBytes());
-			PacketHello ph = (PacketHello) (p);
+			
+			p = PacketBuilder.build(PacketBuilder.readPacket(is));
+			PacketHello ph = new PacketHello(p.encodedPacket);
 			mapping.put(Arrays.toString(ph.getMacAddress()), this);
 			serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
 			// mapping.put(p.mac, this);
 			// mapping.put(p.mac, this);
 			while (true) {
-				p = PacketBuilder.build(br.readLine().getBytes());
+				p = PacketBuilder.build(PacketBuilder.readPacket(is));
 				if (g != null) {
 					g.traiterPacket(p);
 				}
