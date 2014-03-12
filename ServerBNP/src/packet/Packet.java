@@ -33,4 +33,7 @@ public class Packet {
 	public int getIdSource() {
 		return idSource;
 	}
+	public int getOpCode(){
+		return opcode;
+	}
 }
