@@ -7,11 +7,6 @@
 package v2;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +24,7 @@ public class TCartes extends AbstractTable {
 	}
 
 	/**
+	 * Insert a new card in the database
 	 * 
 	 * @param args
 	 *            args[0]: Nom args[2]: coûts args[3]: type

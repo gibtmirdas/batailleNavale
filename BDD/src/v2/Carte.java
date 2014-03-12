@@ -2,6 +2,12 @@ package v2;
 
 import com.mongodb.DBObject;
 
+/**
+ * Card object for database
+ * 
+ * @author thomas
+ * 
+ */
 public class Carte {
 
 	private int id, cost, damages, area;

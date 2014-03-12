@@ -2,6 +2,12 @@ package v2;
 
 import com.mongodb.DBObject;
 
+/**
+ * Player object for database
+ * 
+ * @author JizzTeam
+ * 
+ */
 public class Joueur {
 
 	private String pseudo, password;

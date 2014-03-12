@@ -5,13 +5,13 @@
  */
 
 package testmongo;
-import com.mongodb.*;
+
 /**
- *
+ * 
  * @author antho
  */
 public class StorageState {
-    public StorageState() {
-    }
-    
+	public StorageState() {
+	}
+
 }

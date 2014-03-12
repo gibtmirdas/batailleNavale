@@ -7,8 +7,6 @@
 package testmongo;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +32,6 @@ public class TJoueurs extends AbstractTable {
 	 */
 	@Override
 	public void insert(List<Object> args) {
-		TCartes tcartes = new TCartes();
 		Integer cardID = 1, defaultScore = 0;
 		BasicDBObject insertQuery = new BasicDBObject();
 		List<Integer> cardList = new ArrayList<>();
@@ -48,6 +45,7 @@ public class TJoueurs extends AbstractTable {
 		linkToTable.insert(insertQuery);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Integer> getCardsById(int id) {
 
 		BasicDBObject searchQuery = new BasicDBObject();

@@ -7,9 +7,6 @@
 package testmongo;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

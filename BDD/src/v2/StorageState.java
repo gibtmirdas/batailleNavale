@@ -5,13 +5,13 @@
  */
 
 package v2;
-import com.mongodb.*;
+
 /**
- *
+ * 
  * @author antho
  */
 public class StorageState {
-    public StorageState() {
-    }
-    
+	public StorageState() {
+	}
+
 }

@@ -7,8 +7,6 @@
 package v2;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,31 +26,7 @@ public class TJoueurs extends AbstractTable {
 	}
 
 	/**
-	 * 
-	 * @param args
-	 *            args[0]:Pseudo ...
-	 * @return
-	 */
-	// @Override
-	// public void insertDefault(List<Object> args) {
-	// TCartes tcartes = new TCartes();
-	// Integer cardID = 1, defaultScore = 0, defaultCredit = 0;
-	// String defaultPassword = "";
-	// BasicDBObject insertQuery = new BasicDBObject();
-	// List<Integer> cardList = new ArrayList<>();
-	// cardList.add(cardID);
-	// cardList.add(cardID);
-	//
-	// insertQuery.put("id", this.getLastID() + 1);
-	// insertQuery.put("pseudo", args.get(0));
-	// insertQuery.put("cardID", cardList);
-	// insertQuery.put("score", defaultScore);
-	// insertQuery.put("password", defaultPassword);
-	// insertQuery.put("credit", defaultCredit);
-	// linkToTable.insert(insertQuery);
-	// }
-
-	/**
+	 * Insert a new player in the database
 	 * 
 	 * @param args
 	 *            args[0]:Pseudo ...
@@ -60,8 +34,7 @@ public class TJoueurs extends AbstractTable {
 	 */
 	@Override
 	public void insert(Map<String, Object> args) {
-		TCartes tcartes = new TCartes();
-		Integer cardID = 1;
+		Integer cardID = this.getLastID() + 1;
 		BasicDBObject insertQuery = new BasicDBObject();
 		List<Integer> cardList = new ArrayList<>();
 		cardList.add(cardID);
@@ -76,6 +49,11 @@ public class TJoueurs extends AbstractTable {
 		linkToTable.insert(insertQuery);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Integer> getCardsById(int id) {
 
@@ -92,6 +70,12 @@ public class TJoueurs extends AbstractTable {
 
 	}
 
+	/**
+	 * Get cards list from list id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public List<Carte> getCardsListById(int id) {
 		List<Integer> cardsId = getCardsById(id);
 		Carte cTmp;
@@ -103,6 +87,12 @@ public class TJoueurs extends AbstractTable {
 		return cartes;
 	}
 
+	/**
+	 * Add a card to the player's card list
+	 * 
+	 * @param cardName
+	 * @param playerID
+	 */
 	public void addCardToPlayer(String cardName, int playerID) {
 		TCartes cartes = new TCartes();
 		int cardID = cartes.getIdByCriteria("nom", cardName);
