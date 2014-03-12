@@ -2,6 +2,8 @@ package models;
 
 import com.mongodb.DBObject;
 
+import db.TJoueurs;
+
 /**
  * Player object for database
  * 
@@ -31,6 +33,23 @@ public class Joueur {
 		cardId = (int) o.get("cardID");
 		score = (int) o.get("score");
 		credit = (int) o.get("credit");
+	}
+
+	/**
+	 * Return a player based on the username, if password is correct. Otherwise,
+	 * return null
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public Joueur getJoueur(String username, String password) {
+		TJoueurs tj = new TJoueurs();
+		Joueur j = new Joueur(tj.getById(tj.getIdByCriteria(
+				TJoueurs.NAME_FIELD, username)));
+		if (j.getPassword().equals(password))
+			return j;
+		return null;
 	}
 
 	public String getPseudo() {
