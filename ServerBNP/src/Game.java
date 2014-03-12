@@ -1,8 +1,8 @@
 import packet.*;
-import v2.TCartes;
+import db.TCartes;
 import java.util.Timer;
 import java.util.TimerTask;
-import v2.TJoueurs;
+import db.TJoueurs;
 
 public class Game {
 	private final Connection player1, player2;
