@@ -2,7 +2,7 @@ package packet;
 
 import java.util.Arrays;
 
-public class Packet {
+public class Packet{
 
 	public byte[] encodedPacket = null;
 	protected int dataSize, idSource, opcode;
@@ -30,10 +30,12 @@ public class Packet {
 		System.arraycopy(data, 0, encodedPacket, 2, dataSize);
 	}
 
-	public int getIdSource() {
+        public int getIdSource() {
 		return idSource;
 	}
-	public int getOpCode(){
+
+        public int getOpCode(){
 		return opcode;
 	}
+
 }
