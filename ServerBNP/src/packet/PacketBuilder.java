@@ -39,6 +39,7 @@ public class PacketBuilder {
 		for (int i = 2; i < datas.length; i++) {
 			datas[i] = (byte) is.read();
 		}
+		
 		return datas;
 	}
 }
