@@ -1,4 +1,4 @@
-package v2;
+package models;
 
 import com.mongodb.DBObject;
 
@@ -80,5 +80,4 @@ public class Joueur {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 }

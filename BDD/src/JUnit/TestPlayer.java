@@ -5,11 +5,14 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import models.*;
+
 import org.junit.Test;
 
 import com.mongodb.DBObject;
 
-import v2.*;
+import db.TCartes;
+import db.TJoueurs;
 
 public class TestPlayer {
 
@@ -39,9 +42,9 @@ public class TestPlayer {
 	@Test
 	public void testCreateTCarte() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(TCartes.NAME_FIELD, "TestJUnit1");
+		map.put(TCartes.NAME_FIELD, "TestJUnit4");
 		map.put(TCartes.COST_FIELD, 10);
-		map.put(TCartes.TYPE_FIELD, CartesTypes.DMG.getName());
+		map.put(TCartes.TYPE_FIELD, Carte.TYPE_RADAR);
 		map.put(TCartes.AREA_FIELD, 2);
 		map.put(TCartes.DAMAGES_FIELD, 20);
 		TCartes c1 = new TCartes();
@@ -49,13 +52,14 @@ public class TestPlayer {
 
 		TCartes c2 = new TCartes();
 		DBObject o = c2.getById(c2.getIdByCriteria(TCartes.NAME_FIELD,
-				"TestJUnit1"));
-		Carte j = new Carte(o);
+				"TestJUnit4"));
+		Carte j = Carte.createCard(o);
 
 		System.out.println(o);
-		assertEquals("TestJUnit1", j.getName());
+		System.out.println(j);
+		assertEquals("TestJUnit4", j.getName());
 		assertEquals(10, j.getCost());
-		assertEquals(CartesTypes.DMG.getName(), j.getType());
+		assertEquals(Carte.TYPE_RADAR, j.getType());
 		assertEquals(2, j.getArea());
 		assertEquals(20, j.getDamages());
 	}

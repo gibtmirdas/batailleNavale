@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package v2;
+package db;
 
 import com.mongodb.BasicDBObject;
 
@@ -13,12 +13,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import models.Carte;
+
 /**
  * 
  * @author antho
  */
 public class TJoueurs extends AbstractTable {
 
+	public static final String ID_FIELD = "id", NAME_FIELD = "pseudo",
+			CARDS_FIELD = "cardID", SCORE_FIELD = "score";
+	public static final int DEFAULT_SCORE = 0;
 	private final String tableName = "joueurs";
 
 	public TJoueurs() {
@@ -38,11 +43,10 @@ public class TJoueurs extends AbstractTable {
 		BasicDBObject insertQuery = new BasicDBObject();
 		List<Integer> cardList = new ArrayList<>();
 		cardList.add(cardID);
-		cardList.add(cardID);
 
 		insertQuery.put("id", this.getLastID() + 1);
 		insertQuery.put("pseudo", args.get("pseudo"));
-		insertQuery.put("cardID", args.get("cardID"));
+		insertQuery.put("cardID", cardID);
 		insertQuery.put("score", args.get("score"));
 		insertQuery.put("password", args.get("password"));
 		insertQuery.put("credit", args.get("credit"));
@@ -81,7 +85,7 @@ public class TJoueurs extends AbstractTable {
 		Carte cTmp;
 		List<Carte> cartes = new ArrayList<Carte>();
 		for (Integer i : cardsId) {
-			cTmp = new Carte(getById(i));
+			cTmp = Carte.createCard(getById(i));
 			cartes.add(cTmp);
 		}
 		return cartes;

@@ -1,6 +1,8 @@
-package v2;
+package models;
 
 import com.mongodb.DBObject;
+
+import dbOld.TCartes;
 
 /**
  * Card object for database
@@ -8,7 +10,9 @@ import com.mongodb.DBObject;
  * @author thomas
  * 
  */
-public class Carte {
+public abstract class Carte {
+	public static final String TYPE_ATTACK = "Attaque",
+			TYPE_MOVE = "Deplacement", TYPE_RADAR = "Radar";
 
 	private int id, cost, damages, area;
 	private String name, type;
@@ -32,6 +36,33 @@ public class Carte {
 		damages = (int) o.get("damages");
 		area = (int) o.get("area");
 	}
+
+	public Carte(int id) {
+		DBObject o;
+		TCartes c = new TCartes();
+		o = c.getById(id);
+		this.id = id;
+		name = (String) o.get(TCartes.NAME_FIELD);
+		cost = (int) o.get(TCartes.COST_FIELD);
+		type = (String) o.get(TCartes.TYPE_FIELD);
+		area = (int) o.get(TCartes.AREA_FIELD);
+		damages = (int) o.get(TCartes.DAMAGES_FIELD);
+	}
+
+	public static Carte createCard(DBObject o) {
+		switch ((String) o.get(TCartes.TYPE_FIELD)) {
+		case Carte.TYPE_ATTACK:
+			return new CarteAttaque(o);
+		case Carte.TYPE_MOVE:
+			return new CarteDeplacement(o);
+		case Carte.TYPE_RADAR:
+			return new CarteRadar(o);
+		}
+		System.out.println((String) o.get(TCartes.TYPE_FIELD));
+		return null;
+	}
+
+	public abstract void afficherCarte();
 
 	public int getId() {
 		return id;
