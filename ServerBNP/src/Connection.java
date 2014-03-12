@@ -29,7 +29,7 @@ public class Connection implements Runnable {
 			os = s.getOutputStream();
 			br = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		} catch (IOException e) {
-			e.printStackTrace();
+                    e.printStackTrace();
 		}
 	}
 

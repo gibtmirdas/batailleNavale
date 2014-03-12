@@ -12,7 +12,7 @@ public class PacketCardAction extends Packet {
 		this.encode();
 	}
 
-	public void setDatas(int idCard, int xStart, int yStart) {
+	public final void setDatas(int idCard, int xStart, int yStart) {
 		byte[] d = new byte[3];
 		d[0] = (byte) (idCard & 0xFF);
 		d[1] = (byte) (xStart & 0xFF);
