@@ -65,11 +65,13 @@ public class Game {
 	public void traiterPacket(Packet p) throws ClassNotFoundException {
             Class c = packet.PacketBuilder.getPacketClass(p);
             switch(c.getName()){
-                case "PacketUpdate" :
-                    packetReceivedUpdate((PacketUpdate) p);
+                case "packet.PacketUpdate" :
+                    PacketUpdate p2 = new PacketUpdate(p.encodedPacket);
+                    packetReceivedUpdate(p2);
                     break;
-                case "PacketCardAction":
-                    packetReceivedCardAction((PacketCardAction) p);
+                case "packet.PacketCardAction":
+                    PacketCardAction p2 = new PacketCardAction(p.encodedPacket);
+                    packetReceivedCardAction(p2);
                     break;
                 default:
                     throw new ClassNotFoundException("Unknown packet");
