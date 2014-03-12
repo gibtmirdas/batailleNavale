@@ -8,12 +8,16 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
-import views.ContainerGame;
+import panels.ContainerGame;
 
 
-public class WindowMain extends JFrame implements ActionListener,ItemListener{
+public class WindowMain extends JFrame implements ActionListener, ItemListener{
+	
+	private static final long serialVersionUID = 1L;
+	private ContainerGame panelGame;
+	private int width = 927;
+	private int height = 749;
 
 	public WindowMain(){
 		runGUI();
@@ -21,37 +25,19 @@ public class WindowMain extends JFrame implements ActionListener,ItemListener{
 	
 	public void runGUI(){
 		this.setDefaultCloseOperation(3);
-		//frame.pack();    
-		
 		JMenuBar bar = createBar();
-		this.setJMenuBar(bar);
-		ContainerGame cont = new ContainerGame(this.getContentPane());
-		this.add(cont);
-		this.setSize(927, 749);
-		this.setVisible(true);		
-
-		//this.pack();
-		/*		GridLayout experimentLayout = new GridLayout(2,3);
-		this.setLayout(experimentLayout);
-	*/
-		//Canvas c = new Canvas();
-		//Canvastest2 c2 = new Canvastest2();
-
-		//this.add(c);
-		//this.add(c2);
-
-		/*
-		 * HERE WE PUT CODE FOR MAIN VIEWS 
-		 */
-		
-		
+		setJMenuBar(bar);
+		panelGame = new ContainerGame(getContentPane());
+		add(panelGame);
+		setSize(width, height);
+		setVisible(true);		
 	}
 	
 	private JMenuBar createBar(){
 		//Where the GUI is created:
 		JMenuBar menuBar;
 		JMenu menu;
-		JMenuItem menuItem;
+//		JMenuItem menuItem;
 		
 		//Create the menu bar.
 		menuBar = new JMenuBar();
@@ -64,7 +50,6 @@ public class WindowMain extends JFrame implements ActionListener,ItemListener{
         menu.addMenuListener(new TopMenuListener());
 		menuBar.add(menu);
 		
-
 		//Build second menu in the menu bar.
 		menu = new JMenu("Profile");
 		menu.setName("asdasd");
@@ -90,12 +75,17 @@ public class WindowMain extends JFrame implements ActionListener,ItemListener{
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
        */
-		
 		return menuBar;
 	}
+	
+	public ContainerGame getPanelGame() {
+		return panelGame;
+	}
+
 	public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());
     }
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		
