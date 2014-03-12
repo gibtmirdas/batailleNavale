@@ -1,4 +1,5 @@
 package lib;
+
 public class Tuple { 
 	  public  int x; 
 	  public  int y; 
@@ -24,7 +25,5 @@ public class Tuple {
 	  }
 	  public int getYf(){
 		  return yf;
-	  }
-		  
-		  
+	  }	  
 } 
