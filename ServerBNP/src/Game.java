@@ -60,6 +60,7 @@ public class Game {
             this.current_player = current_player % 2 + 1;
             player1.sendMessage(new PacketUpdate(serverId, current_player));
             player2.sendMessage(new PacketUpdate(serverId, current_player));
+            Connection p = current_player == 1 ? player1 : player2;p.sendMessage(new PacketNewCard(0, TCartes.DEFAULT_ID));
         }
 	public void traiterPacket(Packet p) throws ClassNotFoundException {
             Class c = packet.PacketBuilder.getPacketClass(p);
