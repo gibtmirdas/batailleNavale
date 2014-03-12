@@ -60,15 +60,18 @@ public class Game {
             this.current_player = current_player % 2 + 1;
             player1.sendMessage(new PacketUpdate(serverId, current_player));
             player2.sendMessage(new PacketUpdate(serverId, current_player));
+            Connection p = current_player == 1 ? player1 : player2;p.sendMessage(new PacketNewCard(0, TCartes.DEFAULT_ID));
         }
 	public void traiterPacket(Packet p) throws ClassNotFoundException {
             Class c = packet.PacketBuilder.getPacketClass(p);
             switch(c.getName()){
-                case "PacketUpdate" :
-                    packetReceivedUpdate((PacketUpdate) p);
+                case "packet.PacketUpdate" :
+                    PacketUpdate p2 = new PacketUpdate(p.encodedPacket);
+                    packetReceivedUpdate(p2);
                     break;
-                case "PacketCardAction":
-                    packetReceivedCardAction((PacketCardAction) p);
+                case "packet.PacketCardAction":
+                    PacketCardAction p2 = new PacketCardAction(p.encodedPacket);
+                    packetReceivedCardAction(p2);
                     break;
                 default:
                     throw new ClassNotFoundException("Unknown packet");
