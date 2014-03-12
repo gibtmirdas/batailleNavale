@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 
 import packet.Packet;
 import packet.PacketBuilder;
+import packet.PacketCardAction;
 import packet.PacketHello;
+import packet.PacketUpdate;
 
 public class Connection implements Runnable {
 	Socket s;
@@ -44,12 +46,15 @@ public class Connection implements Runnable {
 			PacketHello ph = new PacketHello(p.encodedPacket);
 			mapping.put(Arrays.toString(ph.getMacAddress()), this);
 			serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
-			// mapping.put(p.mac, this);
-			// mapping.put(p.mac, this);
 			while (true) {
 				p = PacketBuilder.build(PacketBuilder.readPacket(is));
 				if (g != null) {
 					g.traiterPacket(p);
+				}else{
+					if(p.getOpCode() >= 0x7 && p.getOpCode() <= 0xC)
+					{
+						handleLauncherPacket(p);
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -71,6 +76,33 @@ public class Connection implements Runnable {
 
 	public void setG(Game g) {
 		this.g = g;
+	}
+	
+	public void handleLauncherPacket(Packet p) throws ClassNotFoundException{
+		Class c = packet.PacketBuilder.getPacketClass(p);
+		switch (c.getName()) {
+		case "packet.PacketLogin":
+			//todo
+			break;
+		case "packet.PacketSubscribe":
+			//todo
+			break;
+		case "packet.PacketInfoProfile":
+			//todo
+			break;
+		case "packet.PacketBuyCard":
+			//todo
+			break;
+		case "packet.PacketTransactionUpdate":
+			//todo
+			break;
+		case "packet.PacketConsultShop":
+			//todo
+			break;
+		default:
+			throw new ClassNotFoundException("Unknown packet");
+
+		}
 	}
 
 }
