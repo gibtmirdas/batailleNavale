@@ -17,6 +17,7 @@ import packet.PacketBuilder;
 import packet.PacketCardAction;
 import packet.PacketHello;
 import packet.PacketLogin;
+import packet.PacketSubscribe;
 import packet.PacketUpdate;
 
 public class Connection implements Runnable {
@@ -84,18 +85,26 @@ public class Connection implements Runnable {
 
     public void handleLauncherPacket(Packet p) throws ClassNotFoundException {
         Class c = packet.PacketBuilder.getPacketClass(p);
+        
+        String uname,pwd;
+        TJoueurs tjoueurs = new TJoueurs();
+        int pid;
+        Joueur player;
         switch (c.getName()) {
             case "packet.PacketLogin":
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
-                String uname = pl.getUsername(), pwd = pl.getPassword();
-                TJoueurs tjoueurs = new TJoueurs();
-                int pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
-                Joueur player = new Joueur(tjoueurs.getById(pid));
-                PacketLogin r = player.getPassword().equals(pl.getPassword()) ? new PacketLogin(pid, uname, pwd) : new PacketLogin(pid, "0", "0");
-                this.sendMessage(pl);
+                uname = pl.getUsername();
+                pwd = pl.getPassword();
+                pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
+                player = new Joueur(tjoueurs.getById(pid));
+                PacketLogin r = player.getPassword().equals(pwd) ? new PacketLogin(pid, uname, pwd) : new PacketLogin(pid, "0", "0");
+                this.sendMessage(r);
                 break;
             case "packet.PacketSubscribe":
-                //todo
+                PacketSubscribe ps = new PacketSubscribe(p.encodedPacket);
+                uname = ps.getUsername();
+                pwd = ps.getPassword();
+                
                 break;
             case "packet.PacketInfoProfile":
                 //todo
