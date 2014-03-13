@@ -1,5 +1,7 @@
 package models;
 
+import java.util.HashMap;
+
 import com.mongodb.DBObject;
 
 import db.TJoueurs;
@@ -25,7 +27,7 @@ public class Joueur {
 		this.score = score;
 		this.credit = credit;
 	}
-	
+
 	public Joueur(DBObject o) {
 		id = (int) o.get("id");
 		pseudo = (String) o.get("pseudo");
@@ -34,18 +36,17 @@ public class Joueur {
 		score = (int) o.get("score");
 		credit = (int) o.get("credit");
 	}
-	
-	
+
 	public boolean canBuyCard(Carte c) {
 		return this.getCredit() >= c.getCost();
 	}
-	
+
 	public static boolean canLogin(String username, String password) {
 		TJoueurs tj = new TJoueurs();
-		return tj.getById(tj.getIdByCriteria("username", username)).get(TJoueurs.PASSWORD_FIELD).equals(password);
+		return tj.getById(tj.getIdByCriteria("username", username))
+				.get(TJoueurs.PASSWORD_FIELD).equals(password);
 	}
-	
-	
+
 	/**
 	 * Return a player based on the username, if password is correct. Otherwise,
 	 * return null
@@ -54,18 +55,31 @@ public class Joueur {
 	 * @param password
 	 * @return
 	 */
-	
-	
+
 	public static Joueur getJoueur(String username, String password) {
 		TJoueurs tj = new TJoueurs();
-		
-		if(tj.existJoueur(username))
-			if(canLogin(username, password)){		
-				Joueur j = new Joueur(tj.getById(tj.getIdByCriteria(TJoueurs.NAME_FIELD,username)));	
+
+		if (tj.existJoueur(username))
+			if (canLogin(username, password)) {
+				Joueur j = new Joueur(tj.getById(tj.getIdByCriteria(
+						TJoueurs.NAME_FIELD, username)));
 				return j;
 			}
-		
+
 		return null;
+	}
+
+	public boolean buyCard(Carte c) {
+		if (canBuyCard(c)) {
+			setCredit(this.getCredit() - c.getCost());
+			addCard(c);
+		}
+		return false;
+	}
+
+	private void addCard(Carte c) {
+		TJoueurs tj = new TJoueurs();
+		tj.addCardToPlayer(c.getName(), this.id);
 	}
 
 	public String getPseudo() {
@@ -74,6 +88,10 @@ public class Joueur {
 
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
+		TJoueurs tj = new TJoueurs();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(TJoueurs.NAME_FIELD, pseudo);
+		tj.updateById(this.id, map);
 	}
 
 	public String getPassword() {
@@ -82,6 +100,10 @@ public class Joueur {
 
 	public void setPassword(String password) {
 		this.password = password;
+		TJoueurs tj = new TJoueurs();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(TJoueurs.PASSWORD_FIELD, password);
+		tj.updateById(this.id, map);
 	}
 
 	public int getCardId() {
@@ -90,6 +112,10 @@ public class Joueur {
 
 	public void setCardId(int cardId) {
 		this.cardId = cardId;
+		TJoueurs tj = new TJoueurs();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(TJoueurs.CARDS_FIELD, cardId);
+		tj.updateById(this.id, map);
 	}
 
 	public int getScore() {
@@ -98,6 +124,10 @@ public class Joueur {
 
 	public void setScore(int score) {
 		this.score = score;
+		TJoueurs tj = new TJoueurs();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(TJoueurs.SCORE_FIELD, score);
+		tj.updateById(this.id, map);
 	}
 
 	public int getCredit() {
@@ -106,6 +136,10 @@ public class Joueur {
 
 	public void setCredit(int credit) {
 		this.credit = credit;
+		TJoueurs tj = new TJoueurs();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(TJoueurs.CREDIT_FIELD, credit);
+		tj.updateById(this.id, map);
 	}
 
 	public int getId() {
