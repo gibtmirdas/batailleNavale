@@ -81,16 +81,10 @@ public class Game {
 		}
 	}
         public void packetReceivedLogin(PacketLogin p){
-            String uname = p.getUsername(),pwd=p.getPassword();
-            TJoueurs tjoueurs = new TJoueurs();
-            int pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
-            Joueur player = new Joueur(tjoueurs.getById(pid));
-            PacketLogin r = player.getPassword().equals(p.getPassword())? new PacketLogin(pid, uname, pwd):new PacketLogin(pid, "0", "0");
-            if (p.getIdSource() == 1) player1.sendMessage(p);
-            else player2.sendMessage(p);
+
         }
 	public void packetReceivedHello(PacketHello p) {
-            
+           
 	}
 
 	public void packetReceivedNewCard(PacketNewCard p) {
