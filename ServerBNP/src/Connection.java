@@ -22,7 +22,7 @@ import packet.PacketSubscribe;
 import packet.PacketUpdate;
 
 public class Connection implements Runnable {
-
+	Joueur player = null;
     Socket s;
     OutputStream os;
     InputStream is;
@@ -90,7 +90,6 @@ public class Connection implements Runnable {
         String uname,pwd;
         TJoueurs tjoueurs = new TJoueurs();
         int pid;
-        Joueur player;
         switch (c.getName()) {
             case "packet.PacketLogin":
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
@@ -119,17 +118,27 @@ public class Connection implements Runnable {
                 
                 this.sendMessage(r);
                 break;
-            case "packet.PacketInfoProfile":
-                //todo
-                break;
             case "packet.PacketBuyCard":
                 //todo
-                break;
-            case "packet.PacketTransactionUpdate":
-                //todo
+            	//Si connecte
+            	//Check solde + prix carte
+            	//Si Solde - prix carte >= 0
+            	//Ok
+            		//Packet Transaction Update
+            		//Packet info profile (maj)
+            		//maj DB
+            	//Sinon pas ok
+            	//Packet Transaction Update
                 break;
             case "packet.PacketConsultShop":
+            	//INUTILISE
                 //todo
+            	//Si connecte
+            	//Packet ConsultShop pcs = new PacketConsultShop(p.encoded packet);
+            	//Cards = getCardsByCategory(pcs.getCategory())
+            	//For each card in Cards
+            	//send New Card....
+            	//
                 break;
             default:
                 throw new ClassNotFoundException("Unknown packet");
