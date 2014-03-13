@@ -80,20 +80,6 @@ public class Game {
 
 		}
 	}
-        public void packetReceivedLogin(PacketLogin p){
-
-        }
-	public void packetReceivedHello(PacketHello p) {
-           
-	}
-
-	public void packetReceivedNewCard(PacketNewCard p) {
-		// nothing to do
-	}
-
-	public void packetReceivedNewGame(PacketNewGame p) {
-		// nothing to do
-	}
 
 	public void packetReceivedInfoBoat(PacketInfoBoat p) {
 		// nothing to do

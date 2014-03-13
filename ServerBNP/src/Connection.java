@@ -49,10 +49,8 @@ public class Connection implements Runnable {
     // TODO gerer reconnection
     @Override
     public void run() {
-        Packet p = null;
         try {
-
-            p = PacketBuilder.build(PacketBuilder.readPacket(is));
+            Packet p = PacketBuilder.build(PacketBuilder.readPacket(is));
             PacketHello ph = new PacketHello(p.encodedPacket);
             mapping.put(Arrays.toString(ph.getMacAddress()), this);
             serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
@@ -67,7 +65,6 @@ public class Connection implements Runnable {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE,
                     null, ex);
@@ -98,7 +95,6 @@ public class Connection implements Runnable {
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
                 uname = pl.getUsername();
                 pwd = pl.getPassword();
-                pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
                 player = Joueur.getJoueur(uname, pwd);
                 response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
                 this.sendMessage(response);
@@ -111,7 +107,7 @@ public class Connection implements Runnable {
                 if (tjoueurs.getById(pid) != null) {
                     response = new PacketSubscribe(0, "0", "0");
                 } else {
-                    HashMap<String, Object> prms = new HashMap<String, Object>();
+                    HashMap<String, Object> prms = new HashMap<>();
                     prms.put(TJoueurs.NAME_FIELD, uname);
                     prms.put(TJoueurs.PASSWORD_FIELD, pwd);
                     tjoueurs.insert(prms);
