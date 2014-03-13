@@ -22,6 +22,7 @@ import packet.PacketBuilder;
 import packet.PacketBuyCard;
 import packet.PacketCardAction;
 import packet.PacketHello;
+import packet.PacketInfoProfile;
 import packet.PacketLogin;
 import packet.PacketSubscribe;
 import packet.PacketTransactionUpdate;
@@ -128,38 +129,25 @@ public class Connection implements Runnable {
                 break;
             case "packet.PacketBuyCard":
                 PacketBuyCard pbc = new PacketBuyCard(p.encodedPacket);
-
-                //todo
-                //Si connecte
-                //Check solde + prix carte
-                //Si Solde - prix carte >= 0
-                //Ok
-                //Packet Transaction Update
-                //Packet info profile (maj)
-                //maj DB
-                //Sinon pas ok
-                //Packet Transaction Update
                 if (player == null) {
-                    r = new PacketTransactionUpdate(0, pbc.getCardID(), 0);
+                    r = new PacketLogin(0, "0","0");
                     this.sendMessage(r);
                     break;
                 }
-
-                if (player.canBuyCard(fc.getCarte(tcartes.getById(pbc.getCardID())))) {
+                Carte askedCard = fc.getCarte(tcartes.getById(pbc.getCardID()));
+                
+                if (player.canBuyCard(askedCard)) {
+                    player.buyCard(askedCard);
                     r = new PacketTransactionUpdate(0, pbc.getCardID(), 1);
                     this.sendMessage(r);
+                    r = new PacketInfoProfile(0, 0, 0, 0, player.getCredit());
+                    this.sendMessage(r);
+                }else{
+                    r = new PacketTransactionUpdate(0, pbc.getCardID(), 0);
                 }
                 break;
             case "packet.PacketConsultShop":
-            	//INUTILISE
-                //todo
-                //Si connecte
-                //Packet ConsultShop pcs = new PacketConsultShop(p.encoded packet);
-                //Cards = getCardsByCategory(pcs.getCategory())
-                //For each card in Cards
-                //send New Card....
-                //
-                break;
+            	throw new UnknownError("PacketConsultShop is not used");
             default:
                 throw new ClassNotFoundException("Unknown packet");
 
