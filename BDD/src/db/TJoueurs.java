@@ -4,14 +4,18 @@
  * and open the template in the editor.
  */
 
-package v2;
+package db;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import models.Carte;
+import models.FactoryCarte;
 
 /**
  * 
@@ -19,10 +23,28 @@ import java.util.Map;
  */
 public class TJoueurs extends AbstractTable {
 
+	public static final String ID_FIELD = "id", NAME_FIELD = "pseudo",
+			CARDS_FIELD = "cardID", SCORE_FIELD = "score",
+			PASSWORD_FIELD = "password", CREDIT_FIELD = "credit";
+	public static final int DEFAULT_SCORE = 0, DEFAULT_CARDS = 0,
+			DEFAULT_CREDIT = 0;
+	public static final String DEFAULT_NAME = "username",
+			DEFAULT_PASSWORD = "password";
+
 	private final String tableName = "joueurs";
 
 	public TJoueurs() {
 		linkToTable = Storage.getInstance().getCollection(tableName);
+	}
+
+	public boolean existJoueur(String username) {
+		TJoueurs tj = new TJoueurs();
+
+		int j = tj.getIdByCriteria(TJoueurs.NAME_FIELD, username);
+
+		if (j == -1)
+			return false;
+		return true;
 	}
 
 	/**
@@ -38,14 +60,29 @@ public class TJoueurs extends AbstractTable {
 		BasicDBObject insertQuery = new BasicDBObject();
 		List<Integer> cardList = new ArrayList<>();
 		cardList.add(cardID);
-		cardList.add(cardID);
 
 		insertQuery.put("id", this.getLastID() + 1);
-		insertQuery.put("pseudo", args.get("pseudo"));
-		insertQuery.put("cardID", args.get("cardID"));
-		insertQuery.put("score", args.get("score"));
-		insertQuery.put("password", args.get("password"));
-		insertQuery.put("credit", args.get("credit"));
+
+		if (args.containsKey(NAME_FIELD))
+			insertQuery.put("pseudo", args.get("pseudo"));
+		else
+			insertQuery.put("pseudo", DEFAULT_NAME);
+		if (args.containsKey(CARDS_FIELD))
+			insertQuery.put("cardID", cardID);
+		else
+			insertQuery.put("pseudo", DEFAULT_CARDS);
+		if (args.containsKey(SCORE_FIELD))
+			insertQuery.put("score", args.get("score"));
+		else
+			insertQuery.put("pseudo", DEFAULT_SCORE);
+		if (args.containsKey(PASSWORD_FIELD))
+			insertQuery.put("password", args.get("password"));
+		else
+			insertQuery.put("pseudo", DEFAULT_PASSWORD);
+		if (args.containsKey(CREDIT_FIELD))
+			insertQuery.put("credit", args.get("credit"));
+		else
+			insertQuery.put("pseudo", DEFAULT_CREDIT);
 		linkToTable.insert(insertQuery);
 	}
 
@@ -81,8 +118,12 @@ public class TJoueurs extends AbstractTable {
 		Carte cTmp;
 		List<Carte> cartes = new ArrayList<Carte>();
 		for (Integer i : cardsId) {
-			cTmp = new Carte(getById(i));
-			cartes.add(cTmp);
+			try {
+				cTmp = FactoryCarte.getCarte(getById(i));
+				cartes.add(cTmp);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		return cartes;
 	}

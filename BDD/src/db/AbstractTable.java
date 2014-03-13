@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package v2;
+package db;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -13,6 +13,9 @@ import com.mongodb.DBObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import models.Carte;
+import models.Joueur;
 
 /**
  * 
@@ -92,12 +95,4 @@ public abstract class AbstractTable {
 		}
 	}
 
-	public boolean canLogin(String username, String password) {
-		Joueur jDB = new Joueur(getById(getIdByCriteria("username", username)));
-		return jDB.getPassword().equals(password);
-	}
-
-	public boolean canBuyCard(Joueur j, Carte c) {
-		return j.getCredit() >= c.getCost();
-	}
 }

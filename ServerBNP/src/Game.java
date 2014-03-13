@@ -1,20 +1,15 @@
-import packet.Packet;
-import packet.PacketBye;
-import packet.PacketCardAction;
-import packet.PacketHello;
-import packet.PacketInfoBoat;
-import packet.PacketNewCard;
-import packet.PacketNewGame;
-import packet.PacketUpdate;
+import packet.*;
 import db.TCartes;
 import java.util.Timer;
 import java.util.TimerTask;
+import db.TJoueurs;
+import models.Joueur;
 
 public class Game {
-	private Connection player1, player2;
-	private int serverId = 0;
+	private final Connection player1, player2;
+	private final int serverId = 0;
 	private int current_player;
-	private int[][] gameboard = new int[20][30];
+	private final int[][] gameboard = new int[20][30];
 	int[] p1BoatLife = new int[3];
 	int[] p2BoatLife = new int[3];
 	private UpdateTimerTask task;
@@ -30,7 +25,7 @@ public class Game {
 		init();
 	}
 
-	public void init() {
+	private void init() {
 		for (int y = 0; y < 30; y++)
 			for (int x = 0; x < 20; x++)
 				gameboard[x][y] = 0;
@@ -85,9 +80,11 @@ public class Game {
 
 		}
 	}
+        public void packetReceivedLogin(PacketLogin p){
 
+        }
 	public void packetReceivedHello(PacketHello p) {
-		// nothing to do
+           
 	}
 
 	public void packetReceivedNewCard(PacketNewCard p) {

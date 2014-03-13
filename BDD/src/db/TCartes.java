@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package v2;
+package db;
 
 import com.mongodb.BasicDBObject;
 import java.util.Map;
@@ -17,6 +17,9 @@ public class TCartes extends AbstractTable {
 	public static final String ID_FIELD = "id", NAME_FIELD = "name",
 			COST_FIELD = "cost", TYPE_FIELD = "type", AREA_FIELD = "area",
 			DAMAGES_FIELD = "damages";
+	public static final int DEFAULT_ID = 0, DEFAULT_COST = 0, DEFAULT_AREA = 1,
+			DEFAULT_DMG = 1;
+
 	private final String tableName = "cartes";
 
 	public TCartes() {
