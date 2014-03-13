@@ -11,7 +11,6 @@ public class FactoryCarte {
 	}
 
 	public static Carte getCarte(DBObject obj) throws ClassNotFoundException {
-
 		switch ((String) (obj.get(TCartes.TYPE_FIELD).toString())) {
 		case Carte.TYPE_MOVE:
 			return new CarteDeplacement(obj);
