@@ -6,11 +6,11 @@ import db.TCartes;
 
 public class FactoryCarte {
 
-    public FactoryCarte() {
+    private FactoryCarte() {
 
     }
 
-    public Carte getCarte(DBObject obj) throws ClassNotFoundException {
+    public static Carte getCarte(DBObject obj) throws ClassNotFoundException {
 
         switch ((String) (obj.get(TCartes.TYPE_FIELD).toString())) {
             case Carte.TYPE_MOVE:
