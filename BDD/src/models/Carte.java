@@ -49,19 +49,6 @@ public abstract class Carte {
 		damages = (int) o.get(TCartes.DAMAGES_FIELD);
 	}
 
-	public static Carte createCard(DBObject o) {
-		switch ((String) o.get(TCartes.TYPE_FIELD)) {
-		case Carte.TYPE_ATTACK:
-			return new CarteAttaque(o);
-		case Carte.TYPE_MOVE:
-			return new CarteDeplacement(o);
-		case Carte.TYPE_RADAR:
-			return new CarteRadar(o);
-		}
-		System.out.println((String) o.get(TCartes.TYPE_FIELD));
-		return null;
-	}
-
 	public abstract void afficherCarte();
 
 	public int getId() {
