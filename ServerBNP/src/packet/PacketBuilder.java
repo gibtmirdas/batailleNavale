@@ -8,7 +8,11 @@ public class PacketBuilder {
 	public static Class<?> classes[] = { packet.PacketHello.class,
 			packet.PacketNewGame.class, packet.PacketNewCard.class,
 			packet.PacketInfoBoat.class, packet.PacketCardAction.class,
-			packet.PacketUpdate.class, packet.PacketBye.class };
+			packet.PacketUpdate.class, packet.PacketBye.class,
+			packet.PacketLogin.class, packet.PacketSubscribe.class,
+			packet.PacketInfoProfile.class, packet.PacketBuyCard.class,
+			packet.PacketTransactionUpdate.class, packet.PacketConsultShop.class
+	};
 
 	public static Packet build(byte[] encodedPacket) {
 		return new Packet(encodedPacket);
