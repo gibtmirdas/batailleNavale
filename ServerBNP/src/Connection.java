@@ -130,13 +130,14 @@ public class Connection implements Runnable {
                 Carte askedCard = FactoryCarte.getCarte(tcartes.getById(pbc.getCardID()));
                 
                 if (player.canBuyCard(askedCard)) {
-                    //player.buyCard(askedCard);
+                    player.buyCard(askedCard);
                     response = new PacketTransactionUpdate(0, pbc.getCardID(), 1);
                     this.sendMessage(response);
                     response = new PacketInfoProfile(0, 0, 0, 0, player.getCredit());
                     this.sendMessage(response);
                 }else{
                     response = new PacketTransactionUpdate(0, pbc.getCardID(), 0);
+                    this.sendMessage(response);
                 }
                 break;
             case "packet.PacketConsultShop":
