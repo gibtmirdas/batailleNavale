@@ -1,10 +1,8 @@
 
 import db.TCartes;
 import db.TJoueurs;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
@@ -20,13 +18,11 @@ import models.Joueur;
 import packet.Packet;
 import packet.PacketBuilder;
 import packet.PacketBuyCard;
-import packet.PacketCardAction;
 import packet.PacketHello;
 import packet.PacketInfoProfile;
 import packet.PacketLogin;
 import packet.PacketSubscribe;
 import packet.PacketTransactionUpdate;
-import packet.PacketUpdate;
 
 public class Connection implements Runnable {
 
@@ -47,7 +43,6 @@ public class Connection implements Runnable {
             os = s.getOutputStream();
             is = s.getInputStream();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -84,7 +79,6 @@ public class Connection implements Runnable {
             os.write(p.encodedPacket);
             os.flush();
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -136,7 +130,7 @@ public class Connection implements Runnable {
                 Carte askedCard = FactoryCarte.getCarte(tcartes.getById(pbc.getCardID()));
                 
                 if (player.canBuyCard(askedCard)) {
-                    player.buyCard(askedCard);
+                    //player.buyCard(askedCard);
                     response = new PacketTransactionUpdate(0, pbc.getCardID(), 1);
                     this.sendMessage(response);
                     response = new PacketInfoProfile(0, 0, 0, 0, player.getCredit());
