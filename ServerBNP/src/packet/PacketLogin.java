@@ -12,11 +12,17 @@ public class PacketLogin extends Packet {
             this.encode();
         }
         
+        public PacketLogin(int idSource, String uname, String pwd){
+            super(uname.length()+pwd.length()+1,idSource,null,packet.PacketLogin.class);
+            this.setDatas(uname, pwd);
+            this.encode();           
+        }
+        
 	public PacketLogin(byte[] encodedPacket) {
 		super(encodedPacket);
 	}
         
-        public void setDatas(String uname , String pwd){
+        private void setDatas(String uname , String pwd){
             String msg = uname+";"+pwd;
             this.data = msg.getBytes();
         }
