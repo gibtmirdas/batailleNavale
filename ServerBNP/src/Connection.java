@@ -11,10 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import models.Carte;
 import models.Joueur;
 
 import packet.Packet;
 import packet.PacketBuilder;
+import packet.PacketBuyCard;
 import packet.PacketCardAction;
 import packet.PacketHello;
 import packet.PacketLogin;
@@ -118,6 +121,8 @@ public class Connection implements Runnable {
                 this.sendMessage(r);
                 break;
             case "packet.PacketBuyCard":
+            	PacketBuyCard pbc = new PacketBuyCard(p.encodedPacket);
+            	
                 //todo
             	//Si connecte
             	//Check solde + prix carte
@@ -128,6 +133,16 @@ public class Connection implements Runnable {
             		//maj DB
             	//Sinon pas ok
             	//Packet Transaction Update
+            	if(player==null)
+            	{
+            		//Packet
+            		break;
+            	}
+            	player.canBuyCard(new Carte(pbc.getCardID()));
+            	
+            	Carte c = new Carte(1);
+            	
+            	
                 break;
             case "packet.PacketConsultShop":
             	//INUTILISE
