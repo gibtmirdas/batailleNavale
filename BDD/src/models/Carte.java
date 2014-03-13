@@ -2,7 +2,7 @@ package models;
 
 import com.mongodb.DBObject;
 
-import dbOld.TCartes;
+import db.TCartes;
 
 /**
  * Card object for database

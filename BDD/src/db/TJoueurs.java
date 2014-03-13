@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.Carte;
+import models.Joueur;
 
 /**
  * 
@@ -107,4 +108,14 @@ public class TJoueurs extends AbstractTable {
 		updateList.put("cardID", cardList);
 		updateById(playerID, updateList);
 	}
-}
+        
+	public boolean canLogin(String username, String password) {
+		Joueur jDB = new Joueur(getById(getIdByCriteria("username", username)));
+		return jDB.getPassword().equals(password);
+	}
+        
+	public boolean canBuyCard(Joueur j, Carte c) {
+		return j.getCredit() >= c.getCost();
+	}
+} 
+    
