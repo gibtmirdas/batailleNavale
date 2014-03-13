@@ -98,7 +98,6 @@ public class Connection implements Runnable {
                 pwd = pl.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
                 player = Joueur.getJoueur(uname, pwd);
-                
                 r = player != null? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
                 player = new Joueur(tjoueurs.getById(pid));
                 this.sendMessage(r);
