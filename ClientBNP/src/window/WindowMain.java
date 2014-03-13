@@ -16,30 +16,32 @@ public class WindowMain extends JFrame implements ActionListener, ItemListener{
 	
 	private static final long serialVersionUID = 1L;
 	private ContainerGame panelGame;
-	private int width = 927;
-	private int height = 749;
-
+//	private int width = 927;
+//	private int height = 749;
+	private int width = 1000;
+	private int height = 1000;
+	
 	public WindowMain(){
 		runGUI();
 	}
 	
 	public void runGUI(){
-		this.setDefaultCloseOperation(3);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar bar = createBar();
 		setJMenuBar(bar);
 		panelGame = new ContainerGame(getContentPane());
+		//setSize(width, height);
+		setTitle("Bataille Navale");
 		add(panelGame);
-		setSize(width, height);
+		pack();
+		setLocationByPlatform(true);
 		setVisible(true);		
 	}
 	
 	private JMenuBar createBar(){
-		//Where the GUI is created:
 		JMenuBar menuBar;
 		JMenu menu;
 //		JMenuItem menuItem;
-		
-		//Create the menu bar.
 		menuBar = new JMenuBar();
 
 		//Build the first menu.
@@ -53,7 +55,6 @@ public class WindowMain extends JFrame implements ActionListener, ItemListener{
 		//Build second menu in the menu bar.
 		menu = new JMenu("Profile");
 		menu.setName("asdasd");
-		//VK_A => key released
         menu.setMnemonic(KeyEvent.VK_M);
         menu.addMenuListener(new TopMenuListener());
 		menuBar.add(menu);

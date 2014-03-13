@@ -1,12 +1,10 @@
 package connection;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Enumeration;
 
@@ -50,11 +48,14 @@ public class ClientConnection implements Constantes{
 		PacketNewCard p4 = new PacketNewCard(1, 0);
 
 		PacketInfoBoat p2 = new PacketInfoBoat(1,1,0,0,2,0,3);
+		PacketInfoBoat p5 = new PacketInfoBoat(1,1,10,0,2,0,3);
+
 		PacketUpdate p3 = new PacketUpdate(1, 1);
 		packetReceivedNewGame(p);
 		packetReceivedNewCard(p1);
 		packetReceivedNewCard(p4);
 		packetReceivedInfoBoat(p2);
+		packetReceivedInfoBoat(p5);
 		packetReceivedUpdate(p3);
 	}
 	
@@ -109,7 +110,7 @@ public class ClientConnection implements Constantes{
 //		System.out.println("Client: Packet newCard received!");
 ////		System.out.println("1.- CardId: "+p.getCardId());
 //		System.out.println("############# END PacketNewCard ######");
-		containGame.addCarte(p.getCardId(), "Missile");
+//		containGame.addCarte(p.getCardId(), "Missile");
 	}
 
 	public void packetReceivedInfoBoat(PacketInfoBoat p) {
@@ -124,8 +125,8 @@ public class ClientConnection implements Constantes{
 //		System.out.println("6.- life: "+p.getLife());
 		System.out.println("############# END PacketInfoBoat ######");
 		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());
-		
-		
+//		containGame.getCanva().getel
+
 	}
 	
 	public void packetReceivedUpdate(PacketUpdate p) {

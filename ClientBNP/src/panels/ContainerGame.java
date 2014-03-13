@@ -16,34 +16,34 @@ import javax.swing.JTextArea;
 public class ContainerGame extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	private Canvas canva;
     public static ArrayList<ElementContainer> ShipList;
     private ArrayList<String> listboat;
-    private Container containCanva;
+    private Canvas containCanva;
+    private Container containMain;
     private ContainerCartes containCarte;
     private GridBagConstraints gridBag;
 	
-	public ContainerGame(Container containCanva){
-		this.containCanva = containCanva;
-		this.containCanva.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+	public ContainerGame(Container containMain){
+		this.containMain = containMain;
+		this.containMain.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 		gridBag = new GridBagConstraints();
 		containCarte = new ContainerCartes();
 		listboat = new ArrayList<String>();
 		ShipList = new ArrayList<ElementContainer>();
 		gridBag.fill = GridBagConstraints.BOTH;
-		this.containCanva.setLayout(new GridBagLayout());
+		this.containMain.setLayout(new GridBagLayout());
 	    addCanva();
 //	    addCartes();
 //		addShips();
 	}
 	
 	private void addCanva(){
-	    canva = new Canvas(40);
+	    containCanva = new Canvas(40);
 	    gridBag.weightx = 0.65;
 	    gridBag.weighty = 3.2;
 	    gridBag.gridx = 1;
 	    gridBag.gridy = 0;
-	    containCanva.add(canva, gridBag);
+	    containMain.add(containCanva, gridBag);
 	}
 	
 	//On ajoute une carte à la liste de cartes
@@ -61,7 +61,7 @@ public class ContainerGame extends JPanel{
 	    gridBag.gridx = 0;
 	    gridBag.gridy = 2;
 	    gridBag.gridwidth = 3;
-	    containCanva.add(containCarte, gridBag);
+	    containMain.add(containCarte, gridBag);
 	}
 	
 	public void addBoat(){
@@ -75,7 +75,7 @@ public class ContainerGame extends JPanel{
 	    gridBag.weighty = 0.7;
 	    gridBag.gridx = 0;
 	    gridBag.gridy = 0;
-	    containCanva.add(field, gridBag);
+	    containMain.add(field, gridBag);
 	}
 
 	@Override
@@ -94,6 +94,6 @@ public class ContainerGame extends JPanel{
 	}
 
 	public Canvas getCanva() {
-		return canva;
+		return containCanva;
 	}
 }
