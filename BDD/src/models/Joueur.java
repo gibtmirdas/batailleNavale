@@ -25,7 +25,7 @@ public class Joueur {
 		this.score = score;
 		this.credit = credit;
 	}
-
+	
 	public Joueur(DBObject o) {
 		id = (int) o.get("id");
 		pseudo = (String) o.get("pseudo");
@@ -34,7 +34,19 @@ public class Joueur {
 		score = (int) o.get("score");
 		credit = (int) o.get("credit");
 	}
-
+	
+	
+	public boolean canBuyCard(Carte c) {
+		return this.getCredit() >= c.getCost();
+	}
+	
+	public static boolean canLogin(String username, String password) {
+		TJoueurs tj = new TJoueurs();
+		Joueur jDB = new Joueur(tj.getById(tj.getIdByCriteria("username", username)));
+		return jDB.getPassword().equals(password);
+	}
+	
+	
 	/**
 	 * Return a player based on the username, if password is correct. Otherwise,
 	 * return null
@@ -43,12 +55,17 @@ public class Joueur {
 	 * @param password
 	 * @return
 	 */
-	public Joueur getJoueur(String username, String password) {
+	
+	
+	public static Joueur getJoueur(String username, String password) {
 		TJoueurs tj = new TJoueurs();
-		Joueur j = new Joueur(tj.getById(tj.getIdByCriteria(
-				TJoueurs.NAME_FIELD, username)));
-		if (j.getPassword().equals(password))
-			return j;
+		
+		if(tj.existJoueur(username))
+			if(canLogin(username, password)){		
+				Joueur j = new Joueur(tj.getById(tj.getIdByCriteria(TJoueurs.NAME_FIELD,username)));	
+				return j;
+			}
+		
 		return null;
 	}
 
