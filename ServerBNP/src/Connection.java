@@ -94,11 +94,10 @@ public class Connection implements Runnable {
 
     public void handleLauncherPacket(Packet p) throws ClassNotFoundException {
         Class c = packet.PacketBuilder.getPacketClass(p);
-        Packet r;
+        Packet response;
         String uname, pwd;
         TJoueurs tjoueurs = new TJoueurs();
         TCartes tcartes = new TCartes();
-        FactoryCarte fc = new FactoryCarte();
         int pid;
         switch (c.getName()) {
             case "packet.PacketLogin":
@@ -107,8 +106,8 @@ public class Connection implements Runnable {
                 pwd = pl.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
                 player = Joueur.getJoueur(uname, pwd);
-                r = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
-                this.sendMessage(r);
+                response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
+                this.sendMessage(response);
                 break;
             case "packet.PacketSubscribe":
                 PacketSubscribe ps = new PacketSubscribe(p.encodedPacket);
@@ -116,34 +115,34 @@ public class Connection implements Runnable {
                 pwd = ps.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
                 if (tjoueurs.getById(pid) != null) {
-                    r = new PacketSubscribe(0, "0", "0");
+                    response = new PacketSubscribe(0, "0", "0");
                 } else {
                     HashMap<String, Object> prms = new HashMap<String, Object>();
                     prms.put(TJoueurs.NAME_FIELD, uname);
                     prms.put(TJoueurs.PASSWORD_FIELD, pwd);
                     tjoueurs.insert(prms);
-                    r = new PacketSubscribe(0, uname, pwd);
+                    response = new PacketSubscribe(0, uname, pwd);
                 }
 
-                this.sendMessage(r);
+                this.sendMessage(response);
                 break;
             case "packet.PacketBuyCard":
                 PacketBuyCard pbc = new PacketBuyCard(p.encodedPacket);
                 if (player == null) {
-                    r = new PacketLogin(0, "0","0");
-                    this.sendMessage(r);
+                    response = new PacketLogin(0, "0","0");
+                    this.sendMessage(response);
                     break;
                 }
-                Carte askedCard = fc.getCarte(tcartes.getById(pbc.getCardID()));
+                Carte askedCard = FactoryCarte.getCarte(tcartes.getById(pbc.getCardID()));
                 
                 if (player.canBuyCard(askedCard)) {
                     player.buyCard(askedCard);
-                    r = new PacketTransactionUpdate(0, pbc.getCardID(), 1);
-                    this.sendMessage(r);
-                    r = new PacketInfoProfile(0, 0, 0, 0, player.getCredit());
-                    this.sendMessage(r);
+                    response = new PacketTransactionUpdate(0, pbc.getCardID(), 1);
+                    this.sendMessage(response);
+                    response = new PacketInfoProfile(0, 0, 0, 0, player.getCredit());
+                    this.sendMessage(response);
                 }else{
-                    r = new PacketTransactionUpdate(0, pbc.getCardID(), 0);
+                    response = new PacketTransactionUpdate(0, pbc.getCardID(), 0);
                 }
                 break;
             case "packet.PacketConsultShop":
