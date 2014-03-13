@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,7 +86,7 @@ public class Connection implements Runnable {
 
     public void handleLauncherPacket(Packet p) throws ClassNotFoundException {
         Class c = packet.PacketBuilder.getPacketClass(p);
-        
+        Packet r;
         String uname,pwd;
         TJoueurs tjoueurs = new TJoueurs();
         int pid;
@@ -96,15 +97,28 @@ public class Connection implements Runnable {
                 uname = pl.getUsername();
                 pwd = pl.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
+                player = Joueur.getJoueur(uname, pwd);
+                
+                r = player != null? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
                 player = new Joueur(tjoueurs.getById(pid));
-                PacketLogin r = player.getPassword().equals(pwd) ? new PacketLogin(pid, uname, pwd) : new PacketLogin(pid, "0", "0");
                 this.sendMessage(r);
                 break;
             case "packet.PacketSubscribe":
                 PacketSubscribe ps = new PacketSubscribe(p.encodedPacket);
                 uname = ps.getUsername();
                 pwd = ps.getPassword();
+                pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
+                if(tjoueurs.getById(pid) != null){
+                    r = new PacketSubscribe(0, "0", "0");
+                }else{
+                    HashMap<String, Object> prms = new HashMap<String, Object>();
+                    prms.put(TJoueurs.NAME_FIELD, uname);
+                    prms.put(TJoueurs.PASSWORD_FIELD, pwd);
+                    tjoueurs.insert(prms);
+                    r = new PacketSubscribe(0, uname, pwd);
+                }
                 
+                this.sendMessage(r);
                 break;
             case "packet.PacketInfoProfile":
                 //todo
