@@ -24,9 +24,15 @@ import window.WinSubscribe;
 public final class GUIManager {
     private final LauncherFrame frame;
     private JPanel current_panel;
-    
-    public GUIManager() {
+    private static GUIManager instance;
+    private GUIManager() {
         this.frame = new LauncherFrame();
+    }
+    public static GUIManager getInstance(){
+        if(instance == null){
+            instance = new GUIManager();
+        }
+        return instance;
     }
     
     public void launchConnectWindow(ClientConnection conn){
@@ -41,7 +47,7 @@ public final class GUIManager {
     
     public void launchLoginFrame(ClientConnection conn){
         frame.cleanView();
-        frame.setView(new LoginFrame(conn));
+        frame.setView(new LoginFrame(conn));       
     };
     public void launchSubscribeFrame(ClientConnection conn){
         frame.cleanView();

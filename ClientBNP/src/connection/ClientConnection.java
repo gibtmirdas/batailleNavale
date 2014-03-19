@@ -32,14 +32,15 @@ public class ClientConnection implements Constantes {
     private ConnectWindow connectWin;
     private FrameMain frameMain;
     private final int IDSOURCE = 1;
-    private final GUIManager gui = new GUIManager();
+    private final GUIManager gui = GUIManager.getInstance();
 
     public ClientConnection() {
         try {
+            
             s = new Socket(ADDRESS, PORT);
             System.out.println("Client launched!");
             os = s.getOutputStream();
-            gui.launchConnectWindow(this);
+            
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
         } catch (UnknownHostException e) {
@@ -137,7 +138,7 @@ public class ClientConnection implements Constantes {
 //		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());	
 //		frameMain.getCanvas().addBoat(boat);
 //		frameMain.getCanvas().Fill(p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd());
-        gui.getCurrentCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()), new Tuple(p.getXEnd(), p.getYEnd()));
+        //gui.getCurrentCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()), new Tuple(p.getXEnd(), p.getYEnd()));
 
         System.out.println("############# END PacketInfoBoat ######");
     }

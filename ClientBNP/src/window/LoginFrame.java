@@ -40,7 +40,7 @@ public class LoginFrame extends JPanel implements ActionListener{
         buildContentPanel();
     }
     
-    public void buildContentPanel() {
+    public final void buildContentPanel() {
         setLayout(new SpringLayout());
         
         int numPairs = labels.length;
