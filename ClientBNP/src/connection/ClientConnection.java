@@ -17,9 +17,9 @@ import packet.PacketNewCard;
 import packet.PacketNewGame;
 import packet.PacketUpdate;
 import panels.Boat;
-import panels.ContainerGame;
+import panels.Carte;
 import window.ConnectWindow;
-import window.WindowMain;
+import window.FrameMain;
 
 public class ClientConnection implements Constantes{
 	
@@ -27,8 +27,11 @@ public class ClientConnection implements Constantes{
 	private OutputStream os;
 	private ReadThead readTh;
 	private ConnectWindow connectWin;
-	private WindowMain mainWin;
-	private ContainerGame containGame;
+	private int widthCanvas = 800;
+	private int heightCanvas = 625;
+	private FrameMain frameMain;
+	private final int IDSOURCE = 1;
+	
 
 	public ClientConnection() {
 //		try {
@@ -47,14 +50,14 @@ public class ClientConnection implements Constantes{
 		PacketNewCard p1 = new PacketNewCard(1, 0);
 		PacketNewCard p4 = new PacketNewCard(1, 0);
 
-		PacketInfoBoat p2 = new PacketInfoBoat(1,1,0,0,2,0,3);
-		PacketInfoBoat p5 = new PacketInfoBoat(1,1,10,0,2,0,3);
+//		PacketInfoBoat p2 = new PacketInfoBoat(1,1,0,0,2,2,3);
+		PacketInfoBoat p5 = new PacketInfoBoat(1,1,5,5,2,2,3);
 
 		PacketUpdate p3 = new PacketUpdate(1, 1);
 		packetReceivedNewGame(p);
-		packetReceivedNewCard(p1);
-		packetReceivedNewCard(p4);
-		packetReceivedInfoBoat(p2);
+//		packetReceivedNewCard(p1);
+//		packetReceivedNewCard(p4);
+//		packetReceivedInfoBoat(p2);
 		packetReceivedInfoBoat(p5);
 		packetReceivedUpdate(p3);
 	}
@@ -95,46 +98,54 @@ public class ClientConnection implements Constantes{
 	}
 	
 	public void packetReceivedNewGame(PacketNewGame p) {
-//		connectWin.dispose();
-		mainWin = new WindowMain();
-		containGame = mainWin.getPanelGame();
 		System.out.println("###############	PacketNewGame	############");
-//		System.out.println("Client: Packet newGame received!");
-//		System.out.println("1.- Time: "+p.getTime());
+		System.out.println("Client: Packet newGame received!");
+		//		connectWin.dispose();
+		frameMain = new FrameMain(widthCanvas, heightCanvas);
 		System.out.println("############# END PacketNewGame ######");
 
 	}
 
 	public void packetReceivedNewCard(PacketNewCard p) {
-//		System.out.println("###############	PacketNewCard	############");
-//		System.out.println("Client: Packet newCard received!");
-////		System.out.println("1.- CardId: "+p.getCardId());
-//		System.out.println("############# END PacketNewCard ######");
-//		containGame.addCarte(p.getCardId(), "Missile");
+		System.out.println("###############	PacketNewCard	############");
+		System.out.println("Client: Packet newCard received!");		
+		if(IDSOURCE == p.getIdSource()){
+			Carte carte = null;
+			
+			switch (p.getCardId()) {
+				case 0:
+					carte = new Carte(p.getCardId(), "Missile");
+					break;
+				default:
+					break;
+			}
+//			frameMain.getCanvas().addCarte(carte);
+		}
+		System.out.println("############# END PacketNewCard ######");
 	}
 
 	public void packetReceivedInfoBoat(PacketInfoBoat p) {
 		System.out.println("###############	PacketInfoBoat	############");
 		System.out.println("Client: Packet InfoBoat received!");
+		System.out.println("1.- IdBoat: "+p.getIdBoat());
+		System.out.println("2.- xStart: "+p.getXStart());
+		System.out.println("3.- yStart: "+p.getYStart());
+		System.out.println("4.- xEnd: "+p.getXEnd());
+		System.out.println("5.- yEnd: "+p.getYEnd());
+		System.out.println("6.- life: "+p.getLife());		
+//		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());	
+//		frameMain.getCanvas().addBoat(boat);
+//		frameMain.getCanvas().Fill(p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd());
 		
-//		System.out.println("1.- IdBoat: "+p.getIdBoat());
-//		System.out.println("2.- xStart: "+p.getXStart());
-//		System.out.println("3.- yStart: "+p.getYStart());
-//		System.out.println("4.- xEnd: "+p.getXEnd());
-//		System.out.println("5.- yEnd: "+p.getYEnd());
-//		System.out.println("6.- life: "+p.getLife());
 		System.out.println("############# END PacketInfoBoat ######");
-		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());
-//		containGame.getCanva().getel
-
 	}
 	
 	public void packetReceivedUpdate(PacketUpdate p) {
-//		System.out.println("###############	PacketUpdate	############");
-//		System.out.println("Client: Packet update received!");
-////		System.out.println("1.- IdUser: "+p.getIdUser());
-//		System.out.println("############# END PacketUpdate ######");
-		containGame.addCartes();
+		System.out.println("###############	PacketUpdate	############");
+		System.out.println("Client: Packet update received!");
+//		System.out.println("1.- IdUser: "+p.getIdUser());
+		System.out.println("############# END PacketUpdate ######");
+
 	}
 	
 	public void packetReceivedCardAction(PacketCardAction p){
@@ -162,18 +173,11 @@ public class ClientConnection implements Constantes{
 	
 	public byte[] getMacAddress(){
 		try {
-//			InetAddress ip = InetAddress.getLocalHost();
 			Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
 			while(networks.hasMoreElements()) {
 				NetworkInterface network = networks.nextElement();
 				byte[] mac = network.getHardwareAddress();
 				if(mac != null) {
-//			        StringBuilder sb = new StringBuilder();
-//			        for (int i = 0; i < mac.length; i++) {
-//			          sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-//			        }
-//			        return sb.toString();
-//			      }
 					return mac;
 				}
 			}
