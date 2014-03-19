@@ -24,6 +24,8 @@ public class WinSubscribe extends JPanel implements ActionListener {
 	private ClientConnection clientConnection;
 	private int idSource = 1;
 
+	public static final String title = "Subscribe";
+
 	public WinSubscribe(ClientConnection clientConnection) {
 		this.clientConnection = clientConnection;
 		buildPan();

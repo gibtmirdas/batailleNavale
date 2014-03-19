@@ -25,6 +25,8 @@ public class ConnectWindow extends JPanel implements ActionListener {
 	private int idSource = 1;
 	private JLabel label;
 
+	public static final String title = "Connection";
+
 	public ConnectWindow(ClientConnection clientConnection) {
 		this.clientConnection = clientConnection;
 		setSize(windowWidth, windowHeight);
