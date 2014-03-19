@@ -18,6 +18,7 @@ public class LauncherFrame extends JFrame {
     	//Display the window.
     	this.pack();
     	this.setVisible(true);
+    	
     }
  
     public static void main(String[] args) {
