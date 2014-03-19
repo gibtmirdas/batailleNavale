@@ -7,7 +7,6 @@
 package db;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,25 +63,30 @@ public class TJoueurs extends AbstractTable {
 		insertQuery.put("id", this.getLastID() + 1);
 
 		if (args.containsKey(NAME_FIELD))
-			insertQuery.put("pseudo", args.get("pseudo"));
+			insertQuery.put(NAME_FIELD, args.get(NAME_FIELD));
 		else
-			insertQuery.put("pseudo", DEFAULT_NAME);
+			insertQuery.put(NAME_FIELD, DEFAULT_NAME);
+
 		if (args.containsKey(CARDS_FIELD))
-			insertQuery.put("cardID", cardID);
+			insertQuery.put(CARDS_FIELD, cardID);
 		else
-			insertQuery.put("pseudo", DEFAULT_CARDS);
+			insertQuery.put(CARDS_FIELD, DEFAULT_CARDS);
+
 		if (args.containsKey(SCORE_FIELD))
-			insertQuery.put("score", args.get("score"));
+			insertQuery.put(SCORE_FIELD, args.get(SCORE_FIELD));
 		else
-			insertQuery.put("pseudo", DEFAULT_SCORE);
+			insertQuery.put(SCORE_FIELD, DEFAULT_SCORE);
+
 		if (args.containsKey(PASSWORD_FIELD))
-			insertQuery.put("password", args.get("password"));
+			insertQuery.put(PASSWORD_FIELD, args.get(PASSWORD_FIELD));
 		else
-			insertQuery.put("pseudo", DEFAULT_PASSWORD);
+			insertQuery.put(PASSWORD_FIELD, DEFAULT_PASSWORD);
+
 		if (args.containsKey(CREDIT_FIELD))
-			insertQuery.put("credit", args.get("credit"));
+			insertQuery.put(CREDIT_FIELD, args.get(CREDIT_FIELD));
 		else
-			insertQuery.put("pseudo", DEFAULT_CREDIT);
+			insertQuery.put(CREDIT_FIELD, DEFAULT_CREDIT);
+
 		linkToTable.insert(insertQuery);
 	}
 

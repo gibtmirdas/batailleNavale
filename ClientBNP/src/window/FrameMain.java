@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import panels.Canvas;
 
 public class FrameMain extends JFrame{
-	
+	public static final int canvasWidth = 800, canvasHeight = 625;
 	private static final long serialVersionUID = 1L;
 	private Canvas canvas;
 
