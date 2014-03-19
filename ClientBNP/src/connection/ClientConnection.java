@@ -39,6 +39,7 @@ public class ClientConnection implements Constantes {
             s = new Socket(ADDRESS, PORT);
             System.out.println("Client launched!");
             os = s.getOutputStream();
+            gui.launchConnectWindow(this);
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
         } catch (UnknownHostException e) {
