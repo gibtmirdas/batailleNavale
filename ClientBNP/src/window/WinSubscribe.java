@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,7 +15,7 @@ import connection.ClientConnection;
 import packet.PacketSubscribe;
 import window.SpringUtilities;
 
-public class WinSubscribe extends JFrame implements ActionListener {
+public class WinSubscribe extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField usernameField, password1Field, password2Field;
@@ -27,19 +26,13 @@ public class WinSubscribe extends JFrame implements ActionListener {
 
 	public WinSubscribe(ClientConnection clientConnection) {
 		this.clientConnection = clientConnection;
-		this.setTitle("Subscribe");
-		this.setContentPane(buildPan());
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		repaint();
+		buildPan();
 		this.setVisible(true);
 	}
 
-	private JPanel buildPan() {
-		JPanel panel = new JPanel();
+	private void buildPan() {
 		SpringLayout layout = new SpringLayout();
-		panel.setLayout(layout);
+		this.setLayout(layout);
 
 		usernameLabel = new JLabel("Username");
 		password1Label = new JLabel("password");
@@ -53,17 +46,16 @@ public class WinSubscribe extends JFrame implements ActionListener {
 		confirmButt.addActionListener(this);
 		cancelButt.addActionListener(this);
 
-		panel.add(usernameLabel);
-		panel.add(usernameField);
-		panel.add(password1Label);
-		panel.add(password1Field);
-		panel.add(password2Label);
-		panel.add(password2Field);
-		panel.add(confirmButt);
-		panel.add(cancelButt);
+		this.add(usernameLabel);
+		this.add(usernameField);
+		this.add(password1Label);
+		this.add(password1Field);
+		this.add(password2Label);
+		this.add(password2Field);
+		this.add(confirmButt);
+		this.add(cancelButt);
 
-		SpringUtilities.makeCompactGrid(panel, 4, 2, 10, 10, 6, 20);
-		return panel;
+		SpringUtilities.makeCompactGrid(this, 4, 2, 10, 10, 6, 20);
 	}
 
 	@Override
@@ -105,7 +97,7 @@ public class WinSubscribe extends JFrame implements ActionListener {
 	}
 
 	public void cancelAction() {
-		this.dispose();
+		// this.dispose();
 	}
 
 	public void buildAlertDialog(String title, String msg, boolean isOk) {
