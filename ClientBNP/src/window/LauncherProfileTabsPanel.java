@@ -8,13 +8,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import connection.ClientConnection;
+
 public class LauncherProfileTabsPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
-	public LauncherProfileTabsPanel(int width, int height) {
+	public LauncherProfileTabsPanel(int width, int height,ClientConnection conn) {
 		super(new GridLayout(1, 1));     
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(width,height));
-		JComponent panel1 = new LauncherTabUserPanel();
+		JComponent panel1 = new LauncherTabUserPanel(conn);
 		tabbedPane.addTab("User", null, panel1,"En construction");
 		JComponent panel2 = makeTextPanel("En construction");
 		tabbedPane.addTab("Cards", null, panel2,"Does twice as much nothing");
