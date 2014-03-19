@@ -5,10 +5,12 @@ import java.io.OutputStream;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Enumeration;
 
 import lib.Constantes;
+import lib.Tuple;
 import packet.Packet;
 import packet.PacketBye;
 import packet.PacketCardAction;
@@ -34,32 +36,32 @@ public class ClientConnection implements Constantes{
 	
 
 	public ClientConnection() {
-//		try {
-//			s = new Socket(ADDRESS, PORT);
-//			System.out.println("Client launched!");
-//			os = s.getOutputStream();
-//			connectWin = new ConnectWindow(this);
-//			readTh = new ReadThead(s, this);
-//			new Thread(readTh).start();
-//		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		PacketNewGame p = null;
-		PacketNewCard p1 = new PacketNewCard(1, 0);
-		PacketNewCard p4 = new PacketNewCard(1, 0);
-
+		try {
+			s = new Socket(ADDRESS, PORT);
+			System.out.println("Client launched!");
+			os = s.getOutputStream();
+			connectWin = new ConnectWindow(this);
+			readTh = new ReadThead(s, this);
+			new Thread(readTh).start();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		PacketNewGame p = null;
+//		PacketNewCard p1 = new PacketNewCard(1, 0);
+//		PacketNewCard p4 = new PacketNewCard(1, 0);
+//
 //		PacketInfoBoat p2 = new PacketInfoBoat(1,1,0,0,2,2,3);
-		PacketInfoBoat p5 = new PacketInfoBoat(1,1,5,5,2,2,3);
-
-		PacketUpdate p3 = new PacketUpdate(1, 1);
-		packetReceivedNewGame(p);
-//		packetReceivedNewCard(p1);
-//		packetReceivedNewCard(p4);
+//		PacketInfoBoat p5 = new PacketInfoBoat(1,1,5,5,5,9,3);
+//
+//		PacketUpdate p3 = new PacketUpdate(1, 1);
+//		packetReceivedNewGame(p);
+////		packetReceivedNewCard(p1);
+////		packetReceivedNewCard(p4);
 //		packetReceivedInfoBoat(p2);
-		packetReceivedInfoBoat(p5);
-		packetReceivedUpdate(p3);
+//		packetReceivedInfoBoat(p5);
+//		packetReceivedUpdate(p3);
 	}
 	
 	public void analysePacket(byte[] datas) throws ClassNotFoundException {		
@@ -132,13 +134,16 @@ public class ClientConnection implements Constantes{
 		System.out.println("3.- yStart: "+p.getYStart());
 		System.out.println("4.- xEnd: "+p.getXEnd());
 		System.out.println("5.- yEnd: "+p.getYEnd());
-		System.out.println("6.- life: "+p.getLife());		
+		System.out.println("6.- life: "+p.getLife());
+		
 //		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());	
 //		frameMain.getCanvas().addBoat(boat);
 //		frameMain.getCanvas().Fill(p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd());
+		frameMain.getCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()),new Tuple(p.getXEnd(), p.getYEnd()));
+		
 		
 		System.out.println("############# END PacketInfoBoat ######");
-	}
+	}	
 	
 	public void packetReceivedUpdate(PacketUpdate p) {
 		System.out.println("###############	PacketUpdate	############");

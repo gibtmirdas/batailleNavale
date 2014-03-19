@@ -16,22 +16,20 @@ import lib.Tuple;
 
 
 public class Canvas extends JPanel   {
-
-	private static final long serialVersionUID = 1L;
 	private final int widthCanvas;
 	private final int heightCanvas;
 	private final Tuple caseDim;
+	private final int nbCasesX = 40;
+	private final int nbCasesY = 30;
 	private ArrayList<ArrayList<Case>> DataCases;
-	private ArrayList<Boat> boats;
-	private ArrayList<Carte> cartes;
+	
 	
 	public Canvas(int widthCanvas, int heightCanvas){
 		this.widthCanvas = widthCanvas;
 		this.heightCanvas = heightCanvas;
-		boats = new ArrayList<Boat>();
 		
 		//Calculating the dimension of the "Case" 
-		this.caseDim = computeCaseSize(widthCanvas, heightCanvas);
+		this.caseDim = computeCaseSize(widthCanvas, heightCanvas, nbCasesX, nbCasesY);
 		
 		//DataCases contain every case object of the canvas
 		this.DataCases = new ArrayList<ArrayList<Case>>();
@@ -45,57 +43,80 @@ public class Canvas extends JPanel   {
 		//Adding the mouseClick listenner to the JPANEL and linkin it to a function
 		addMouseListener(new MouseAdapter() {
     		public void mouseClicked(MouseEvent e)
-    		{
-    			System.out.println(DataCases.size());
-    			System.out.println("e.getX(): "+e.getX());
-    			System.out.println("e.getY(): "+e.getY());
-    			Fill(e.getX(), e.getY(), 1, 3);
+    		{    			
+    			//Uncomment This to test the first method:
+    			/*
+    			Tuple DebutPos = new Tuple(2,3);
+    			Tuple FinPos = new Tuple(4,5);
+    			Fill(DebutPos,FinPos);
+    			*/
+    			
+    			Fill(e.getX(), e.getY(),(e.getX()+1*caseDim.x),(e.getY()+1*caseDim.y));
+
     		}
     	});
 	}
 	
-	public void Fill(int x, int y, int sx, int sy){
-		Tuple pos = getFakePos(x, y);
-		System.out.println("FAGHJKKSAHGFGDHAJSKH");
-		//Handling Edge of Array Exceptions
-		try{
-			DataCases.get(pos.x+sx-1).get(pos.y+sy-1).isEmpty();
-		}catch(java.lang.IndexOutOfBoundsException e){
-			return;
+	//This function is made to make a copy of the current data by VALUE not by Reference
+	private ArrayList<ArrayList<Case>> getCurrentData(){
+		ArrayList<ArrayList<Case>> d = new ArrayList<ArrayList<Case>>();
+		for(int i=0; i<DataCases.size(); i++){
+			d.add(new ArrayList<Case>());
+			for(int j = 0; j<DataCases.get(0).size();j++){
+				d.get(i).add(new Case(DataCases.get(i).get(j).state()));
+			}
 		}
-				
+		return d;
+	}
+	
+	public void Fill(Tuple fakeBeginPos, Tuple fakeEndPos){
+		//Handling Edge of Array Exceptions
+		try{DataCases.get(fakeBeginPos.x).get(fakeEndPos.y).isEmpty();
+			DataCases.get(fakeEndPos.x).get(fakeEndPos.y).isEmpty();}
+		catch(java.lang.IndexOutOfBoundsException e){return;}
+		
 		//Lets Create a copy of the current Data
-		ArrayList<ArrayList<Case>> DataCasesCopy; 
-		DataCasesCopy = DataCases;
-
-		for(int i = pos.x; i<pos.x+sx; i++){
-			for(int j = pos.y; j<pos.y+sy; j++){
-				System.out.println(i+" "+j);
+		ArrayList<ArrayList<Case>> DataCasesCopy = new ArrayList<ArrayList<Case>>();
+		DataCasesCopy=getCurrentData();
+		
+		
+		for(int i = fakeBeginPos.x; i<=fakeEndPos.x; i++){
+			for(int j = fakeBeginPos.y; j<=fakeEndPos.y; j++){
 				if(DataCases.get(i).get(j).isEmpty())
 					DataCases.get(i).get(j).remplir();
-				//if one of the cases we're trinna fill is not empty.. just fall back into the old copy
+				//if one of the cases we're trynna fill is not empty.. just fall back into the old copy
 				else{
 					DataCases=DataCasesCopy;
+					repaint();
 					return;
 				}
 			}
 		}
 		repaint();
+
 	}
 	
-//	public void addBoat(Boat boat){
-//		boats.add(boat);
-//	}
-//	
-//	public void addCarte(Carte carte){
-//		cartes.add(carte);
-//	}
+	public void Fill(int x, int y, int ex, int ey){
+		Tuple pos = getFakePos(x, y);
+		Tuple edgePos = getFakePos(ex,ey);
+		Fill(pos,edgePos);
+	}
 
+	private Tuple computeCaseSize(int width, int height, int nbX, int nbY){
+    	int sx = width/nbCasesX;
+    	int sy = height/nbCasesY;
+    	return new Tuple(sx,sy);
+    }
+	
+	private Tuple getFakePos(int x,int y){
+		int xr = x/caseDim.x;
+		int yr = y/caseDim.y;
+		return new Tuple(xr,yr);
+	}
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		System.out.println("Dessin des rectangles");
 		Graphics2D g2d = (Graphics2D) g;
 		g.setColor(Color.BLACK);
 		
@@ -123,17 +144,6 @@ public class Canvas extends JPanel   {
 		
 	}
 	
-	private Tuple computeCaseSize(int width, int height){
-    	int sx = width/40;
-    	int sy = height/30;
-    	return new Tuple(sx,sy);
-    }
-	
-	private Tuple getFakePos(int x,int y){
-		int xr = x/caseDim.x;
-		int yr = y/caseDim.y;
-		return new Tuple(xr,yr);
-	}
 	
 	@Override
 	public Dimension getPreferredSize() {
