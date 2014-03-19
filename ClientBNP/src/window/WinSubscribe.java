@@ -1,4 +1,4 @@
-package subscribe;
+package window;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +14,7 @@ import javax.swing.SpringLayout;
 
 import connection.ClientConnection;
 import packet.PacketSubscribe;
+import window.SpringUtilities;
 
 public class WinSubscribe extends JFrame implements ActionListener {
 
