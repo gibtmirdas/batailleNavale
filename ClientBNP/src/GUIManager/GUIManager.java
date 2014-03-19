@@ -27,24 +27,16 @@ public final class GUIManager {
     
     public GUIManager() {
         this.frame = new LauncherFrame();
-        launchLoginFrame();
     }
     
     public void launchConnectWindow(ClientConnection conn){
-        /*frame.cleanView();
-        frame.setView(null);
-        */
-        new ConnectWindow(conn);
-    };
-    
-    public void launchMainFrame(int width, int height){
         frame.cleanView();
-        frame.setView(null);
+        frame.setView(new ConnectWindow(conn));
     };
     
     public void launchMainFrame(){
         frame.cleanView();
-        frame.setView(new LoginFrame(null));
+        frame.setView(new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight));
     };
     
     public void launchLoginFrame(ClientConnection conn){
