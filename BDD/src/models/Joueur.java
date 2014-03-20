@@ -43,7 +43,8 @@ public class Joueur {
 
 	public static boolean canLogin(String username, String password) {
 		TJoueurs tj = new TJoueurs();
-		DBObject o = tj.getById(tj.getIdByCriteria("username", username));
+		DBObject o = tj.getById(tj.getIdByCriteria(TJoueurs.NAME_FIELD,
+				username));
 		if (o == null)
 			return false;
 		return o.get(TJoueurs.PASSWORD_FIELD).equals(password);
