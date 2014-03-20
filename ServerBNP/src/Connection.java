@@ -94,7 +94,7 @@ public class Connection implements Runnable {
                 uname = pl.getUsername();
                 pwd = pl.getPassword();
                 player = Joueur.getJoueur(uname, pwd);
-                response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
+                response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "", "");
                 this.sendMessage(response);
                 break;
             case "packet.PacketSubscribe":
@@ -102,8 +102,10 @@ public class Connection implements Runnable {
                 uname = ps.getUsername();
                 pwd = ps.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
+                System.err.println("add");
+
                 if (tjoueurs.getById(pid) != null) {
-                    response = new PacketSubscribe(0, "0", "0");
+                    response = new PacketSubscribe(0, "", "");
                 } else {
                     HashMap<String, Object> prms = new HashMap<>();
                     prms.put(TJoueurs.NAME_FIELD, uname);

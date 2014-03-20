@@ -46,7 +46,7 @@ public class PacketLogin extends Packet {
     }
 
     public boolean isAccepted() {
-        return !getPassword().equals("0") || !getUsername().equals("0");
+        return !(getPassword().equals("") && getUsername().equals(""));
     }
 
 }

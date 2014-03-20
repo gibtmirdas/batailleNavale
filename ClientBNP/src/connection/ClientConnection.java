@@ -95,6 +95,19 @@ public class ClientConnection implements Constantes {
                 PacketBye pBye = new PacketBye(datas);
                 packetReceivedBye(pBye);
                 break;
+            case 0x07:
+                packetReceivedLogin(new PacketLogin(datas));
+                break;
+            case 0x08:
+                break;
+            case 0x09:
+                break;
+            case 0x0A:
+                break;
+            case 0x0B:
+                break;
+            case 0x0C:
+                break;
             default:
                 throw new ClassNotFoundException("Unknown packet");
         }
