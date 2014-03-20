@@ -20,6 +20,7 @@ public class testDB {
 		list.add(TCartes.DEFAULT_DMG);
 		//c.insert(list);
 
+		
 		int id = c.getIdByCriteria(TCartes.NAME_FIELD, "Test");
 		System.out.println(id);
 	}
