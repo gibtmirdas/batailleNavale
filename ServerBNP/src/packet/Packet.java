@@ -13,6 +13,7 @@ public class Packet{
 		opcode = encodedPacket[0] & 0xF;
 		dataSize = encodedPacket[1];
 		data = Arrays.copyOfRange(encodedPacket, 2, encodedPacket.length);
+		this.encodedPacket = encodedPacket; 
 	}
 
 	public Packet(int dataSize, int idSource, byte[] data, Class<?> c) {

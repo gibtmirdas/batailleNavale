@@ -14,7 +14,7 @@ public class Game {
 	int[] p2BoatLife = new int[3];
 	private UpdateTimerTask task;
 	private Timer timer;
-	public static final int ROUND_TIME_SEC = 120;
+	public static final int ROUND_TIME_SEC = 30;
 	public static final int ROUND_TIME_MILLISEC = Game.ROUND_TIME_SEC * 1000;
 
 	public Game(Connection player1, Connection player2) {
@@ -31,8 +31,8 @@ public class Game {
 				gameboard[x][y] = 0;
 
 		int round_time = 120;
-		player1.sendMessage(new PacketNewGame(0, round_time));
-		player2.sendMessage(new PacketNewGame(0, round_time));
+		player1.sendMessage(new PacketNewGame(0, 1));
+		player2.sendMessage(new PacketNewGame(0, 2));
 		for (int i = 0; i < 3; i++) {
 			player1.sendMessage(new PacketNewCard(0, TCartes.DEFAULT_ID));
 			player2.sendMessage(new PacketNewCard(0, TCartes.DEFAULT_ID));
@@ -42,21 +42,28 @@ public class Game {
 			p2BoatLife[i] = 3;
 			gameboard[i + i * 3][i + i * 3] = i + 1;
 			gameboard[i + i * 3 + 1][i + i * 3] = i + 1;
-			player2.sendMessage(new PacketInfoBoat(0, i + 4, (i + i * 3),
-					(i + i * 3), (i + i * 3 + 1), (i + i * 3), 3));
+			player2.sendMessage(new PacketInfoBoat(0, i + 4, (i + i * 3)+20,
+					(i + i * 3), (i + i * 3 + 1)+20, (i + i * 3), 3));
 			gameboard[i + i * 3 + 10][i + i * 3] = i + 4;
 			gameboard[i + i * 3 + 10 + 1][i + i * 3] = i + 4;
 		}
 		current_player = 1;
-		player1.sendMessage(new PacketUpdate(0, current_player));
-		player2.sendMessage(new PacketUpdate(0, current_player));
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*player1.sendMessage(new PacketUpdate(0, current_player));
+		player2.sendMessage(new PacketUpdate(0, current_player));*/
 		task = new UpdateTimerTask(this);
 		timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 120 * 1000);
+		timer.scheduleAtFixedRate(task, 0, Game.ROUND_TIME_MILLISEC);
 	}
 
 	public void callUpdate() {
 		this.current_player = current_player % 2 + 1;
+		System.out.println("Tour de : "+current_player);
 		player1.sendMessage(new PacketUpdate(serverId, current_player));
 		player2.sendMessage(new PacketUpdate(serverId, current_player));
 		Connection p = current_player == 1 ? player1 : player2;
@@ -64,15 +71,18 @@ public class Game {
 	}
 
 	public void traiterPacket(Packet p) throws ClassNotFoundException {
-		Class c = packet.PacketBuilder.getPacketClass(p);
+		Class<?> c = packet.PacketBuilder.getPacketClass(p);
 		Packet p2;
 		switch (c.getName()) {
 		case "packet.PacketUpdate":
+			
 			p2 = new PacketUpdate(p.encodedPacket);
+			System.out.println("Packet update received ["+p2.getIdSource()+"]");
 			packetReceivedUpdate((PacketUpdate) p2);
 			break;
 		case "packet.PacketCardAction":
 			p2 = new PacketCardAction(p.encodedPacket);
+			System.out.println("Packet Card Action received ["+p2.getIdSource()+"]");
 			packetReceivedCardAction((PacketCardAction) p2);
 			break;
 		default:
@@ -117,8 +127,8 @@ public class Game {
 		callUpdate();
 	}
 
-	public void packetReceivedBye(PacketBye p) {
-	}
+	/*public void packetReceivedBye(PacketBye p) {
+	}*/
 
 	public void checkVictory() {
 		int l1 = 0;
