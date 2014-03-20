@@ -61,15 +61,15 @@ public final class GUIManager {
         frame.setView(new WinSubscribe(conn));
     };
     
-    public void launchShop(){};
+    public void launchShop(){/*not done yet*/};
     /**
      * 
      * @return canvas of the current window if there's one 
      */
     public Canvas getCurrentCanvas(){
-        /*if(current_panel instanceof FrameMain){
-            return current_panel.getCanvas();
-        }*/
+        if(current_panel instanceof FrameMain){
+            return ((FrameMain) current_panel).getCanvas();
+        }
         return null;
     }
     
