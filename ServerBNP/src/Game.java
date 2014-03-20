@@ -29,8 +29,7 @@ public class Game {
 		for (int y = 0; y < 30; y++)
 			for (int x = 0; x < 20; x++)
 				gameboard[x][y] = 0;
-
-		int round_time = 120;
+		
 		player1.sendMessage(new PacketNewGame(0, 1));
 		player2.sendMessage(new PacketNewGame(0, 2));
 		for (int i = 0; i < 3; i++) {
@@ -47,7 +46,7 @@ public class Game {
 			gameboard[i + i * 3 + 10][i + i * 3] = i + 4;
 			gameboard[i + i * 3 + 10 + 1][i + i * 3] = i + 4;
 		}
-		current_player = 1;
+		current_player = 2;
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
