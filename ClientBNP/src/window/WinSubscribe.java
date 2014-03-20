@@ -1,5 +1,6 @@
 package window;
 
+import GUIManager.GUIManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,9 +37,10 @@ public class WinSubscribe extends JPanel implements ActionListener {
 		SpringLayout layout = new SpringLayout();
 		this.setLayout(layout);
 
-		usernameLabel = new JLabel("Username");
+		usernameLabel  = new JLabel("Username");
 		password1Label = new JLabel("password");
 		password2Label = new JLabel("confirm");
+                
 		usernameField = new JTextField("user");
 		password1Field = new JPasswordField("pass");
 		password2Field = new JPasswordField("pass");
@@ -54,8 +56,9 @@ public class WinSubscribe extends JPanel implements ActionListener {
 		this.add(password1Field);
 		this.add(password2Label);
 		this.add(password2Field);
-		this.add(confirmButt);
 		this.add(cancelButt);
+                this.add(confirmButt);
+		
 
 		SpringUtilities.makeCompactGrid(this, 4, 2, 10, 10, 6, 20);
 	}
@@ -77,34 +80,35 @@ public class WinSubscribe extends JPanel implements ActionListener {
 		String pwd2 = password2Field.getText();
 
 		if (username == null || username.length() < 4) {
-			buildAlertDialog("Error", "Username cannot be empty", false);
+			GUIManager.getInstance().buildAlertDialog("Error", "Username cannot be empty", false);
 			return;
 		}
 		if (pwd1 == null || pwd1.length() < 4 || pwd2 == null) {
 			if (pwd1 == null || pwd1 == null)
-				buildAlertDialog("Error", "Password cannot be null", false);
+				GUIManager.getInstance().buildAlertDialog("Error", "Password cannot be null", false);
 			else
-				buildAlertDialog("Error",
+				GUIManager.getInstance().buildAlertDialog("Error",
 						"Password length must be higher than 4", false);
 			return;
 		}
 		if (!pwd2.equals(pwd1)) {
-			buildAlertDialog("Error", "Passwords are not equals", false);
+			GUIManager.getInstance().buildAlertDialog("Error", "Passwords are not equals", false);
 			return;
 		}
 		// Everything ok => send PacketSubscribe
-		PacketSubscribe sub = new PacketSubscribe(idSource, username, pwd1);
-		clientConnection.sendMessage(sub);
-		buildAlertDialog("OK", "Waiting for server response", true);
+                try{
+                    PacketSubscribe sub = new PacketSubscribe(idSource, username, pwd1);
+                    clientConnection.sendMessage(sub);
+                    GUIManager.getInstance().buildAlertDialog("OK", "Waiting for server response", true);
+                }catch(NullPointerException npe){
+                    GUIManager.getInstance().buildAlertDialog("Server error", "Cannot connect to server", false);
+                    
+                }
 	}
 
 	public void cancelAction() {
-		// this.dispose();
+		GUIManager.getInstance().launchLoginFrame(clientConnection);
 	}
 
-	public void buildAlertDialog(String title, String msg, boolean isOk) {
-		int type = isOk ? JOptionPane.INFORMATION_MESSAGE
-				: JOptionPane.ERROR_MESSAGE;
-		JOptionPane.showMessageDialog(this, msg, title, type);
-	}
+
 }

@@ -6,10 +6,9 @@
 
 package GUIManager;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
 import connection.ClientConnection;
 import java.awt.Dimension;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import panels.Canvas;
 import window.ConnectWindow;
@@ -29,6 +28,7 @@ public final class GUIManager {
     private GUIManager() {
         this.frame = new LauncherFrame();
     }
+    
     public static GUIManager getInstance(){
         if(instance == null){
             instance = new GUIManager();
@@ -38,39 +38,47 @@ public final class GUIManager {
     
     public void launchConnectWindow(ClientConnection conn){
         frame.cleanView();
-        frame.setView(new ConnectWindow(conn));
+        current_panel = new ConnectWindow(conn);
+        frame.setView(current_panel);        
     };
     
     public void launchMainFrame(){
         frame.cleanView();
-        frame.setView(new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight));
+        current_panel = new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight);
+        frame.setView(current_panel);        
     };
     
     public void launchLoginFrame(ClientConnection conn){
         frame.cleanView();
-        frame.setTitle("login bataille navale");
-        
+        frame.setTitle("login bataille navale");    
         frame.setSize(new Dimension(600,150));
-        frame.setView(new LoginFrame(conn));       
+        current_panel = new LoginFrame(conn);
+        frame.setView(current_panel);        
     };
     public void launchSubscribeFrame(ClientConnection conn){
         frame.cleanView();
         frame.setTitle("subscribe");
-        frame.setPreferredSize(new Dimension(300,200));
-
-        frame.setView(new WinSubscribe(conn));
+        frame.setSize(new Dimension(600,200));
+        current_panel = new WinSubscribe(conn);
+        frame.setView(current_panel);
     };
     
-    public void launchShop(){};
+    public void launchShop(){/*not done yet*/};
     /**
      * 
      * @return canvas of the current window if there's one 
      */
     public Canvas getCurrentCanvas(){
-        /*if(current_panel instanceof FrameMain){
-            return current_panel.getCanvas();
-        }*/
+        if(current_panel instanceof FrameMain){
+            return ((FrameMain) current_panel).getCanvas();
+        }
         return null;
+    }
+    
+    public void buildAlertDialog(String title, String msg, boolean isOk) {
+            int type = isOk ? JOptionPane.INFORMATION_MESSAGE
+                            : JOptionPane.ERROR_MESSAGE;
+            JOptionPane.showMessageDialog(current_panel, msg, title, type);
     }
     
     

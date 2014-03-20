@@ -5,6 +5,7 @@
  */
 package window;
 
+import GUIManager.GUIManager;
 import connection.ClientConnection;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,21 +30,22 @@ import packet.PacketLogin;
  *
  * @author antho
  */
-public class LoginFrame extends JPanel implements ActionListener{
-    
+public class LoginFrame extends JPanel implements ActionListener {
+
     private JPanel pane;
     private final int width = 400, height = 200;
     private final String[] labels = {"Nickname: ", "Password: "};
     private ClientConnection connection;
+
     public LoginFrame(ClientConnection conn) throws HeadlessException {
         super();
         this.connection = conn;
         buildContentPanel();
     }
-    
+
     public final void buildContentPanel() {
         setLayout(new SpringLayout());
-        
+
         int numPairs = labels.length;
         //Create and populate the panel.
         for (int i = 0; i < numPairs; i++) {
@@ -56,33 +58,44 @@ public class LoginFrame extends JPanel implements ActionListener{
         }
         JButton blogin = new JButton("login");
         blogin.addActionListener(this);
-        
-        add(new JLabel());
+        JButton bsub = new JButton("subscribe");
+        bsub.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                GUIManager.getInstance().launchSubscribeFrame(connection);
+            }
+        });
+        add(bsub);
         add(blogin);
 
         SpringUtilities.makeCompactGrid(this,
-                                        numPairs + 1, 2, //rows, cols
-                                        6, 6, //initX, initY
-                                        6, 6);       //xPad, yPad
+                numPairs + 1, 2, //rows, cols
+                6, 6, //initX, initY
+                6, 6);       //xPad, yPad
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        try{
-            String uname = new String(),pwd = new String();
-            for(Component c : this.getComponents()){
-                if(c.getName().equals(labels[0])){
-                    uname = ((JTextField)c).getText();
-                }
-                if(c.getName().equals(labels[0])){
-                    pwd = ((JTextField)c).getText();
-                }
+
+        String uname = new String(), pwd = new String();
+        for (Component c : this.getComponents()) {
+            if (c instanceof JTextField && c.getName().equals(labels[0])) {
+                uname = ((JTextField) c).getText();
             }
-            PacketLogin p = new packet.PacketLogin(0,uname,pwd);
-            this.connection.sendMessage(p);
-        }catch(NullPointerException npe){
-            JOptionPane.showMessageDialog(null,"Cannot connect to server");
+            if (c instanceof JTextField && c.getName().equals(labels[1])) {
+                pwd = ((JTextField) c).getText();
+            }
+        }
+        if (uname.equals("") || pwd.equals("")) {
+            GUIManager.getInstance().buildAlertDialog("Informations error", "Empty infos", false);
+            return;
+        }
+        try {
+            PacketLogin p = new packet.PacketLogin(0, uname, pwd);
+            connection.sendMessage(p);
+        } catch (NullPointerException npe) {
+            GUIManager.getInstance().buildAlertDialog("Server error", "Cannot connect to server", false);
         }
     }
-    
+
 }

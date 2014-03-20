@@ -4,6 +4,7 @@ import db.TJoueurs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,17 +51,13 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         try {
-            Packet p = PacketBuilder.build(PacketBuilder.readPacket(is));
-            
-            PacketHello ph = new PacketHello(p.encodedPacket);
-            System.out.println(Arrays.toString(ph.getMacAddress()));
-            mapping.put(Arrays.toString(ph.getMacAddress()), this);
-            serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
+            Packet p;
             while (true) {
                 p = PacketBuilder.build(PacketBuilder.readPacket(is));
                 if (g != null) {
                     g.traiterPacket(p);
                 } else {
+                    
                     if (p.getOpCode() >= 0x7 && p.getOpCode() <= 0xC) {
                         handleLauncherPacket(p);
                     }
@@ -85,7 +82,7 @@ public class Connection implements Runnable {
         this.g = g;
     }
 
-    public void handleLauncherPacket(Packet p) throws ClassNotFoundException {
+    public void handleLauncherPacket(Packet p) throws ClassNotFoundException, UnsupportedEncodingException {
         Class c = packet.PacketBuilder.getPacketClass(p);
         Packet response;
         String uname, pwd;
@@ -96,9 +93,12 @@ public class Connection implements Runnable {
             case "packet.PacketLogin":
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
                 uname = pl.getUsername();
+                System.err.println(uname);
                 pwd = pl.getPassword();
+                System.err.println(pwd);
                 player = Joueur.getJoueur(uname, pwd);
-                response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "0", "0");
+                System.err.println(player);
+                response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "", "");
                 this.sendMessage(response);
                 break;
             case "packet.PacketSubscribe":
@@ -106,7 +106,8 @@ public class Connection implements Runnable {
                 uname = ps.getUsername();
                 pwd = ps.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
-                if (tjoueurs.getById(pid) != null) {
+                System.err.println(uname);
+                if (tjoueurs.existJoueur(uname)) {
                     response = new PacketSubscribe(0, "0", "0");
                 } else {
                     HashMap<String, Object> prms = new HashMap<>();
@@ -115,7 +116,6 @@ public class Connection implements Runnable {
                     tjoueurs.insert(prms);
                     response = new PacketSubscribe(0, uname, pwd);
                 }
-
                 this.sendMessage(response);
                 break;
             case "packet.PacketBuyCard":
@@ -140,6 +140,12 @@ public class Connection implements Runnable {
                 break;
             case "packet.PacketConsultShop":
             	throw new UnknownError("PacketConsultShop is not used");
+            case "packet.PacketHello":
+                PacketHello ph = new PacketHello(p.encodedPacket);
+                System.out.println(Arrays.toString(ph.getMacAddress()));
+                mapping.put(Arrays.toString(ph.getMacAddress()), this);
+                serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
+                break;
             default:
                 throw new ClassNotFoundException("Unknown packet");
 

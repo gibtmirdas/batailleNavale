@@ -1,30 +1,58 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package packet;
 
-/**
- *
- * @author antho
- */
-public class PacketSubscribe extends PacketLogin {
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
+public class PacketSubscribe extends Packet {
 
     public PacketSubscribe(int idSource, byte[] infos) {
-        super(idSource, infos);
+        super(infos.length, idSource, infos, packet.PacketHello.class);
+        this.encode();
     }
 
     public PacketSubscribe(int idSource, int dataSize, String uname, String pwd) {
-        super(idSource, dataSize, uname, pwd);
+        super(dataSize, idSource, null, packet.PacketSubscribe.class);
+        this.setDatas(uname, pwd);
+        this.encode();
     }
 
     public PacketSubscribe(int idSource, String uname, String pwd) {
-        super(idSource, uname, pwd);
+        super(uname.length() + pwd.length() + 1, idSource, null, packet.PacketSubscribe.class);
+        this.setDatas(uname, pwd);
+        this.encode();
     }
 
     public PacketSubscribe(byte[] encodedPacket) {
         super(encodedPacket);
+    }
+
+    private void setDatas(String uname, String pwd) {
+        String msg = uname + ";" + pwd;
+        this.data = msg.getBytes();
+    }
+
+    public String getUsername() throws UnsupportedEncodingException{
+            String stmp = new String(data, "UTF-8");
+            String s[] = stmp.split(";");
+            if (s.length == 2) {
+                return s[0];
+            }
+
+        return "";
+    }
+
+    public String getPassword() throws UnsupportedEncodingException{
+        
+            String stmp = new String(data, "UTF-8");
+            String s[] = stmp.split(";");
+            if (s.length == 2) {
+                return s[1];
+            }
+        return "";
+    }
+
+    public boolean isAccepted() throws UnsupportedEncodingException{
+        return !(getPassword().equals("") && getUsername().equals(""));
     }
 
 }

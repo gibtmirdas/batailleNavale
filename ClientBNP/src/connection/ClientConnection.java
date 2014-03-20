@@ -3,6 +3,7 @@ package connection;
 import GUIManager.GUIManager;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
@@ -16,6 +17,7 @@ import packet.Packet;
 import packet.PacketBye;
 import packet.PacketCardAction;
 import packet.PacketInfoBoat;
+import packet.PacketLogin;
 import packet.PacketNewCard;
 import packet.PacketNewGame;
 import packet.PacketUpdate;
@@ -25,7 +27,7 @@ import window.ConnectWindow;
 import window.FrameMain;
 
 public class ClientConnection implements Constantes {
-
+    private boolean connected;
     private Socket s;
     private OutputStream os;
     private ReadThead readTh;
@@ -36,13 +38,13 @@ public class ClientConnection implements Constantes {
 
     public ClientConnection() {
         try {
-            
+            connected = false;
             s = new Socket(ADDRESS, PORT);
             System.out.println("Client launched!");
             os = s.getOutputStream();
-            
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
+            gui.launchLoginFrame(this);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,10 +66,10 @@ public class ClientConnection implements Constantes {
 //		packetReceivedUpdate(p3);
     }
 
-    public void analysePacket(byte[] datas) throws ClassNotFoundException {
+    public void analysePacket(byte[] datas) throws ClassNotFoundException, UnsupportedEncodingException {
         switch (datas[0]) {
             case 0:
-//				PacketHello pHello = new PacketHello(datas);
+                //PacketHello pHello = new PacketHello(datas);
                 System.out.println("packet hello");
                 break;
             case 1:
@@ -94,6 +96,19 @@ public class ClientConnection implements Constantes {
                 PacketBye pBye = new PacketBye(datas);
                 packetReceivedBye(pBye);
                 break;
+            case 0x07:
+                packetReceivedLogin(new PacketLogin(datas));
+                break;
+            case 0x08:
+                break;
+            case 0x09:
+                break;
+            case 0x0A:
+                break;
+            case 0x0B:
+                break;
+            case 0x0C:
+                break;
             default:
                 throw new ClassNotFoundException("Unknown packet");
         }
@@ -103,6 +118,7 @@ public class ClientConnection implements Constantes {
         System.out.println("###############	PacketNewGame	############");
         System.out.println("Client: Packet newGame received!");
         //		connectWin.dispose();
+        // now do gui.launchMainFrame()
         System.out.println("############# END PacketNewGame ######");
 
     }
@@ -121,6 +137,7 @@ public class ClientConnection implements Constantes {
                     break;
             }
 //			frameMain.getCanvas().addCarte(carte);
+//now do gui.getCurrentCanvas().addCarte(carte);
         }
         System.out.println("############# END PacketNewCard ######");
     }
@@ -163,7 +180,17 @@ public class ClientConnection implements Constantes {
     public void packetReceivedBye(PacketBye p) {
         System.out.println("Client: Packet Bye received!");
     }
-
+    
+    public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException{
+        if(p.isAccepted()){
+            connected = true;
+            gui.launchMainFrame();
+        }else{
+            gui.buildAlertDialog("Login error", "Bad informations", false);
+        }
+            
+    }
+    
     public void sendMessage(Packet p) {
         try {
             System.out.println(Arrays.toString(p.encodedPacket));
