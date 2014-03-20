@@ -193,7 +193,6 @@ public class ClientConnection implements Constantes {
 
     public void sendMessage(Packet p) {
         try {
-            System.out.println(Arrays.toString(p.encodedPacket));
             os.write(p.encodedPacket);
             os.flush();
         } catch (IOException e) {
