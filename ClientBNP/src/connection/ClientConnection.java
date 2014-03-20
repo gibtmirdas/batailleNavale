@@ -102,6 +102,7 @@ public class ClientConnection implements Constantes {
         System.out.println("###############	PacketNewGame	############");
         System.out.println("Client: Packet newGame received!");
         //		connectWin.dispose();
+        // now do gui.launchMainFrame()
         System.out.println("############# END PacketNewGame ######");
 
     }
@@ -120,6 +121,7 @@ public class ClientConnection implements Constantes {
                     break;
             }
 //			frameMain.getCanvas().addCarte(carte);
+//now do gui.getCurrentCanvas().addCarte(carte);
         }
         System.out.println("############# END PacketNewCard ######");
     }
