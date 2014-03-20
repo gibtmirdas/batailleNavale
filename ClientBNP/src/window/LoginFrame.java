@@ -75,18 +75,19 @@ public class LoginFrame extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        try{
+        
             String uname = new String(),pwd = new String();
             for(Component c : this.getComponents()){
-                if(c.getName().equals(labels[0])){
+                if(c instanceof JTextField && c.getName().equals(labels[0])){
                     uname = ((JTextField)c).getText();
                 }
-                if(c.getName().equals(labels[0])){
+                if(c instanceof JTextField && c.getName().equals(labels[1])){
                     pwd = ((JTextField)c).getText();
                 }
             }
+        try{
             PacketLogin p = new packet.PacketLogin(0,uname,pwd);
-            this.connection.sendMessage(p);
+            connection.sendMessage(p);
         }catch(NullPointerException npe){
             GUIManager.getInstance().buildAlertDialog("Server error", "Cannot connect to server", false);
         }

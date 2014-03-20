@@ -50,17 +50,13 @@ public class Connection implements Runnable {
     @Override
     public void run() {
         try {
-            Packet p = PacketBuilder.build(PacketBuilder.readPacket(is));
-            
-            PacketHello ph = new PacketHello(p.encodedPacket);
-            System.out.println(Arrays.toString(ph.getMacAddress()));
-            mapping.put(Arrays.toString(ph.getMacAddress()), this);
-            serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
+            Packet p;
             while (true) {
                 p = PacketBuilder.build(PacketBuilder.readPacket(is));
                 if (g != null) {
                     g.traiterPacket(p);
                 } else {
+                    
                     if (p.getOpCode() >= 0x7 && p.getOpCode() <= 0xC) {
                         handleLauncherPacket(p);
                     }
@@ -140,6 +136,12 @@ public class Connection implements Runnable {
                 break;
             case "packet.PacketConsultShop":
             	throw new UnknownError("PacketConsultShop is not used");
+            case "packet.PacketHello":
+                PacketHello ph = new PacketHello(p.encodedPacket);
+                System.out.println(Arrays.toString(ph.getMacAddress()));
+                mapping.put(Arrays.toString(ph.getMacAddress()), this);
+                serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
+                break;
             default:
                 throw new ClassNotFoundException("Unknown packet");
 

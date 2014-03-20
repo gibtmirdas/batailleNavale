@@ -43,6 +43,7 @@ public class ClientConnection implements Constantes {
             os = s.getOutputStream();
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
+            gui.launchLoginFrame(this);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -67,7 +68,7 @@ public class ClientConnection implements Constantes {
     public void analysePacket(byte[] datas) throws ClassNotFoundException {
         switch (datas[0]) {
             case 0:
-//				PacketHello pHello = new PacketHello(datas);
+                //PacketHello pHello = new PacketHello(datas);
                 System.out.println("packet hello");
                 break;
             case 1:
