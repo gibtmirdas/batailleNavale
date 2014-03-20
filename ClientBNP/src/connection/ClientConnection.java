@@ -3,6 +3,7 @@ package connection;
 import GUIManager.GUIManager;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
@@ -65,7 +66,7 @@ public class ClientConnection implements Constantes {
 //		packetReceivedUpdate(p3);
     }
 
-    public void analysePacket(byte[] datas) throws ClassNotFoundException {
+    public void analysePacket(byte[] datas) throws ClassNotFoundException, UnsupportedEncodingException {
         switch (datas[0]) {
             case 0:
                 //PacketHello pHello = new PacketHello(datas);
@@ -180,7 +181,7 @@ public class ClientConnection implements Constantes {
         System.out.println("Client: Packet Bye received!");
     }
     
-    public void packetReceivedLogin(PacketLogin p){
+    public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException{
         if(p.isAccepted()){
             connected = true;
             gui.launchMainFrame();

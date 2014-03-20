@@ -4,6 +4,7 @@ import db.TJoueurs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class Connection implements Runnable {
         this.g = g;
     }
 
-    public void handleLauncherPacket(Packet p) throws ClassNotFoundException {
+    public void handleLauncherPacket(Packet p) throws ClassNotFoundException, UnsupportedEncodingException {
         Class c = packet.PacketBuilder.getPacketClass(p);
         Packet response;
         String uname, pwd;
@@ -92,8 +93,11 @@ public class Connection implements Runnable {
             case "packet.PacketLogin":
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
                 uname = pl.getUsername();
+                System.err.println(uname);
                 pwd = pl.getPassword();
+                System.err.println(pwd);
                 player = Joueur.getJoueur(uname, pwd);
+                System.err.println(player);
                 response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "", "");
                 this.sendMessage(response);
                 break;
@@ -104,7 +108,6 @@ public class Connection implements Runnable {
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
                 System.err.println(uname);
                 if (tjoueurs.existJoueur(uname)) {
-                    System.err.println("cacacacaca");
                     response = new PacketSubscribe(0, "0", "0");
                 } else {
                     HashMap<String, Object> prms = new HashMap<>();
@@ -113,7 +116,6 @@ public class Connection implements Runnable {
                     tjoueurs.insert(prms);
                     response = new PacketSubscribe(0, uname, pwd);
                 }
-
                 this.sendMessage(response);
                 break;
             case "packet.PacketBuyCard":
