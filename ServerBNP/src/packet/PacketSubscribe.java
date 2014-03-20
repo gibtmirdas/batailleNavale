@@ -1,5 +1,8 @@
 package packet;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+
 public class PacketSubscribe extends Packet {
 
     public PacketSubscribe(int idSource, byte[] infos) {
@@ -29,23 +32,32 @@ public class PacketSubscribe extends Packet {
     }
 
     public String getUsername() {
-        String s[] = data.toString().split(";");
-        if (s.length == 2) {
-            return s[0];
+        try {
+            String stmp = new String(data, "UTF-8");
+            String s[] = stmp.split(";");
+            if (s.length == 2) {
+                return s[0];
+            }
+        } catch (UnsupportedEncodingException e) {
+            return "";
         }
         return "";
     }
 
-    public String getPassword() {
-        String s[] = data.toString().split(";");
-        if (s.length == 2) {
-            return s[1];
+    public String getPassword(){
+        try {
+            String stmp = new String(data, "UTF-8");
+            String s[] = stmp.split(";");
+            if (s.length == 2) {
+                return s[1];
+            }
+        } catch (UnsupportedEncodingException e) {
+            return "";
         }
         return "";
-
     }
 
-    public boolean isAccepted() {
+    public boolean isAccepted() throws UnsupportedEncodingException {
         return !(getPassword().equals("") && getUsername().equals(""));
     }
 

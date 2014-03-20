@@ -102,10 +102,10 @@ public class Connection implements Runnable {
                 uname = ps.getUsername();
                 pwd = ps.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
-
-                if (tjoueurs.getById(pid) != null) {
-                     System.err.println("cacacacaca");
-                    response = new PacketSubscribe(0, "", "");
+                System.err.println(uname);
+                if (tjoueurs.existJoueur(uname)) {
+                    System.err.println("cacacacaca");
+                    response = new PacketSubscribe(0, "0", "0");
                 } else {
                     HashMap<String, Object> prms = new HashMap<>();
                     prms.put(TJoueurs.NAME_FIELD, uname);
