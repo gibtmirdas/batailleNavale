@@ -6,10 +6,8 @@
 
 package GUIManager;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
 import connection.ClientConnection;
 import java.awt.Dimension;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import panels.Canvas;
 import window.ConnectWindow;
