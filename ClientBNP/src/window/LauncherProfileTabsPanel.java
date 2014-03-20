@@ -18,11 +18,11 @@ public class LauncherProfileTabsPanel extends JPanel{
 		tabbedPane.setPreferredSize(new Dimension(width,height));
 		JComponent panel1 = new LauncherTabUserPanel(conn);
 		tabbedPane.addTab("User", null, panel1,"En construction");
-		JComponent panel2 = makeTextPanel("En construction");
+		JComponent panel2 = new LauncherTabShopView(conn);
 		tabbedPane.addTab("Cards", null, panel2,"Does twice as much nothing");
 		//tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 	         
-		JComponent panel3 = makeTextPanel("Prochaine itération");
+		JComponent panel3 = makeTextPanel("Prochaine iteation");
 		tabbedPane.addTab("Decks", null, panel3,"Still does nothing");
 	    //tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 	         
