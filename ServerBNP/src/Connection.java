@@ -93,9 +93,7 @@ public class Connection implements Runnable {
             case "packet.PacketLogin":
                 PacketLogin pl = new PacketLogin(p.encodedPacket);
                 uname = pl.getUsername();
-                System.err.println(uname);
                 pwd = pl.getPassword();
-                System.err.println(pwd);
                 player = Joueur.getJoueur(uname, pwd);
                 System.err.println(player);
                 response = player != null ? new PacketLogin(0, uname, pwd) : new PacketLogin(0, "", "");
@@ -106,7 +104,6 @@ public class Connection implements Runnable {
                 uname = ps.getUsername();
                 pwd = ps.getPassword();
                 pid = tjoueurs.getIdByCriteria(TJoueurs.NAME_FIELD, uname);
-                System.err.println(uname);
                 if (tjoueurs.existJoueur(uname)) {
                     response = new PacketSubscribe(0, "0", "0");
                 } else {
