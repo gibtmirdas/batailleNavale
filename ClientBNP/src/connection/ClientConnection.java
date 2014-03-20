@@ -42,6 +42,7 @@ public class ClientConnection implements Constantes {
             os = s.getOutputStream();
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
+            
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
