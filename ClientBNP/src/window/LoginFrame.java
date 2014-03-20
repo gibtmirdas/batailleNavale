@@ -19,6 +19,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -55,8 +56,10 @@ public class LoginFrame extends JPanel implements ActionListener{
         }
         JButton blogin = new JButton("login");
         blogin.addActionListener(this);
+        
+        add(new JLabel());
         add(blogin);
-        add(new JPanel());
+
         SpringUtilities.makeCompactGrid(this,
                                         numPairs + 1, 2, //rows, cols
                                         6, 6, //initX, initY
@@ -65,17 +68,21 @@ public class LoginFrame extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        String uname = new String(),pwd = new String();
-        for(Component c : this.getComponents()){
-            if(c.getName().equals(labels[0])){
-                uname = ((JTextField)c).getText();
+        try{
+            String uname = new String(),pwd = new String();
+            for(Component c : this.getComponents()){
+                if(c.getName().equals(labels[0])){
+                    uname = ((JTextField)c).getText();
+                }
+                if(c.getName().equals(labels[0])){
+                    pwd = ((JTextField)c).getText();
+                }
             }
-            if(c.getName().equals(labels[0])){
-                pwd = ((JTextField)c).getText();
-            }
+            PacketLogin p = new packet.PacketLogin(0,uname,pwd);
+            this.connection.sendMessage(p);
+        }catch(NullPointerException npe){
+            JOptionPane.showMessageDialog(null,"Cannot connect to server");
         }
-        PacketLogin p = new packet.PacketLogin(0,uname,pwd);
-        this.connection.sendMessage(p);
     }
     
 }

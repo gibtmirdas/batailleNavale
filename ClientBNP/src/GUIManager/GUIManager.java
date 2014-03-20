@@ -8,6 +8,7 @@ package GUIManager;
 
 import com.sun.java.swing.plaf.windows.resources.windows;
 import connection.ClientConnection;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import panels.Canvas;
@@ -47,13 +48,19 @@ public final class GUIManager {
     
     public void launchLoginFrame(ClientConnection conn){
         frame.cleanView();
+        frame.setTitle("login bataille navale");
+        
+        frame.setSize(new Dimension(600,150));
         frame.setView(new LoginFrame(conn));       
     };
     public void launchSubscribeFrame(ClientConnection conn){
         frame.cleanView();
         frame.setTitle("subscribe");
+        frame.setPreferredSize(new Dimension(300,200));
+
         frame.setView(new WinSubscribe(conn));
     };
+    
     public void launchShop(){};
     /**
      * 

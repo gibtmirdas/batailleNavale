@@ -15,6 +15,7 @@ public class LauncherFrame extends JFrame {
         this.setTitle("Launcher v0.1");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setResizable(false);
         //Add content to the window.
         //Display the window.
         this.pack();
