@@ -58,7 +58,7 @@ public class Connection implements Runnable {
                     g.traiterPacket(p);
                 } else {
                     
-                    if (p.getOpCode() >= 0x7 && p.getOpCode() <= 0xC) {
+                    if (p.getOpCode() >= 0x7 && p.getOpCode() <= 0xC || p.getOpCode() == 0) {
                         handleLauncherPacket(p);
                     }
                 }
