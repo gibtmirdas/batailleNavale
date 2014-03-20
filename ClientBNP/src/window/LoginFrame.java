@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import packet.PacketLogin;
@@ -33,6 +34,7 @@ import packet.PacketLogin;
 public class LoginFrame extends JPanel implements ActionListener {
 
     private JPanel pane;
+    private JTextField uf,pf;
     private final int width = 400, height = 200;
     private final String[] labels = {"Nickname: ", "Password: "};
     private ClientConnection connection;
@@ -48,14 +50,17 @@ public class LoginFrame extends JPanel implements ActionListener {
 
         int numPairs = labels.length;
         //Create and populate the panel.
-        for (int i = 0; i < numPairs; i++) {
-            JLabel l = new JLabel(labels[i], JLabel.TRAILING);
-            add(l);
-            JTextField textField = new JTextField(10);
-            textField.setName(labels[i]);
-            l.setLabelFor(textField);
-            add(textField);
-        }
+        JLabel l = new JLabel(labels[0], JLabel.TRAILING);
+        add(l);
+        uf = new JTextField(10);
+        l.setLabelFor(uf);
+        add(uf);
+        
+        l = new JLabel(labels[1], JLabel.TRAILING);
+        add(l);
+        pf = new JPasswordField(10);
+        l.setLabelFor(pf);
+        add(pf);
         JButton blogin = new JButton("login");
         blogin.addActionListener(this);
         JButton bsub = new JButton("subscribe");
@@ -77,15 +82,7 @@ public class LoginFrame extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
 
-        String uname = new String(), pwd = new String();
-        for (Component c : this.getComponents()) {
-            if (c instanceof JTextField && c.getName().equals(labels[0])) {
-                uname = ((JTextField) c).getText();
-            }
-            if (c instanceof JTextField && c.getName().equals(labels[1])) {
-                pwd = ((JTextField) c).getText();
-            }
-        }
+        String uname = uf.getText(), pwd = pf.getText();
         if (uname.equals("") || pwd.equals("")) {
             GUIManager.getInstance().buildAlertDialog("Informations error", "Empty infos", false);
             return;

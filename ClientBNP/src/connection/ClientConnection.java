@@ -27,6 +27,7 @@ import window.ConnectWindow;
 import window.FrameMain;
 
 public class ClientConnection implements Constantes {
+
     private boolean connected;
     private Socket s;
     private OutputStream os;
@@ -156,7 +157,6 @@ public class ClientConnection implements Constantes {
 //		frameMain.getCanvas().addBoat(boat);
 //		frameMain.getCanvas().Fill(p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd());
         //gui.getCurrentCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()), new Tuple(p.getXEnd(), p.getYEnd()));
-
         System.out.println("############# END PacketInfoBoat ######");
     }
 
@@ -180,17 +180,17 @@ public class ClientConnection implements Constantes {
     public void packetReceivedBye(PacketBye p) {
         System.out.println("Client: Packet Bye received!");
     }
-    
-    public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException{
-        if(p.isAccepted()){
+
+    public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException {
+        if (p.isAccepted()) {
             connected = true;
             gui.launchMainFrame();
-        }else{
+        } else {
             gui.buildAlertDialog("Login error", "Bad informations", false);
         }
-            
+
     }
-    
+
     public void sendMessage(Packet p) {
         try {
             System.out.println(Arrays.toString(p.encodedPacket));

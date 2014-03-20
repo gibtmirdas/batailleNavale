@@ -44,6 +44,7 @@ public final class GUIManager {
     
     public void launchMainFrame(){
         frame.cleanView();
+        frame.setSize(new Dimension(1000,1000));
         current_panel = new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight);
         frame.setView(current_panel);        
     };
