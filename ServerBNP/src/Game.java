@@ -64,15 +64,18 @@ public class Game {
 	}
 
 	public void traiterPacket(Packet p) throws ClassNotFoundException {
-		Class c = packet.PacketBuilder.getPacketClass(p);
+		Class<?> c = packet.PacketBuilder.getPacketClass(p);
 		Packet p2;
 		switch (c.getName()) {
 		case "packet.PacketUpdate":
+			
 			p2 = new PacketUpdate(p.encodedPacket);
+			System.out.println("Packet update received ["+p2.getIdSource()+"]");
 			packetReceivedUpdate((PacketUpdate) p2);
 			break;
 		case "packet.PacketCardAction":
 			p2 = new PacketCardAction(p.encodedPacket);
+			System.out.println("Packet Card Action received ["+p2.getIdSource()+"]");
 			packetReceivedCardAction((PacketCardAction) p2);
 			break;
 		default:
@@ -117,8 +120,8 @@ public class Game {
 		callUpdate();
 	}
 
-	public void packetReceivedBye(PacketBye p) {
-	}
+	/*public void packetReceivedBye(PacketBye p) {
+	}*/
 
 	public void checkVictory() {
 		int l1 = 0;

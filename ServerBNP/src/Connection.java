@@ -51,7 +51,9 @@ public class Connection implements Runnable {
     public void run() {
         try {
             Packet p = PacketBuilder.build(PacketBuilder.readPacket(is));
+            
             PacketHello ph = new PacketHello(p.encodedPacket);
+            System.out.println(Arrays.toString(ph.getMacAddress()));
             mapping.put(Arrays.toString(ph.getMacAddress()), this);
             serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
             while (true) {
