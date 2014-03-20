@@ -16,6 +16,7 @@ import packet.Packet;
 import packet.PacketBye;
 import packet.PacketCardAction;
 import packet.PacketInfoBoat;
+import packet.PacketLogin;
 import packet.PacketNewCard;
 import packet.PacketNewGame;
 import packet.PacketUpdate;
@@ -25,7 +26,7 @@ import window.ConnectWindow;
 import window.FrameMain;
 
 public class ClientConnection implements Constantes {
-
+    private boolean connected;
     private Socket s;
     private OutputStream os;
     private ReadThead readTh;
@@ -36,13 +37,12 @@ public class ClientConnection implements Constantes {
 
     public ClientConnection() {
         try {
-            
+            connected = false;
             s = new Socket(ADDRESS, PORT);
             System.out.println("Client launched!");
             os = s.getOutputStream();
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
-            
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -165,7 +165,17 @@ public class ClientConnection implements Constantes {
     public void packetReceivedBye(PacketBye p) {
         System.out.println("Client: Packet Bye received!");
     }
-
+    
+    public void packetReceivedLogin(PacketLogin p){
+        if(p.isAccepted()){
+            connected = true;
+            gui.launchMainFrame();
+        }else{
+            gui.buildAlertDialog("Login error", "Bad informations", false);
+        }
+            
+    }
+    
     public void sendMessage(Packet p) {
         try {
             System.out.println(Arrays.toString(p.encodedPacket));

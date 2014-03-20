@@ -5,6 +5,7 @@
  */
 package window;
 
+import GUIManager.GUIManager;
 import connection.ClientConnection;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -56,8 +57,14 @@ public class LoginFrame extends JPanel implements ActionListener{
         }
         JButton blogin = new JButton("login");
         blogin.addActionListener(this);
-        
-        add(new JLabel());
+        JButton bsub   = new JButton("subscribe");
+        bsub.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                GUIManager.getInstance().launchSubscribeFrame(connection);
+            }
+        });
+        add(bsub);
         add(blogin);
 
         SpringUtilities.makeCompactGrid(this,
@@ -81,7 +88,7 @@ public class LoginFrame extends JPanel implements ActionListener{
             PacketLogin p = new packet.PacketLogin(0,uname,pwd);
             this.connection.sendMessage(p);
         }catch(NullPointerException npe){
-            JOptionPane.showMessageDialog(null,"Cannot connect to server");
+            GUIManager.getInstance().buildAlertDialog("Server error", "Cannot connect to server", false);
         }
     }
     
