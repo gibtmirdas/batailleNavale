@@ -1,5 +1,7 @@
 package window;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 
 import connection.ClientConnection;
@@ -12,6 +14,10 @@ public class LauncherTabShopView extends JPanel implements PanelNotifiable{
 	
 	public LauncherTabShopView(ClientConnection conn){
 		c = conn;
+		setLayout(new BorderLayout());
+		LauncherShopCardList panel1 = new LauncherShopCardList(conn);
+		add(panel1,BorderLayout.CENTER);
+		panel1.init();
 	}
 	
 	@Override
