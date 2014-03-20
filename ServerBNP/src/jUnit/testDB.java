@@ -18,7 +18,7 @@ public class testDB {
 		list.add("DMG");
 		list.add(TCartes.DEFAULT_AREA);
 		list.add(TCartes.DEFAULT_DMG);
-		c.insert(list);
+		//c.insert(list);
 
 		int id = c.getIdByCriteria(TCartes.NAME_FIELD, "Test");
 		System.out.println(id);
