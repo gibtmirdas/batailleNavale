@@ -1,7 +1,10 @@
 import packet.*;
 import db.TCartes;
+
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import db.TJoueurs;
 import models.Joueur;
 
@@ -9,7 +12,7 @@ public class Game {
 	private final Connection player1, player2;
 	private final int serverId = 0;
 	private int current_player;
-	private final int[][] gameboard = new int[20][30];
+	private final int[][] gameboard = new int[40][30];
 	int[] p1BoatLife = new int[3];
 	int[] p2BoatLife = new int[3];
 	private UpdateTimerTask task;
@@ -27,7 +30,7 @@ public class Game {
 
 	private void init() {
 		for (int y = 0; y < 30; y++)
-			for (int x = 0; x < 20; x++)
+			for (int x = 0; x < 40; x++)
 				gameboard[x][y] = 0;
 		
 		player1.sendMessage(new PacketNewGame(0, 1));
@@ -37,14 +40,14 @@ public class Game {
 			player2.sendMessage(new PacketNewCard(0, TCartes.DEFAULT_ID));
 			player1.sendMessage(new PacketInfoBoat(0, i + 1, (i + i * 3),
 					(i + i * 3), (i + i * 3 + 1), (i + i * 3), 3));
-			p1BoatLife[i] = 3;
-			p2BoatLife[i] = 3;
+			p1BoatLife[i] = 1;
+			p2BoatLife[i] = 1;
 			gameboard[i + i * 3][i + i * 3] = i + 1;
 			gameboard[i + i * 3 + 1][i + i * 3] = i + 1;
 			player2.sendMessage(new PacketInfoBoat(0, i + 4, (i + i * 3)+20,
 					(i + i * 3), (i + i * 3 + 1)+20, (i + i * 3), 3));
-			gameboard[i + i * 3 + 10][i + i * 3] = i + 4;
-			gameboard[i + i * 3 + 10 + 1][i + i * 3] = i + 4;
+			gameboard[i + i * 3 + 20][i + i * 3] = i + 4;
+			gameboard[i + i * 3 + 20 + 1][i + i * 3] = i + 4;
 		}
 		current_player = 2;
 		try {
@@ -106,18 +109,28 @@ public class Game {
 		int x = p.getX();
 		int y = p.getY();
 		int cid = p.getIdCard();
+		
+		
+		
+		System.out.println(x+' '+y);
 		if (gameboard[x][y] != 0) {
+			System.out.println(gameboard[x][y]);
 			if (p.getIdSource() == 1) {
-				p2BoatLife[gameboard[x][y] - 3]--;
+				p2BoatLife[gameboard[x][y] - 3-1]--;
 				player2.sendMessage(new PacketInfoBoat(0, gameboard[x][y], 0,
-						0, 0, 0, p2BoatLife[gameboard[x][y] - 3]));
+						0, 0, 0, p2BoatLife[gameboard[x][y]-3-1]));
 			} else {
-				p1BoatLife[gameboard[x][y]]--;
+				p1BoatLife[gameboard[x][y]-1]--;
 				player1.sendMessage(new PacketInfoBoat(0, gameboard[x][y], 0,
-						0, 0, 0, p1BoatLife[gameboard[x][y]]));
+						0, 0, 0, p1BoatLife[gameboard[x][y]-1]));
 			}
 			this.checkVictory();
 		}
+		System.out.println(Arrays.toString(p1BoatLife));
+		System.out.println(Arrays.toString(p2BoatLife));
+		player1.sendMessage(new PacketCardAction(serverId,p.getIdCard(),p.getX(),p.getY()));
+		player2.sendMessage(new PacketCardAction(serverId,p.getIdCard(),p.getX(),p.getY()));
+		
 	}
 
 	public void packetReceivedUpdate(PacketUpdate p) {
