@@ -1,6 +1,5 @@
 package connection;
 
-import GUIManager.GUIManager;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -8,7 +7,6 @@ import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Enumeration;
 
 import lib.Constantes;
@@ -21,10 +19,8 @@ import packet.PacketLogin;
 import packet.PacketNewCard;
 import packet.PacketNewGame;
 import packet.PacketUpdate;
-import panels.Boat;
 import panels.Carte;
-import window.ConnectWindow;
-import window.FrameMain;
+import GUIManager.GUIManager;
 
 public class ClientConnection implements Constantes {
 
@@ -32,9 +28,8 @@ public class ClientConnection implements Constantes {
     private Socket s;
     private OutputStream os;
     private ReadThead readTh;
-    private ConnectWindow connectWin;
-    private FrameMain frameMain;
-    private final int IDSOURCE = 1;
+	private int ID_PLAYER;
+	public static ControllerClient controllerClient ;
     private final GUIManager gui = GUIManager.getInstance();
 
     public ClientConnection() {
@@ -42,15 +37,19 @@ public class ClientConnection implements Constantes {
             connected = false;
             s = new Socket(ADDRESS, PORT);
             System.out.println("Client launched!");
+    		controllerClient = new ControllerClient();
+    		controllerClient.setClient(this);
             os = s.getOutputStream();
             readTh = new ReadThead(s, this);
             new Thread(readTh).start();
             gui.launchLoginFrame(this);
+            
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    	
 //		PacketNewGame p = null;
 //		PacketNewCard p1 = new PacketNewCard(1, 0);
 //		PacketNewCard p4 = new PacketNewCard(1, 0);
@@ -60,11 +59,11 @@ public class ClientConnection implements Constantes {
 //
 //		PacketUpdate p3 = new PacketUpdate(1, 1);
 //		packetReceivedNewGame(p);
-////		packetReceivedNewCard(p1);
-////		packetReceivedNewCard(p4);
+//		packetReceivedNewCard(p1);
+//		packetReceivedNewCard(p4);
 //		packetReceivedInfoBoat(p2);
 //		packetReceivedInfoBoat(p5);
-//		packetReceivedUpdate(p3);
+//		packetReceivedUpdate(p3);  	
     }
 
     public void analysePacket(byte[] datas) throws ClassNotFoundException, UnsupportedEncodingException {
@@ -118,8 +117,9 @@ public class ClientConnection implements Constantes {
     public void packetReceivedNewGame(PacketNewGame p) {
         System.out.println("###############	PacketNewGame	############");
         System.out.println("Client: Packet newGame received!");
-        //		connectWin.dispose();
-        // now do gui.launchMainFrame()
+        ID_PLAYER = p.getTime();
+        System.out.println("IP_PLAYER ------------------->: "+ID_PLAYER);
+        gui.launchMainFrame(ID_PLAYER);
         System.out.println("############# END PacketNewGame ######");
 
     }
@@ -127,19 +127,9 @@ public class ClientConnection implements Constantes {
     public void packetReceivedNewCard(PacketNewCard p) {
         System.out.println("###############	PacketNewCard	############");
         System.out.println("Client: Packet newCard received!");
-        if (IDSOURCE == p.getIdSource()) {
-            Carte carte = null;
-
-            switch (p.getCardId()) {
-                case 0:
-                    carte = new Carte(p.getCardId(), "Missile");
-                    break;
-                default:
-                    break;
-            }
-//			frameMain.getCanvas().addCarte(carte);
-//now do gui.getCurrentCanvas().addCarte(carte);
-        }
+		Carte carte = new Carte(p.getCardId(), "Missile");
+		gui.getContainCard().add(carte);
+		gui.getContainCard().repaint();
         System.out.println("############# END PacketNewCard ######");
     }
 
@@ -152,43 +142,44 @@ public class ClientConnection implements Constantes {
         System.out.println("4.- xEnd: " + p.getXEnd());
         System.out.println("5.- yEnd: " + p.getYEnd());
         System.out.println("6.- life: " + p.getLife());
-
-//		Boat boat = new Boat(p.getIdBoat(), p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd(), p.getLife());	
-//		frameMain.getCanvas().addBoat(boat);
-//		frameMain.getCanvas().Fill(p.getXStart(), p.getYStart(), p.getXEnd(), p.getYEnd());
-        //gui.getCurrentCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()), new Tuple(p.getXEnd(), p.getYEnd()));
+        gui.getCurrentCanvas().Fill(new Tuple(p.getXStart(), p.getYStart()), new Tuple(p.getXEnd(), p.getYEnd()));
         System.out.println("############# END PacketInfoBoat ######");
     }
-
+    
     public void packetReceivedUpdate(PacketUpdate p) {
-        System.out.println("###############	PacketUpdate	############");
-        System.out.println("Client: Packet update received!");
-//		System.out.println("1.- IdUser: "+p.getIdUser());
-        System.out.println("############# END PacketUpdate ######");
+		System.out.println("###############	PacketUpdate	############");
+		System.out.println("Client: Packet update received!");
+		System.out.println("############# END PacketUpdate ######");
+//		gui.getCurrentCanvas().getContainCarte().addCartesContent();
+		gui.getContainCard().addCartesContent();
+		gui.getContainCard().repaint();
 
     }
 
     public void packetReceivedCardAction(PacketCardAction p) {
-        System.out.println("###############	PacketCardAction	############");
-        System.out.println("Client: Packet cardAction received!");
-        System.out.println("1.- IdCard: " + p.getIdCard());
-        System.out.println("2.- X: " + p.getX());
-        System.out.println("3.- Y: " + p.getY());
-        System.out.println("############# END PacketCardAction ######");
+		System.out.println("###############	PacketCardAction	############");
+		System.out.println("Client: Packet cardAction received!");	
+		System.out.println("1.- idSource: "+p.getIdSource());
+		System.out.println("2.- IdCard: "+p.getIdCard());
+		System.out.println("3.- X: "+p.getX());
+		System.out.println("4.- Y: "+p.getY());
+		gui.getCurrentCanvas().attackMissile(p.getX(), p.getY());
+		System.out.println("############# END PacketCardAction ######");
     }
 
     public void packetReceivedBye(PacketBye p) {
         System.out.println("Client: Packet Bye received!");
+        System.out.println("mon id joueur: "+ID_PLAYER);
+        gui.buildAlertDialog("Fin partie", "Fin de la partie!!!"+p.getIdUser(), true);   
     }
 
     public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException {
         if (p.isAccepted()) {
             connected = true;
-            gui.launchMainFrame();
+            gui.launchConnectWindow(this);
         } else {
             gui.buildAlertDialog("Login error", "Bad informations", false);
         }
-
     }
 
     public void sendMessage(Packet p) {

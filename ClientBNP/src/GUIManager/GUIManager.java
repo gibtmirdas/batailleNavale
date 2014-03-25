@@ -7,10 +7,14 @@
 package GUIManager;
 
 import connection.ClientConnection;
+
 import java.awt.Dimension;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import panels.Canvas;
+import panels.ContainerCartes;
 import window.ConnectWindow;
 import window.FrameMain;
 import window.LauncherFrame;
@@ -25,6 +29,7 @@ public final class GUIManager {
     private final LauncherFrame frame;
     private JPanel current_panel;
     private static GUIManager instance;
+    
     private GUIManager() {
         this.frame = new LauncherFrame();
     }
@@ -42,10 +47,10 @@ public final class GUIManager {
         frame.setView(current_panel);        
     };
     
-    public void launchMainFrame(){
+    public void launchMainFrame(int idPlayer){
         frame.cleanView();
-        frame.setSize(new Dimension(1000,1000));
-        current_panel = new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight);
+        frame.setSize(new Dimension(1000, 700));        
+        current_panel = new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight, idPlayer);
         frame.setView(current_panel);        
     };
     
@@ -74,6 +79,17 @@ public final class GUIManager {
             return ((FrameMain) current_panel).getCanvas();
         }
         return null;
+    }
+    
+    /**
+     * 
+     * @return container cards
+     */
+    public ContainerCartes getContainCard(){
+    	if(current_panel instanceof FrameMain){
+    		return ((FrameMain) current_panel).getContainCarte();
+    	}
+    	return null;
     }
     
     public void buildAlertDialog(String title, String msg, boolean isOk) {

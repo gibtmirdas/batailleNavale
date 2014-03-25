@@ -1,6 +1,5 @@
 package window;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -8,13 +7,15 @@ import javax.swing.JPanel;
 
 public class LauncherFrame extends JFrame {
 
-    private int WIDTH = 600, HEIGHT = 500;
+	private static final long serialVersionUID = 1L;
+	private int WIDTH = 600, HEIGHT = 500;
 
+	
     public LauncherFrame() {
         this.setTitle("Launcher v0.1");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setResizable(false);
+        this.setResizable(true);
         //Add content to the window.
         //Display the window.
         this.pack();
