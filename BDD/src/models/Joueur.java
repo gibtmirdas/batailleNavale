@@ -1,10 +1,11 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.mongodb.DBObject;
-import db.TDecks;
 
+import db.TDecks;
 import db.TJoueurs;
 
 /**
@@ -16,24 +17,26 @@ import db.TJoueurs;
 public class Joueur {
 
 	private String pseudo, password;
-	private int cardId, score, credit, id;
+	private int score, credit, id;
+	private ArrayList<Integer> cardsId;
 
-	public Joueur(String pseudo, String password, int cardId, int score,
-			int credit, int id) {
+	public Joueur(String pseudo, String password, ArrayList<Integer> cardsId,
+			int score, int credit, int id) {
 		super();
 		this.id = id;
 		this.pseudo = pseudo;
 		this.password = password;
-		this.cardId = cardId;
+		this.cardsId = cardsId;
 		this.score = score;
 		this.credit = credit;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Joueur(DBObject o) {
 		id = (int) o.get("id");
 		pseudo = (String) o.get("pseudo");
 		password = (String) o.get("password");
-		cardId = (int) o.get("cardID");
+		cardsId = (ArrayList<Integer>) o.get("cardID");
 		score = (int) o.get("score");
 		credit = (int) o.get("credit");
 	}
@@ -110,12 +113,12 @@ public class Joueur {
 		tj.updateById(this.id, map);
 	}
 
-	public int getCardId() {
-		return cardId;
+	public ArrayList<Integer> getCardId() {
+		return cardsId;
 	}
 
-	public void setCardId(int cardId) {
-		this.cardId = cardId;
+	public void setCardId(ArrayList<Integer> cardId) {
+		this.cardsId = cardId;
 		TJoueurs tj = new TJoueurs();
 		HashMap<String, Object> map = new HashMap<>();
 		map.put(TJoueurs.CARDS_FIELD, cardId);
@@ -153,9 +156,9 @@ public class Joueur {
 	public void setId(int id) {
 		this.id = id;
 	}
-        
-        public Deck getDeck(){
-            TDecks td = new TDecks();
-            return new Deck(td.getIdByCriteria(TDecks.OWNER_FIELD, this.id),true);
-        }
+
+	public Deck getDeck() {
+		TDecks td = new TDecks();
+		return new Deck(td.getIdByCriteria(TDecks.OWNER_FIELD, this.id), true);
+	}
 }

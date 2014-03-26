@@ -55,10 +55,7 @@ public class TJoueurs extends AbstractTable {
 	 */
 	@Override
 	public void insert(Map<String, Object> args) {
-		Integer cardID = this.getLastID() + 1;
 		BasicDBObject insertQuery = new BasicDBObject();
-		List<Integer> cardList = new ArrayList<>();
-		cardList.add(cardID);
 
 		insertQuery.put("id", this.getLastID() + 1);
 
@@ -67,8 +64,9 @@ public class TJoueurs extends AbstractTable {
 		else
 			insertQuery.put(NAME_FIELD, DEFAULT_NAME);
 
-		if (args.containsKey(CARDS_FIELD))
-			insertQuery.put(CARDS_FIELD, cardID);
+		if (args.containsKey(CARDS_FIELD)
+				&& args.get(CARDS_FIELD) instanceof List)
+			insertQuery.put(CARDS_FIELD, args.get(CARDS_FIELD));
 		else
 			insertQuery.put(CARDS_FIELD, DEFAULT_CARDS);
 
