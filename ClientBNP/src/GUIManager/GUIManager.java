@@ -14,6 +14,7 @@ import panels.Canvas;
 import window.ConnectWindow;
 import window.FrameMain;
 import window.LauncherFrame;
+import window.LauncherTabs;
 import window.LoginFrame;
 import window.WinSubscribe;
 
@@ -65,6 +66,14 @@ public final class GUIManager {
     };
     
     public void launchShop(){/*not done yet*/};
+    
+    public void launchTab(ClientConnection conn){
+        frame.cleanView();
+        frame.setResizable(true);
+        frame.setSize(new Dimension(1000,1000));
+        current_panel = new LauncherTabs(1000, 1000, conn);
+        frame.setView(current_panel);
+    }
     /**
      * 
      * @return canvas of the current window if there's one 

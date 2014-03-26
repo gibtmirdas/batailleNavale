@@ -184,7 +184,8 @@ public class ClientConnection implements Constantes {
     public void packetReceivedLogin(PacketLogin p) throws UnsupportedEncodingException {
         if (p.isAccepted()) {
             connected = true;
-            gui.launchMainFrame();
+            gui.launchTab(this);
+            //gui.launchMainFrame();
         } else {
             gui.buildAlertDialog("Login error", "Bad informations", false);
         }
