@@ -6,6 +6,8 @@
 package db;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
 import java.util.Map;
 
 /**
@@ -25,17 +27,19 @@ public class TDecks extends AbstractTable {
 
     @Override
     public void insert(Map<String, Object> args) {
-        if(args.containsKey(ID_FIELD)){
-            if(args.containsKey(OWNER_FIELD)){
-                if(args.containsKey(CARDS_FIELD)){
-                    BasicDBObject insertQuery = new BasicDBObject();
-                    insertQuery.put(ID_FIELD, args.get(ID_FIELD));
-                    insertQuery.put(OWNER_FIELD,args.get(OWNER_FIELD));
-                    insertQuery.put(CARDS_FIELD, args.get(CARDS_FIELD));
-                    linkToTable.insert(insertQuery);
-                }
-            }
-        }   
+        boolean valid = false;
+        assert args.containsKey(ID_FIELD) && args.containsKey(OWNER_FIELD) &&
+               args.containsKey(CARDS_FIELD);
+        BasicDBObject insertQuery = new BasicDBObject();
+        insertQuery.put(ID_FIELD, args.get(ID_FIELD));
+        insertQuery.put(OWNER_FIELD,args.get(OWNER_FIELD));
+        insertQuery.put(CARDS_FIELD, args.get(CARDS_FIELD));
+        try{
+            linkToTable.insert(insertQuery);
+            valid = true;
+        }catch(MongoException me){}
+        finally{
+            assert valid;
+        }
     }
-
 }
