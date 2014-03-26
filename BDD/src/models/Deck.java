@@ -26,23 +26,23 @@ public class Deck {
         TJoueurs tj = new TJoueurs();
         if (deckid) {
             dck = td.getById(id);
-            cardID = (ArrayList<Carte>) dck.get(TDecks.CARDS_FIELD);
             owner = new Joueur(tj.getById((int) dck.get(TDecks.OWNER_FIELD)));
-            this.deckID = (Integer) dck.get(TDecks.ID_FIELD);            
         } else {
             owner = new Joueur(tj.getById(id));
-            cardID = new  ArrayList<>();
+            dck = td.getById(td.getIdByCriteria(TDecks.OWNER_FIELD, owner.getId()));
         }
-        
-
+        cardID = (ArrayList<Carte>) dck.get(TDecks.CARDS_FIELD);
+        this.deckID = (Integer) dck.get(TDecks.ID_FIELD);
     }
 
     public ArrayList<Carte> getCardID() {
         return cardID;
     }
-    public void addCard(Carte c){
+
+    public void addCard(Carte c) {
         cardID.add(c);
     }
+
     public Joueur getOwner() {
         return owner;
     }

@@ -3,6 +3,7 @@ package models;
 import java.util.HashMap;
 
 import com.mongodb.DBObject;
+import db.TDecks;
 
 import db.TJoueurs;
 
@@ -152,4 +153,9 @@ public class Joueur {
 	public void setId(int id) {
 		this.id = id;
 	}
+        
+        public Deck getDeck(){
+            TDecks td = new TDecks();
+            return new Deck(td.getIdByCriteria(TDecks.OWNER_FIELD, this.id),true);
+        }
 }
