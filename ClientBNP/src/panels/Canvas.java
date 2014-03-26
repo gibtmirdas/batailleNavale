@@ -10,21 +10,35 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import lib.Tuple;
 
 
 public class Canvas extends JPanel   {
+
+	private static final long serialVersionUID = 1L;
 	private final int widthCanvas;
 	private final int heightCanvas;
 	private final Tuple caseDim;
 	private final int nbCasesX = 40;
 	private final int nbCasesY = 30;
 	private ArrayList<ArrayList<Case>> DataCases;
+	public static ArrayList<Tuple> listeMissiles ;
+	private final int side;
+	public static int cardIdSelected=-1;
+	private ImageIcon iconMissile;
+	private ArrayList<Tuple> attackMissiles;
+	private ArrayList<Boat> boats;
+
 	
-	
-	public Canvas(int widthCanvas, int heightCanvas){
+	public Canvas(int widthCanvas, int heightCanvas, int side){
+		listeMissiles = new ArrayList<Tuple>();
+		attackMissiles = new ArrayList<Tuple>();
+		boats = new ArrayList<Boat>();
+		iconMissile = new ImageIcon("src/imgs/croix.jpg");
+		this.side = side;
 		this.widthCanvas = widthCanvas;
 		this.heightCanvas = heightCanvas;
 		
@@ -33,7 +47,7 @@ public class Canvas extends JPanel   {
 		
 		//DataCases contain every case object of the canvas
 		this.DataCases = new ArrayList<ArrayList<Case>>();
-		for(int i = 0; i<widthCanvas/caseDim.x ; i++){
+		for(int i = 0; i< widthCanvas/caseDim.x ; i++){
 			DataCases.add(new ArrayList<Case>());
 			for(int j = 0; j<heightCanvas/caseDim.y; j++){
 				DataCases.get(i).add(new Case());
@@ -50,8 +64,15 @@ public class Canvas extends JPanel   {
     			Tuple FinPos = new Tuple(4,5);
     			Fill(DebutPos,FinPos);
     			*/
-    			
-    			Fill(e.getX(), e.getY(),(e.getX()+1*caseDim.x),(e.getY()+1*caseDim.y));
+    			if(cardIdSelected!=-1){
+    				if(!isRightSide(getFakePos(e.getX(), e.getY()).x)){
+    					listeMissiles.add(getFakePos(e.getX(), e.getY()));
+    					cardIdSelected = -1;
+    					repaint();
+    				}
+    			}
+    			if(isRightSide(getFakePos(e.getX(), e.getY()).x))
+    				Fill(e.getX(), e.getY(),(e.getX()+1*caseDim.x),(e.getY()+1*caseDim.y));
 
     		}
     	});
@@ -69,39 +90,94 @@ public class Canvas extends JPanel   {
 		return d;
 	}
 	
+	public void Fill(int x, int y, int ex, int ey){
+		if(side == 1){
+			if(ex > widthCanvas/2)
+				return;
+		}
+		else if(side == 2){
+			if(ex < (widthCanvas/2)+caseDim.x)
+				return;
+		}
+		Tuple pos = getFakePos(x, y);
+		Tuple edgePos = getFakePos(ex,ey);
+		Fill(pos,edgePos);	
+	}
+
 	public void Fill(Tuple fakeBeginPos, Tuple fakeEndPos){
 		//Handling Edge of Array Exceptions
+		System.out.println("A A A A A ");
 		try{DataCases.get(fakeBeginPos.x).get(fakeEndPos.y).isEmpty();
 			DataCases.get(fakeEndPos.x).get(fakeEndPos.y).isEmpty();}
 		catch(java.lang.IndexOutOfBoundsException e){return;}
 		
 		//Lets Create a copy of the current Data
-		ArrayList<ArrayList<Case>> DataCasesCopy = new ArrayList<ArrayList<Case>>();
-		DataCasesCopy=getCurrentData();
-		
+		//ArrayList<ArrayList<Case>> DataCasesCopy = new ArrayList<ArrayList<Case>>();
+		//DataCasesCopy=getCurrentData();
 		
 		for(int i = fakeBeginPos.x; i<=fakeEndPos.x; i++){
 			for(int j = fakeBeginPos.y; j<=fakeEndPos.y; j++){
 				if(DataCases.get(i).get(j).isEmpty())
-					DataCases.get(i).get(j).remplir();
+					continue;
+					//DataCases.get(i).get(j).remplir();
 				//if one of the cases we're trynna fill is not empty.. just fall back into the old copy
 				else{
-					DataCases=DataCasesCopy;
-					repaint();
+					//DataCases=DataCasesCopy;
+					//repaint();
 					return;
 				}
 			}
 		}
-		repaint();
+		boats.add(new Boat(0, fakeBeginPos.x, fakeBeginPos.y, fakeEndPos.x, fakeEndPos.y, 3));
 
+		updateDataCases();
 	}
 	
-	public void Fill(int x, int y, int ex, int ey){
-		Tuple pos = getFakePos(x, y);
-		Tuple edgePos = getFakePos(ex,ey);
-		Fill(pos,edgePos);
+	private void updateDataCases(){
+		emptyDataCase();
+		int index = 0;
+		
+		for(Boat b: boats){
+			Tuple posStart = new Tuple(b.getxStart(),b.getyStart());
+			Tuple posEnd   = new Tuple(b.getxEnd(),b.getyEnd());
+			for(int i = posStart.x; i<= posEnd.x;i++){
+				for(int j = posStart.y; j<= posEnd.y;j++){
+					DataCases.get(i).get(j).remplir();
+					DataCases.get(i).get(j).setIndex(index);
+				}
+			}
+			index++;
+		}
+		repaint();
 	}
-
+	
+	private void emptyDataCase(){
+		for (int i = 0; i < DataCases.size(); i++) {
+			for (int j = 0; j < DataCases.get(0).size(); j++) {
+				DataCases.get(i).get(j).vider();
+			}
+		}
+	}
+	
+	public void attackMissile(int posX, int posY){
+		Tuple posMissile = new Tuple(posX, posY);
+		attackMissiles.add(posMissile);
+		checkCollision(posMissile);
+		repaint();
+	}
+	
+	private void checkCollision(Tuple posMissile){
+		if(!DataCases.get(posMissile.x).get(posMissile.y).isEmpty()){
+			int index = DataCases.get(posMissile.x).get(posMissile.y).getIndex();
+			Boat b = boats.get(index);
+			b.impact();
+			if(b.isDead()){
+				boats.remove(index);
+			}
+		}
+		updateDataCases();
+	}
+	
 	private Tuple computeCaseSize(int width, int height, int nbX, int nbY){
     	int sx = width/nbCasesX;
     	int sy = height/nbCasesY;
@@ -113,6 +189,21 @@ public class Canvas extends JPanel   {
 		int yr = y/caseDim.y;
 		return new Tuple(xr,yr);
 	}
+	
+	private boolean isRightSide(int i){
+		if(side == 1){
+			if(i < nbCasesX/2)
+				return true;
+			else
+				return false;
+		}else{
+			if(i >= nbCasesX/2)
+				return true;
+			else
+				return false;
+		}
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -131,9 +222,31 @@ public class Canvas extends JPanel   {
 		//Drawing The Boats
 		for(int i=0; i<DataCases.size(); i++){
 			for(int j = 0; j<DataCases.get(0).size();j++){
-				if(!DataCases.get(i).get(j).isEmpty())
+				//Si je suis dans la bonne partie dessin des bateaux
+				if(isRightSide(i)){
+					if(!DataCases.get(i).get(j).isEmpty()){						
+						g2d.fillRect(i*caseDim.x, j*caseDim.y, caseDim.x, caseDim.y);
+					}
+				}else{ //Sinon dessin grisé
+					g2d.setColor(Color.GRAY);
 					g2d.fillRect(i*caseDim.x, j*caseDim.y, caseDim.x, caseDim.y);
+					g2d.setColor(Color.BLACK);
+				}
 			}
+		}
+		
+		//Drawing Missiles 
+		for(int i=0; i<listeMissiles.size(); i++){
+//			g2d.setColor(Color.RED);
+//			g2d.fillRect(ListeMissiles.get(i).x*caseDim.x, ListeMissiles.get(i).y*caseDim.y, caseDim.x, caseDim.y);
+			iconMissile.paintIcon(this, g2d, listeMissiles.get(i).x*caseDim.x, listeMissiles.get(i).y*caseDim.y);
+		}
+		
+		
+		//Drawing attackMissiles
+		for (int i = 0; i < attackMissiles.size(); i++) {
+			g2d.setColor(Color.GREEN);
+			g2d.fillRect(attackMissiles.get(i).x*caseDim.x, attackMissiles.get(i).y*caseDim.y, caseDim.x, caseDim.y);
 		}
 		
 		
