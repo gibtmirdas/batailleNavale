@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
-import lib.Constantes;
+import lib.Constante;
 import lib.Tuple;
 import packet.Packet;
 import packet.PacketBye;
@@ -22,7 +22,7 @@ import packet.PacketUpdate;
 import panels.Carte;
 import GUIManager.GUIManager;
 
-public class ClientConnection implements Constantes {
+public class ClientConnection{
 
     private boolean connected;
     private Socket s;
@@ -35,7 +35,7 @@ public class ClientConnection implements Constantes {
     public ClientConnection() {
         try {
             connected = false;
-            s = new Socket(ADDRESS, PORT);
+            s = new Socket(Constante.ADDRESS, Constante.PORT);
             System.out.println("Client launched!");
     		controllerClient = new ControllerClient();
     		controllerClient.setClient(this);
@@ -129,7 +129,7 @@ public class ClientConnection implements Constantes {
         System.out.println("Client: Packet newCard received!");
 		Carte carte = new Carte(p.getCardId(), "Missile");
 		gui.getContainCard().add(carte);
-		gui.getContainCard().repaint();
+		gui.getContainCard().addCartesContent();
         System.out.println("############# END PacketNewCard ######");
     }
 

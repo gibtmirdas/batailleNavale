@@ -1,9 +1,8 @@
 package connection;
 
-import lib.Constantes;
 import packet.PacketCardAction;
 
-public class ControllerClient implements Constantes {
+public class ControllerClient {
 	
 	private ClientConnection client;
 	

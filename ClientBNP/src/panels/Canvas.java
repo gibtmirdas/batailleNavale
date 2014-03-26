@@ -36,8 +36,8 @@ public class Canvas extends JPanel   {
 	public Canvas(int widthCanvas, int heightCanvas, int side){
 		listeMissiles = new ArrayList<Tuple>();
 		attackMissiles = new ArrayList<Tuple>();
-		boats = new ArrayList<Boat>();
-		iconMissile = new ImageIcon("src/imgs/croix.jpg");
+		boats = new ArrayList<Boat>();		
+		iconMissile = new ImageIcon(getClass().getResource("/images/croix.jpg"));
 		this.side = side;
 		this.widthCanvas = widthCanvas;
 		this.heightCanvas = heightCanvas;
