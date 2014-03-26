@@ -55,6 +55,11 @@ public final class GUIManager {
         frame.setView(current_panel);        
     };
     
+    public void resize(){
+    	frame.setSize(FrameMain.canvasWidth+1, FrameMain.canvasHeight+100);
+    	frame.setSize(FrameMain.canvasWidth, FrameMain.canvasHeight+100);
+    }
+    
     public void launchLoginFrame(ClientConnection conn){
         frame.cleanView();
         frame.setTitle("login bataille navale");    

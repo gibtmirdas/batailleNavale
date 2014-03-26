@@ -130,6 +130,7 @@ public class ClientConnection{
 		Carte carte = new Carte(p.getCardId(), "Missile");
 		gui.getContainCard().add(carte);
 		gui.getContainCard().addCartesContent();
+		gui.resize();
         System.out.println("############# END PacketNewCard ######");
     }
 
@@ -153,6 +154,7 @@ public class ClientConnection{
 //		gui.getCurrentCanvas().getContainCarte().addCartesContent();
 		gui.getContainCard().addCartesContent();
 		gui.getContainCard().repaint();
+		gui.resize();
 
     }
 

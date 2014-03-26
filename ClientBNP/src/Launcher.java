@@ -10,7 +10,9 @@ public class Launcher{
             
 			Constante.PORT = Integer.parseInt(args[0]);
 			Constante.ADDRESS  = args[1];
-            GUIManager gui = GUIManager.getInstance();
+//			Constante.PORT = Integer.parseInt("12345");
+//			Constante.ADDRESS  = "129.194.184.98";
+			GUIManager gui = GUIManager.getInstance();
             ClientConnection conn = new ClientConnection();	
             
 	}
