@@ -39,10 +39,20 @@ public class Deck {
         return cardID;
     }
 
+    public boolean exist(Carte c){
+        assert c.getId() >= 0;
+        for(Carte cur : cardID) if (c.getId() == cur.getId()) return true;
+        return false;
+    }
+    
     public void addCard(Carte c) {
+        assert !exist(c);
         cardID.add(c);
     }
-
+    public void removeCard(Carte c){
+        assert exist(c);
+        cardID.remove(c);
+    }
     public Joueur getOwner() {
         return owner;
     }
