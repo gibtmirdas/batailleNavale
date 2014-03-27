@@ -67,9 +67,11 @@ public class TJoueurs extends AbstractTable {
 		if (args.containsKey(CARDS_FIELD)
 				&& args.get(CARDS_FIELD) instanceof List)
 			insertQuery.put(CARDS_FIELD, args.get(CARDS_FIELD));
-		else
-			insertQuery.put(CARDS_FIELD, DEFAULT_CARDS);
-
+		else {
+			ArrayList<Integer> listTmp = new ArrayList<>();
+			listTmp.add(DEFAULT_CARDS);
+			insertQuery.put(CARDS_FIELD, listTmp);
+		}
 		if (args.containsKey(SCORE_FIELD))
 			insertQuery.put(SCORE_FIELD, args.get(SCORE_FIELD));
 		else
