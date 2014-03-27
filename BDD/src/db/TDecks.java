@@ -30,7 +30,8 @@ public class TDecks extends AbstractTable {
 		assert args.containsKey(ID_FIELD) && args.containsKey(OWNER_FIELD)
 				&& args.containsKey(CARDS_FIELD);
 		assert args.get(CARDS_FIELD) instanceof List;
-		BasicDBObject insertQuery = new BasicDBObject();
+		
+                BasicDBObject insertQuery = new BasicDBObject();
 		insertQuery.put(ID_FIELD, args.get(ID_FIELD));
 		insertQuery.put(OWNER_FIELD, args.get(OWNER_FIELD));
 		insertQuery.put(CARDS_FIELD, args.get(CARDS_FIELD));
@@ -42,4 +43,7 @@ public class TDecks extends AbstractTable {
 			assert valid;
 		}
 	}
+        
+
+        
 }
