@@ -28,7 +28,7 @@ public class LauncherTabShopView extends JPanel implements PanelNotifiable{
 		c.weighty=1;
 		c.gridx = 0;
 		c.gridy = 0;
-		Description d = new Description();
+		CardDescriptionView d = new CardDescriptionView();
 		LauncherShopCardList panel1 = new LauncherShopCardList(conn,d);
 		panel1.init();
 		c.ipady = 10000;
