@@ -24,7 +24,7 @@ import GUIManager.GUIManager;
 
 public class ClientConnection{
 
-    private boolean connected;
+    private boolean connected,inGame;
     private Socket s;
     private OutputStream os;
     private ReadThead readTh;
