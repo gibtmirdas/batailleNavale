@@ -19,6 +19,7 @@ import models.Joueur;
 import packet.Packet;
 import packet.PacketBuilder;
 import packet.PacketBuyCard;
+import packet.PacketConsultShop;
 import packet.PacketHello;
 import packet.PacketInfoProfile;
 import packet.PacketLogin;
@@ -136,6 +137,11 @@ public class Connection implements Runnable {
                 }
                 break;
             case "packet.PacketConsultShop":
+                /**
+                 * Have to send the list of the card (by categoria)
+                 */
+                PacketConsultShop pcs = new PacketConsultShop(p.encodedPacket);
+                
             	throw new UnknownError("PacketConsultShop is not used");
             case "packet.PacketHello":
                 PacketHello ph = new PacketHello(p.encodedPacket);
