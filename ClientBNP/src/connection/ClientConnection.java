@@ -79,22 +79,20 @@ public class ClientConnection {
                 break;
             case 2:
                 PacketNewCard pNewCard = new PacketNewCard(datas);
-                if(game == null)
-                    packetReceivedNewCard(pNewCard);
-                else 
-                    game.handlePacket(pNewCard);
+                if(game != null) game.handlePacket(pNewCard);
+                else packetReceivedNewCard(pNewCard);
                 break;
             case 3:
                 PacketInfoBoat pInfoBoat = new PacketInfoBoat(datas);
-                packetReceivedInfoBoat(pInfoBoat);
+                game.handlePacket(pInfoBoat);
                 break;
             case 4:
                 PacketCardAction pCardAction = new PacketCardAction(datas);
-                packetReceivedCardAction(pCardAction);
+                game.handlePacket(pCardAction);
                 break;
             case 5:
                 PacketUpdate pUpdate = new PacketUpdate(datas);
-                packetReceivedUpdate(pUpdate);
+                game.handlePacket(pUpdate);
                 break;
             case 6:
                 PacketBye pBye = new PacketBye(datas);
@@ -126,7 +124,6 @@ public class ClientConnection {
         gui.launchMainFrame(ID_PLAYER);
         game = new Game(this);
         System.out.println("############# END PacketNewGame ######");
-
     }
 
     public void packetReceivedNewCard(PacketNewCard p) {
