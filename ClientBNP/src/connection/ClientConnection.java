@@ -21,6 +21,7 @@ import packet.PacketNewGame;
 import packet.PacketUpdate;
 import panels.Carte;
 import GUIManager.GUIManager;
+import game.Game;
 
 public class ClientConnection {
 
@@ -31,7 +32,7 @@ public class ClientConnection {
     private int ID_PLAYER;
     public static ControllerClient controllerClient;
     private final GUIManager gui = GUIManager.getInstance();
-
+    private Game game;
     public ClientConnection() {
         try {
             connected = false;
@@ -78,7 +79,10 @@ public class ClientConnection {
                 break;
             case 2:
                 PacketNewCard pNewCard = new PacketNewCard(datas);
-                packetReceivedNewCard(pNewCard);
+                if(game == null)
+                    packetReceivedNewCard(pNewCard);
+                else 
+                    game.handlePacket(pNewCard);
                 break;
             case 3:
                 PacketInfoBoat pInfoBoat = new PacketInfoBoat(datas);
@@ -120,6 +124,7 @@ public class ClientConnection {
         ID_PLAYER = p.getTime();
         System.out.println("IP_PLAYER ------------------->: " + ID_PLAYER);
         gui.launchMainFrame(ID_PLAYER);
+        game = new Game(this);
         System.out.println("############# END PacketNewGame ######");
 
     }
@@ -156,7 +161,6 @@ public class ClientConnection {
         gui.getContainCard().addCartesContent();
         gui.getContainCard().repaint();
         gui.resize();
-
     }
 
     public void packetReceivedCardAction(PacketCardAction p) {
