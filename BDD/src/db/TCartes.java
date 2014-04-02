@@ -56,7 +56,7 @@ public class TCartes extends AbstractTable {
 
         linkToTable.insert(insertQuery);
     }
-
+    
     public ArrayList<Carte> getAll() throws ClassNotFoundException {
         int nb = this.getLastID();
         ArrayList<Carte> l = new ArrayList<>();

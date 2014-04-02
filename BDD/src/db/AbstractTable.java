@@ -5,12 +5,15 @@
  */
 package db;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** 
@@ -49,12 +52,12 @@ public abstract class AbstractTable {
             try {
                 return ((Double) linkToTable
                         .find(new BasicDBObject(criteria, value)).next()
-                        .get("id")).intValue();
+                        .get(TCartes.ID_FIELD)).intValue();
             } catch (RuntimeException re1) {
                 try {
                     return ((int) linkToTable
                             .find(new BasicDBObject(criteria, value)).next()
-                            .get("id"));
+                            .get(TCartes.ID_FIELD));
                 } catch (RuntimeException re2) {
                     throw new RuntimeException("err");
                 }
@@ -62,6 +65,20 @@ public abstract class AbstractTable {
         } catch (RuntimeException re) {
             return -1;
         }
+    }
+    public List<Integer> getAllIdByCriteria(String criteria, Object value){
+        List<Integer> lst = new ArrayList<>();
+        try{
+            DBCursor dbc = linkToTable.find(new BasicDBObject(criteria,value));
+            for(DBObject dbo : dbc){
+                try{
+                    lst.add( (Integer) dbo.get(TCartes.ID_FIELD));
+                }catch(RuntimeException typeCastError){
+                    lst.add(((Double ) dbo.get(TCartes.ID_FIELD)).intValue());
+                }
+            }
+        }catch(RuntimeException nothingException){}
+        return lst;
     }
 
     public void deleteById(int ID) {

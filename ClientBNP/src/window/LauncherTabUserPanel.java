@@ -30,8 +30,6 @@ public class LauncherTabUserPanel extends JPanel implements PanelNotifiable{
 			this.add(possessedCards);
 		}
 		@Override
-		public void receivePacket(Packet p) {
-			// TODO Auto-generated method stub
-			
+		public void receivePacket(Packet p) {			
 		}
 }
