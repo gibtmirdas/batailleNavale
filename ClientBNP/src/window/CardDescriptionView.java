@@ -49,12 +49,10 @@ public class CardDescriptionView extends JPanel{
 	
 	public void changeCardFocus(int idCard){
 		this.topContainer.setTitle("NAME CARD ["+idCard+"]");
+		this.topContainer.setImage("boat.png");
 	}
 	
 	private class TopContainer extends JPanel{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private BufferedImage image;
 		private JLabel title;
@@ -73,25 +71,19 @@ public class CardDescriptionView extends JPanel{
 			c.gridy = 0;
 			title = new JLabel();
 			add(title,c);
-			try {
-				image = ImageIO.read(new File("/Users/olivierbelli/Desktop/ship.jpg"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			imageContainer = new JLabel(new ImageIcon(image));
+			imageContainer = new JLabel(new ImageIcon());
 			c.weighty = 0.9;
 			c.gridy = 1;
-			imageContainer.setBorder(BorderFactory.createLineBorder(Color.black));
+			//imageContainer.setBorder(BorderFactory.createLineBorder(Color.black));
 			add(imageContainer,c);
 		}
 		public void setTitle(String t){
 			title.setText(t);
 		}
-		public void setImage(){
+		public void setImage(String imgname){
 			remove(imageContainer);
 			try {
-				image = ImageIO.read(new File("/Users/olivierbelli/Desktop/ship.jpg"));
+				image = ImageIO.read(getClass().getResource("/imgs/"+imgname));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -131,7 +123,20 @@ public class CardDescriptionView extends JPanel{
 			
 		}
 		public void setDescription(String t){
-			description.setText(t);
+			String splits[] = t.split(" ");
+			String r = "";
+			int max = 50, current = 0;
+			for(String s : splits){
+				current+= s.length()+1;
+				if(current > max)
+				{
+					current = s.length()+1;
+					r+="\n";
+				}
+				r+=s+" ";
+			}
+			
+			description.setText(r);
 		}
 		public void setPrice(String p){
 			cardPrice.setText(p);
