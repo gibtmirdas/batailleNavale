@@ -103,12 +103,21 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
         private static final long serialVersionUID = 1L;
         String[] ids = {"Carte Missile", "Carte Radar", "Carte de ouf", "Yassine", "Idiot"};
         int cardId;
+        private BufferedImage image;
+        private JLabel imageContainer;
         public CardPanel(Carte c){
             this.cardId = c.getId();
             JLabel l = new JLabel(c.getName());
             add(l);
             this.setPreferredSize(new Dimension(cardWidth, cardHeight));
-            this.setBackground(Color.WHITE);            
+            this.setBackground(Color.WHITE);
+            try {
+            	image = ImageIO.read(getClass().getResource("/imgs/mabite.png"));
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    imageContainer = new JLabel(new ImageIcon(image));
+	    add(imageContainer);
             this.addMouseListener(this);
         }
         public CardPanel(int id) {
@@ -118,6 +127,13 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
             this.setPreferredSize(new Dimension(cardWidth, cardHeight));
             this.setBackground(Color.WHITE);
             add(l);
+            try {
+            	image = ImageIO.read(getClass().getResource("/imgs/mabite.png"));
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    imageContainer = new JLabel(new ImageIcon(image));
+	    add(imageContainer);
             this.addMouseListener(this);
         }
 
