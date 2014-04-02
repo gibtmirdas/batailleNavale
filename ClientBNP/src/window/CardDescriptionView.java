@@ -52,9 +52,6 @@ public class CardDescriptionView extends JPanel{
 	}
 	
 	private class TopContainer extends JPanel{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private BufferedImage image;
 		private JLabel title;
@@ -131,7 +128,20 @@ public class CardDescriptionView extends JPanel{
 			
 		}
 		public void setDescription(String t){
-			description.setText(t);
+			String splits[] = t.split(" ");
+			String r = "";
+			int max = 50, current = 0;
+			for(String s : splits){
+				current+= s.length()+1;
+				if(current > max)
+				{
+					current = s.length()+1;
+					r+="\n";
+				}
+				r+=s+" ";
+			}
+			
+			description.setText(r);
 		}
 		public void setPrice(String p){
 			cardPrice.setText(p);
