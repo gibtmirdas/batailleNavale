@@ -6,8 +6,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import packet.PacketConsultShop;
 import packet.PacketHello;
 import packet.PacketInfoProfile;
 import packet.PacketLogin;
+import packet.PacketNewCard;
 import packet.PacketSubscribe;
 import packet.PacketTransactionUpdate;
 
@@ -141,8 +144,9 @@ public class Connection implements Runnable {
                  * Have to send the list of the card (by categoria)
                  */
                 PacketConsultShop pcs = new PacketConsultShop(p.encodedPacket);
-                
-            	throw new UnknownError("PacketConsultShop is not used");
+                TCartes tc = new TCartes();
+                List<Integer> lst = tc.getAllIdByCriteria(TCartes.TYPE_FIELD, pcs.getCategory());
+                for(Integer cardID : lst) sendMessage(new PacketNewCard(0, cardID));
             case "packet.PacketHello":
                 PacketHello ph = new PacketHello(p.encodedPacket);
                 System.out.println(Arrays.toString(ph.getMacAddress()));
