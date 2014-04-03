@@ -120,7 +120,6 @@ public class ClientConnection {
 		case 0x0E:
 			PacketClientList pCL = new PacketClientList(datas);
 			packetReceivedClientList(pCL);
-
 		default:
 			throw new ClassNotFoundException("Unknown packet");
 		}
