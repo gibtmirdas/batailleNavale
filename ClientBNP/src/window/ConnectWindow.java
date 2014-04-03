@@ -48,6 +48,7 @@ public class ConnectWindow extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+                GUIManager.GUIManager.getInstance().launchTab(clientConnection);
 		if (e.getSource() == button) {
 			PacketHello pHello = new PacketHello(idSource,
 					clientConnection.getMacAddress());

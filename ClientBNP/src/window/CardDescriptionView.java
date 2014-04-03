@@ -83,7 +83,7 @@ public class CardDescriptionView extends JPanel{
 		public void setImage(String imgname){
 			remove(imageContainer);
 			try {
-				image = ImageIO.read(getClass().getResource("/imgs/"+imgname));
+				image = ImageIO.read(getClass().getResource("/img/"+imgname));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

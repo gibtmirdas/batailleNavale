@@ -17,6 +17,10 @@ import javax.swing.event.ChangeListener;
 import connection.ClientConnection;
 import db.TCartes;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import models.Carte;
 import models.FactoryCarte;
 
@@ -32,11 +36,11 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
     private int lastCount = 0;
     JViewport vp;
     ChangeListener cl;
-    Description d;
+    CardDescriptionView d;
     CardPanel currentCp = null;
     private int cardWidth = 120, cardHeight = 160, margin = 15;
 
-    public LauncherShopCardList(ClientConnection conn, Description d) {
+    public LauncherShopCardList(ClientConnection conn, CardDescriptionView d) {
         super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         c = conn;
         this.d = d;
@@ -95,7 +99,7 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
     }
 
     public void cardClicked(int id) {
-        d.changeDescription(id);
+        d.changeCardFocus(id);
     }
 
     private class CardPanel extends JPanel implements MouseListener{
@@ -112,7 +116,7 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
             this.setPreferredSize(new Dimension(cardWidth, cardHeight));
             this.setBackground(Color.WHITE);
             try {
-            	image = ImageIO.read(getClass().getResource("/imgs/mabite.png"));
+            	image = ImageIO.read(getClass().getResource("/img/mabite.png"));
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
@@ -128,7 +132,7 @@ public class LauncherShopCardList extends JScrollPane implements PanelNotifiable
             this.setBackground(Color.WHITE);
             add(l);
             try {
-            	image = ImageIO.read(getClass().getResource("/imgs/mabite.png"));
+            	image = ImageIO.read(getClass().getResource("/img/mabite.png"));
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }

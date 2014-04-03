@@ -75,7 +75,7 @@ public final class GUIManager {
         frame.setView(current_panel);
     };
     
-    public void launchShop(){/*not done yet*/};
+    public void launchShop(){};
     
     public void launchTab(ClientConnection conn){
         frame.cleanView();
