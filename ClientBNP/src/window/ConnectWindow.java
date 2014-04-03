@@ -11,10 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import packet.Packet;
 import packet.PacketHello;
 import packet.PacketMatchMaking;
 import connection.ClientConnection;
-import packet.Packet;
 
 public class ConnectWindow extends JPanel implements ActionListener,
 		PanelNotifiable, MouseListener {
@@ -48,7 +48,10 @@ public class ConnectWindow extends JPanel implements ActionListener,
 		panel.add(fieldUsername, BorderLayout.PAGE_START);
 		panel.add(button, BorderLayout.PAGE_START);
 		panel.add(label, BorderLayout.PAGE_END);
-		panel.add(createTable(list));
+
+		JTable table = createTable(list);
+		if (table != null)
+			panel.add(createTable(list));
 		add(panel);
 		setVisible(true);
 	}
@@ -73,9 +76,11 @@ public class ConnectWindow extends JPanel implements ActionListener,
 
 	private JTable createTable(String[][] list) {
 		this.list = list;
+		if (list == null) {
+			return null;
+		}
 		String[] entetes = { "Id", "Username", "Score" };
 		JTable table = new JTable(list, entetes);
-
 		return table;
 	}
 
