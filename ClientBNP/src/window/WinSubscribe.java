@@ -13,10 +13,11 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import connection.ClientConnection;
+import packet.Packet;
 import packet.PacketSubscribe;
 import window.SpringUtilities;
 
-public class WinSubscribe extends JPanel implements ActionListener {
+public class WinSubscribe extends JPanel implements ActionListener, PanelNotifiable{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField usernameField, password1Field, password2Field;
@@ -109,6 +110,11 @@ public class WinSubscribe extends JPanel implements ActionListener {
 	public void cancelAction() {
 		GUIManager.getInstance().launchLoginFrame(clientConnection);
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
 }

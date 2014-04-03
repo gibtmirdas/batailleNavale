@@ -14,8 +14,9 @@ import lib.Tuple;
 import panels.Canvas;
 import panels.ContainerCartes;
 import connection.ClientConnection;
+import packet.Packet;
 
-public class FrameMain extends JPanel{
+public class FrameMain extends JPanel implements PanelNotifiable{
 	
 
 	private static final long serialVersionUID = 1L;
@@ -81,4 +82,9 @@ public class FrameMain extends JPanel{
 	public ContainerCartes getContainCarte() {
 		return containCarte;
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

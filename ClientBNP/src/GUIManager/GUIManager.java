@@ -6,13 +6,11 @@
 
 package GUIManager;
 
-import connection.ClientConnection;
-
 import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import packet.Packet;
 
 import panels.Canvas;
 import panels.ContainerCartes;
@@ -24,7 +22,6 @@ import window.LoginFrame;
 import window.PanelNotifiable;
 import window.WinSubscribe;
 import connection.ClientConnection;
-
 
 /**
  * 
@@ -46,9 +43,9 @@ public final class GUIManager {
 		return instance;
 	}
 
-	public void launchConnectWindow(ClientConnection conn) {
+	public void launchConnectWindow(ClientConnection conn, String[][] list) {
 		frame.cleanView();
-		current_panel = new ConnectWindow(conn);
+		current_panel = new ConnectWindow(conn, list);
 		frame.setView(current_panel);
 	};
 

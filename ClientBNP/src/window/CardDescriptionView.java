@@ -49,6 +49,7 @@ public class CardDescriptionView extends JPanel{
 	
 	public void changeCardFocus(int idCard){
 		this.topContainer.setTitle("NAME CARD ["+idCard+"]");
+		this.topContainer.setImage("boat.png");
 	}
 	
 	private class TopContainer extends JPanel{
@@ -70,25 +71,19 @@ public class CardDescriptionView extends JPanel{
 			c.gridy = 0;
 			title = new JLabel();
 			add(title,c);
-			try {
-				image = ImageIO.read(new File("/Users/olivierbelli/Desktop/ship.jpg"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			imageContainer = new JLabel(new ImageIcon(image));
+			imageContainer = new JLabel(new ImageIcon());
 			c.weighty = 0.9;
 			c.gridy = 1;
-			imageContainer.setBorder(BorderFactory.createLineBorder(Color.black));
+			//imageContainer.setBorder(BorderFactory.createLineBorder(Color.black));
 			add(imageContainer,c);
 		}
 		public void setTitle(String t){
 			title.setText(t);
 		}
-		public void setImage(){
+		public void setImage(String imgname){
 			remove(imageContainer);
 			try {
-				image = ImageIO.read(new File("/Users/olivierbelli/Desktop/ship.jpg"));
+				image = ImageIO.read(getClass().getResource("/img/"+imgname));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

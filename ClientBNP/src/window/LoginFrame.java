@@ -25,13 +25,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import packet.Packet;
 import packet.PacketLogin;
 
 /**
  *
  * @author antho
  */
-public class LoginFrame extends JPanel implements ActionListener {
+public class LoginFrame extends JPanel implements ActionListener , PanelNotifiable{
 
     private JPanel pane;
     private JTextField uf,pf;
@@ -93,6 +94,11 @@ public class LoginFrame extends JPanel implements ActionListener {
         } catch (NullPointerException npe) {
             GUIManager.getInstance().buildAlertDialog("Server error", "Cannot connect to server", false);
         }
+    }
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

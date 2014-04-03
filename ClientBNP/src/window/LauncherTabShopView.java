@@ -14,7 +14,7 @@ import packet.Packet;
 public class LauncherTabShopView extends JPanel implements PanelNotifiable{
 	private static final long serialVersionUID = -5081041334585699399L;
 	ClientConnection c;
-	
+	LauncherShopCardList lscl;
 	public LauncherTabShopView(ClientConnection conn){
 		c = conn;
 		setLayout(new GridBagLayout());
@@ -29,7 +29,8 @@ public class LauncherTabShopView extends JPanel implements PanelNotifiable{
 		c.gridx = 0;
 		c.gridy = 0;
 		CardDescriptionView d = new CardDescriptionView();
-		LauncherShopCardList panel1 = new LauncherShopCardList(conn,d);
+                lscl = new LauncherShopCardList(conn, d);
+		LauncherShopCardList panel1 = lscl;
 		panel1.init();
 		c.ipady = 10000;
 		add(panel1,c);   
@@ -42,8 +43,7 @@ public class LauncherTabShopView extends JPanel implements PanelNotifiable{
 	
 	@Override
 	public void receivePacket(Packet p) {
-		// TODO Auto-generated method stub
-		
+            lscl.receivePacket(p);
 	}
 
 }

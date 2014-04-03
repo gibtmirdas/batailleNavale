@@ -9,16 +9,19 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import connection.ClientConnection;
+import packet.Packet;
 
-public class LauncherProfileTabsPanel extends JPanel{
+public class LauncherProfileTabsPanel extends JPanel implements PanelNotifiable{
 	private static final long serialVersionUID = 1L;
+        private LauncherTabShopView ltsv;
 	public LauncherProfileTabsPanel(int width, int height,ClientConnection conn) {
 		super(new GridLayout(1, 1));     
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(width,height));
 		JComponent panel1 = new LauncherTabUserPanel(conn);
 		tabbedPane.addTab("User", null, panel1,"En construction");
-		JComponent panel2 = new LauncherTabShopView(conn);
+                ltsv = new LauncherTabShopView(conn);
+		JComponent panel2 = ltsv;
 		tabbedPane.addTab("Cards", null, panel2,"Does twice as much nothing");
 		//tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 	         
@@ -40,4 +43,9 @@ public class LauncherProfileTabsPanel extends JPanel{
 		panel.add(filler);
 		return panel;
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        ltsv.receivePacket(p);
+    }
 }

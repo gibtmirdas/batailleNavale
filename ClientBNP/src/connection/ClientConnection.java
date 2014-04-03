@@ -120,7 +120,7 @@ public class ClientConnection {
 		case 0x0E:
 			PacketClientList pCL = new PacketClientList(datas);
 			packetReceivedClientList(pCL);
-			break;
+
 		default:
 			throw new ClassNotFoundException("Unknown packet");
 		}
@@ -139,14 +139,6 @@ public class ClientConnection {
 	public void packetReceivedNewCard(PacketNewCard p) {
 		System.out.println("###############	PacketNewCard	############");
 		System.out.println("Client: Packet newCard received!");
-
-
-
-
-
-
-
-
 		CartePan carte = new CartePan(p.getCardId(), "Missile");
 		gui.getContainCard().add(carte);
 		gui.getContainCard().addCartesContent();
