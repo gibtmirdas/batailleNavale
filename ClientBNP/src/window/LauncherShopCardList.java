@@ -28,7 +28,7 @@ import packet.Packet;
 import packet.PacketNewCard;
 import sun.org.mozilla.javascript.xml.XMLLib;
 
-public class LauncherShopCardList extends JScrollPane {
+public class LauncherShopCardList extends JScrollPane implements PanelNotifiable{
 
     private static final long serialVersionUID = 1L;
     ClientConnection c;
@@ -87,6 +87,17 @@ public class LauncherShopCardList extends JScrollPane {
 
     public void cardClicked(int id) {
         d.changeCardFocus(id);
+    }
+
+    @Override
+    public void receivePacket(Packet p) {
+        try{
+            PacketNewCard pnc = new PacketNewCard(p.encodedPacket);
+            TCartes tc = new TCartes();
+            addCard(new CardPanel(FactoryCarte.getCarte(tc.getById(pnc.getCardId()))));
+        }catch(ClassNotFoundException badPacketHandled){
+            System.err.println("bad packet handled pass it");
+        }       
     }
 
     private class CardPanel extends JPanel implements MouseListener{
