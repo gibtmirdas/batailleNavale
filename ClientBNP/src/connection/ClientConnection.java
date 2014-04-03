@@ -86,7 +86,7 @@ public class ClientConnection {
 			if (game != null)
 				game.handlePacket(pNewCard);
 			else
-			packetReceivedNewCard(pNewCard);
+				packetReceivedNewCard(pNewCard);
 			break;
 		case 3:
 			PacketInfoBoat pInfoBoat = new PacketInfoBoat(datas);
@@ -172,6 +172,7 @@ public class ClientConnection {
 		System.out.println("###############	PacketUpdate	############");
 		System.out.println("Client: Packet update received!");
 		System.out.println("############# END PacketUpdate ######");
+
 		// gui.getCurrentCanvas().getContainCarte().addCartesContent();
 		gui.getContainCard().addCartesContent();
 		gui.getContainCard().repaint();
