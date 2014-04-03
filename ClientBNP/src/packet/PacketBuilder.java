@@ -12,8 +12,8 @@ public class PacketBuilder {
 			packet.PacketUpdate.class, packet.PacketBye.class,
 			packet.PacketLogin.class, packet.PacketSubscribe.class,
 			packet.PacketInfoProfile.class, packet.PacketBuyCard.class,
-			packet.PacketTransactionUpdate.class, packet.PacketConsultShop.class
-	};
+			packet.PacketTransactionUpdate.class,
+			packet.PacketConsultShop.class, packet.PacketClientList.class };
 
 	public static Packet build(byte[] encodedPacket) {
 		return new Packet(encodedPacket);
@@ -34,11 +34,12 @@ public class PacketBuilder {
 		}
 		return -1;
 	}
-	public static byte[] readPacket(InputStream is) throws IOException{
+
+	public static byte[] readPacket(InputStream is) throws IOException {
 		byte opcodeID, size;
-		opcodeID = (byte)is.read();
-		size = (byte)is.read();
-		byte[] datas = new byte[size+2];
+		opcodeID = (byte) is.read();
+		size = (byte) is.read();
+		byte[] datas = new byte[size + 2];
 		datas[0] = opcodeID;
 		datas[1] = size;
 		for (int i = 2; i < datas.length; i++) {
