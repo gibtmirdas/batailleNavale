@@ -20,6 +20,7 @@ import models.Joueur;
 import packet.Packet;
 import packet.PacketBuilder;
 import packet.PacketBuyCard;
+import packet.PacketClientList;
 import packet.PacketConsultShop;
 import packet.PacketHello;
 import packet.PacketInfoProfile;
@@ -158,6 +159,8 @@ public class Connection implements Runnable {
 			System.out.println(Arrays.toString(ph.getMacAddress()));
 			mapping.put(Arrays.toString(ph.getMacAddress()), this);
 			serv.queue.notifyQueue(Arrays.toString(ph.getMacAddress()));
+			// Notify every client => send PacketClientList
+			notifyClientList();
 			break;
 		case "packet.PacketMatchMaking":
 			PacketMatchMaking pmm = new PacketMatchMaking(p.encodedPacket);
@@ -168,6 +171,18 @@ public class Connection implements Runnable {
 			throw new ClassNotFoundException("Unknown packet");
 
 		}
+	}
+
+	private void notifyClientList() {
+		String tmpList = "";
+		for (Connection c : mapping.values()) {
+			tmpList += c.player.getId() + "/";
+			tmpList += c.player.getPseudo() + "/";
+			tmpList += c.player.getScore() + "-";
+		}
+		PacketClientList pCl = new PacketClientList(0, tmpList.getBytes());
+		for (Connection c : mapping.values())
+			c.sendMessage(pCl);
 	}
 
 }
