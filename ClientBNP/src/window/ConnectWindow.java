@@ -12,8 +12,10 @@ import javax.swing.JTextField;
 import packet.PacketHello;
 import packet.PacketMatchMaking;
 import connection.ClientConnection;
+import packet.Packet;
 
-public class ConnectWindow extends JPanel implements ActionListener {
+public class ConnectWindow extends JPanel implements ActionListener, PanelNotifiable
+{
 
 	/**
 	 * 
@@ -63,4 +65,9 @@ public class ConnectWindow extends JPanel implements ActionListener {
 			}
 		}
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

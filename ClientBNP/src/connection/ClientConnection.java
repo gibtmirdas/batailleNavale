@@ -130,10 +130,7 @@ public class ClientConnection {
         System.out.println("###############	PacketNewCard	############");
         System.out.println("Client: Packet newCard received!");
         Carte carte = new Carte(p.getCardId(), "Missile");
-        gui.getContainCard().add(carte);
-        gui.getContainCard().addCartesContent();
-        gui.resize();
-        System.out.println("############# END PacketNewCard ######");
+        gui.notify((Packet)p);
     }
 
     public void packetReceivedInfoBoat(PacketInfoBoat p) {

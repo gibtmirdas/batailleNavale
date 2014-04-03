@@ -12,6 +12,7 @@ import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import packet.Packet;
 
 import panels.Canvas;
 import panels.ContainerCartes;
@@ -20,6 +21,7 @@ import window.FrameMain;
 import window.LauncherFrame;
 import window.LauncherTabs;
 import window.LoginFrame;
+import window.PanelNotifiable;
 import window.WinSubscribe;
 
 /**
@@ -28,7 +30,7 @@ import window.WinSubscribe;
  */
 public final class GUIManager {
     private final LauncherFrame frame;
-    private JPanel current_panel;
+    private PanelNotifiable current_panel;
     private static GUIManager instance;
     
     private GUIManager() {
@@ -45,14 +47,14 @@ public final class GUIManager {
     public void launchConnectWindow(ClientConnection conn){
         frame.cleanView();
         current_panel = new ConnectWindow(conn);
-        frame.setView(current_panel);        
+        frame.setView((ConnectWindow)current_panel);        
     };
     
     public void launchMainFrame(int idPlayer){
         frame.cleanView();
         frame.setSize(new Dimension(1000, 700));        
         current_panel = new FrameMain(FrameMain.canvasWidth, FrameMain.canvasHeight, idPlayer);
-        frame.setView(current_panel);        
+        frame.setView((FrameMain)current_panel);        
     };
     
     public void resize(){
@@ -65,14 +67,14 @@ public final class GUIManager {
         frame.setTitle("login bataille navale");    
         frame.setSize(new Dimension(600,150));
         current_panel = new LoginFrame(conn);
-        frame.setView(current_panel);        
+        frame.setView((LoginFrame) current_panel);        
     };
     public void launchSubscribeFrame(ClientConnection conn){
         frame.cleanView();
         frame.setTitle("subscribe");
         frame.setSize(new Dimension(600,200));
         current_panel = new WinSubscribe(conn);
-        frame.setView(current_panel);
+        frame.setView((WinSubscribe) current_panel);
     };
     
     public void launchShop(){};
@@ -82,7 +84,7 @@ public final class GUIManager {
         frame.setResizable(true);
         frame.setSize(new Dimension(1000,1000));
         current_panel = new LauncherTabs(1000, 1000, conn);
-        frame.setView(current_panel);
+        frame.setView((LauncherTabs) current_panel);
     }
     /**
      * 
@@ -109,8 +111,11 @@ public final class GUIManager {
     public void buildAlertDialog(String title, String msg, boolean isOk) {
             int type = isOk ? JOptionPane.INFORMATION_MESSAGE
                             : JOptionPane.ERROR_MESSAGE;
-            JOptionPane.showMessageDialog(current_panel, msg, title, type);
+            JOptionPane.showMessageDialog((JPanel) current_panel, msg, title, type);
     }
     
+    public void notify(Packet p){
+        this.current_panel.receivePacket(p);
+    }
     
 }

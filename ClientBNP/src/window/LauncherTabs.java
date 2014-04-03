@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import connection.ClientConnection;
+import packet.Packet;
 
-public class LauncherTabs extends JPanel {
+public class LauncherTabs extends JPanel implements PanelNotifiable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,4 +25,9 @@ public class LauncherTabs extends JPanel {
 		add(tabbedPane);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -9,8 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import connection.ClientConnection;
+import packet.Packet;
 
-public class LauncherProfileTabsPanel extends JPanel{
+public class LauncherProfileTabsPanel extends JPanel implements PanelNotifiable{
 	private static final long serialVersionUID = 1L;
 	public LauncherProfileTabsPanel(int width, int height,ClientConnection conn) {
 		super(new GridLayout(1, 1));     
@@ -40,4 +41,9 @@ public class LauncherProfileTabsPanel extends JPanel{
 		panel.add(filler);
 		return panel;
 	}
+
+    @Override
+    public void receivePacket(Packet p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
